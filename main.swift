@@ -1,4 +1,5 @@
-// DeepSeek 鲸鱼娘桌宠 —— 使用网上开源的 deepseek娘 动画图集（MIT 许可，见 assets/LICENSE）
+// WhaleGirl — a DeepSeek whale-girl desktop pet for macOS.
+// Artwork: the MIT-licensed deepseek-girl animation atlas by f0909172434 (see assets/LICENSE).
 import AppKit
 import SwiftUI
 import ImageIO
@@ -11,13 +12,15 @@ extension Color {
 }
 let brand = Color(hex: 0x4D6BFE)
 
-// MARK: - 图集：8 列 × 11 行，每格 192×208
-// 行：0 待机(0-5 举“区”牌, 6 中性) 1 向右跑 2 向左跑 3 挥手 4 跳 5 失败(0-3 哭, 4-5 抱膝, 6-7 委屈)
-//     6 等待 7 工作 8 思考 9-10 十六方向看（0°=上，顺时针每格 22.5°）
+// MARK: - Atlas: 8 columns × 11 rows, each cell 192×208 px
+// Rows: 0 idle (0-5 holding the sign, 6 neutral)  1 run right  2 run left  3 wave  4 jump
+//       5 failed (0-3 crying, 4-5 hugging knees, 6-7 sulking)
+//       6 waiting  7 working  8 thinking  9-10 look in 16 directions (0° = up, clockwise, 22.5° per cell)
 final class Atlas {
     static let cellW = 192, cellH = 208
 
-    /// 原图集里有些帧的头发被直直切掉了一刀：检测到这种硬边时，把那一侧 16 像素做渐隐，避免出现一条竖线
+    /// Cleans up a frame: drops small detached fragments, and fades out edges where the
+    /// source art was cut off in a straight vertical line.
     static func removeStrays(_ img: CGImage) -> CGImage {
         let w = img.width, h = img.height
         guard let ctx = CGContext(data: nil, width: w, height: h, bitsPerComponent: 8, bytesPerRow: w * 4,
@@ -26,7 +29,7 @@ final class Atlas {
               let data = ctx.data else { return img }
         ctx.draw(img, in: CGRect(x: 0, y: 0, width: w, height: h))
         let px = data.bindMemory(to: UInt8.self, capacity: w * h * 4)
-        // 1) 连通区域：去掉和身体不相连的小碎块
+        // 1) Connected components: remove small pieces not attached to the body
         var label = [Int32](repeating: 0, count: w * h)
         var sizes: [Int] = [0]
         var stack: [Int] = []
@@ -49,7 +52,7 @@ final class Atlas {
         for i in 0..<(w * h) where label[i] > 0 && sizes[Int(label[i])] < biggest / 6 {
             px[i * 4] = 0; px[i * 4 + 1] = 0; px[i * 4 + 2] = 0; px[i * 4 + 3] = 0
         }
-        // 2) 硬切边渐隐
+        // 2) Feather hard-cut edges
         var colCount = [Int](repeating: 0, count: w)
         for y in 0..<h { for x in 0..<w where px[(y * w + x) * 4 + 3] > 24 { colCount[x] += 1 } }
         let filled = colCount.indices.filter { colCount[$0] > 0 }
@@ -81,7 +84,7 @@ final class Atlas {
         guard let url = candidates.first(where: { FileManager.default.fileExists(atPath: $0.path) }),
               let src = CGImageSourceCreateWithURL(url as CFURL, nil),
               let sheet = CGImageSourceCreateImageAtIndex(src, 0, nil) else {
-            fatalError("找不到 spritesheet.webp")
+            fatalError("spritesheet.webp not found")
         }
         for r in 0..<11 {
             for c in 0..<8 {
@@ -108,14 +111,14 @@ struct Anim {
     static let wave      = Anim(row: 3, cols: [0, 1, 2, 3], fps: 6)
     static let jump      = Anim(row: 4, cols: [0, 1, 2, 3, 4], fps: 8)
     static let panic     = Anim(row: 5, cols: [0, 1, 2, 3], fps: 6)
-    static let sleep     = Anim(row: 8, cols: [3], fps: 1)   // 闭眼帧（原图集抱膝帧被裁切，不用）
+    static let sleep     = Anim(row: 8, cols: [3], fps: 1)   // eyes-closed frame (the knee-hugging frames are clipped in the source)
     static let sulk      = Anim(row: 5, cols: [6, 7], fps: 3)
     static let cheer     = Anim(row: 6, cols: [0, 1, 2, 3, 4, 5], fps: 6)
     static let work      = Anim(row: 7, cols: [0, 1, 2, 3, 4, 5], fps: 6)
     static let think     = Anim(row: 8, cols: [0, 1, 2, 3, 4, 5], fps: 4)
 }
 
-// MARK: - 状态
+// MARK: - State
 enum PetState { case idle, walk, sleep, drag, fall, think, act }
 
 final class PetModel: ObservableObject {
@@ -125,8 +128,8 @@ final class PetModel: ObservableObject {
     @Published var frame = 0
 }
 
-// MARK: - 视图
-let spriteW: CGFloat = 144, spriteH: CGFloat = 156   // 192×208 的 0.75 倍
+// MARK: - Views
+let spriteW: CGFloat = 144, spriteH: CGFloat = 156   // 0.75 × 192×208
 let winW: CGFloat = 240, bubbleH: CGFloat = 70, winH: CGFloat = bubbleH + spriteH
 
 struct BubbleView: View {
@@ -183,8 +186,25 @@ struct PetView: View {
     }
 }
 
-// MARK: - 台词
+// MARK: - Text shown to the user
+// All on-screen text lives here. It is Chinese because the character and its jokes are Chinese memes.
 enum Lines {
+    static let menuTalk = "说句话"
+    static let menuThink = "深度思考一下"
+    static let menuBoard = "举牌子"
+    static let menuSleep = "睡觉 / 叫醒"
+    static let menuCenter = "回到屏幕中间"
+    static let menuQuit = "退出鲸鱼娘"
+
+    static let awake = "唔…醒啦！"
+    static let goSleep = "那我睡一会儿 💤"
+    static let sleepy = "困了…先睡一会儿 💤"
+    static let wokenUp = "唔…被吵醒了…"
+    static let rested = "睡饱啦～"
+    static let working = "努力工作中！"
+    static let thinking = "💭 深度思考中"
+    static func thought(_ seconds: Int) -> String { "已深度思考（用时 \(seconds) 秒）\n" }
+
     static let busy = "服务器繁忙，请稍后再试。"
     static let greet = "你好呀！我是 DeepSeek 鲸鱼娘～🐳"
     static let idle = [
@@ -213,7 +233,7 @@ enum Lines {
     ]
 }
 
-// MARK: - 鼠标输入层
+// MARK: - Mouse input layer
 final class InputView: NSView {
     weak var controller: PetController?
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
@@ -225,7 +245,7 @@ final class InputView: NSView {
     }
 }
 
-// MARK: - 控制器
+// MARK: - Controller
 final class PetController: NSObject {
     let model = PetModel()
     let atlas = Atlas()
@@ -233,7 +253,7 @@ final class PetController: NSObject {
     var statusItem: NSStatusItem!
     var timer: Timer!
     let dt = 1.0 / 30.0
-    // 角色身体在窗口中的大致区域，其余透明处鼠标穿透
+    // Rough body area inside the window; clicks elsewhere pass through
     let hitRect = NSRect(x: winW / 2 - 48, y: 0, width: 96, height: spriteH - 8)
 
     var state: PetState = .fall { didSet { if state != oldValue { animTime = 0 } } }
@@ -288,13 +308,13 @@ final class PetController: NSObject {
             item.target = self
             menu.addItem(item)
         }
-        add("说句话", #selector(menuTalk))
-        add("深度思考一下", #selector(menuThink))
-        add("举牌子", #selector(menuBoard))
-        add("睡觉 / 叫醒", #selector(menuSleep))
-        add("回到屏幕中间", #selector(menuCenter))
+        add(Lines.menuTalk, #selector(menuTalk))
+        add(Lines.menuThink, #selector(menuThink))
+        add(Lines.menuBoard, #selector(menuBoard))
+        add(Lines.menuSleep, #selector(menuSleep))
+        add(Lines.menuCenter, #selector(menuCenter))
         menu.addItem(.separator())
-        add("退出鲸鱼娘", #selector(menuQuit))
+        add(Lines.menuQuit, #selector(menuQuit))
         return menu
     }
 
@@ -302,8 +322,8 @@ final class PetController: NSObject {
     @objc func menuThink() { startThinking() }
     @objc func menuBoard() { act(.board, 4.5); model.bubble = nil }
     @objc func menuSleep() {
-        if state == .sleep { act(.wave, 2); say("唔…醒啦！", 2) }
-        else { state = .sleep; stateTime = 30; say("那我睡一会儿 💤", 2) }
+        if state == .sleep { act(.wave, 2); say(Lines.awake, 2) }
+        else { state = .sleep; stateTime = 30; say(Lines.goSleep, 2) }
     }
     @objc func menuCenter() {
         let vf = screen().visibleFrame
@@ -320,7 +340,7 @@ final class PetController: NSObject {
     func say(_ text: String, _ duration: Double) { model.bubble = text; bubbleTime = duration }
     func act(_ a: Anim, _ duration: Double) { anim = a; state = .act; animTime = 0; stateTime = duration }
 
-    /// 说一句话，并配上合适的动作
+    /// Say a line with a matching animation
     func talk(_ line: String) {
         say(line, 3.5)
         if line == Lines.busy { act(.sulk, 3) }
@@ -334,7 +354,7 @@ final class PetController: NSObject {
         thinkSeconds = Int(stateTime.rounded())
     }
 
-    // 鼠标
+    // Mouse
     func pressBegan() {
         let m = NSEvent.mouseLocation
         pressStart = m
@@ -357,7 +377,7 @@ final class PetController: NSObject {
         poke()
     }
     func poke() {
-        if state == .sleep { act(.wave, 2.5); say("唔…被吵醒了…", 2.5); return }
+        if state == .sleep { act(.wave, 2.5); say(Lines.wokenUp, 2.5); return }
         if state == .think { return }
         let r = Double.random(in: 0..<1)
         if r < 0.2 { startThinking() }
@@ -374,20 +394,20 @@ final class PetController: NSObject {
         if window.ignoresMouseEvents != ignore { window.ignoresMouseEvents = ignore }
     }
 
-    /// 鼠标最近在动时，按 16 个方向看向鼠标
+    /// While the mouse is moving, look toward it (16 directions)
     func lookFrame() -> (Int, Int)? {
         guard mouseIdle < 1.2 else { return nil }
         let m = NSEvent.mouseLocation
         let head = NSPoint(x: window.frame.midX, y: window.frame.minY + spriteH * 0.7)
         let dx = m.x - head.x, dy = m.y - head.y
         guard hypot(dx, dy) > 40 else { return nil }
-        var deg = atan2(dx, dy) * 180 / .pi       // 0°=上，顺时针
+        var deg = atan2(dx, dy) * 180 / .pi       // 0° = up, clockwise
         if deg < 0 { deg += 360 }
         let idx = Int((deg / 22.5).rounded()) % 16
         return (9 + idx / 8, idx % 8)
     }
 
-    // 每帧更新
+    // Per-frame update
     func step() {
         model.frame &+= 1
         animTime += dt
@@ -435,13 +455,13 @@ final class PetController: NSObject {
         case .sleep:
             cell = Anim.sleep.frame(at: animTime)
             stateTime -= dt
-            if stateTime <= 0 { act(.wave, 2); say("睡饱啦～", 2) }
+            if stateTime <= 0 { act(.wave, 2); say(Lines.rested, 2) }
         case .think:
             cell = Anim.think.frame(at: animTime)
             stateTime -= dt
-            model.bubble = "💭 深度思考中" + String(repeating: "·", count: (model.frame / 8) % 4)
+            model.bubble = Lines.thinking + String(repeating: "·", count: (model.frame / 8) % 4)
             if stateTime <= 0 {
-                say("已深度思考（用时 \(thinkSeconds) 秒）\n" + Lines.conclusion.randomElement()!, 4)
+                say(Lines.thought(thinkSeconds) + Lines.conclusion.randomElement()!, 4)
                 act(.cheer, 3)
             }
         }
@@ -461,7 +481,7 @@ final class PetController: NSObject {
             state = .walk
         } else if r < 0.62 {
             state = .sleep; stateTime = Double.random(in: 12...25)
-            say("困了…先睡一会儿 💤", 2)
+            say(Lines.sleepy, 2)
         } else if r < 0.76 {
             talk(Lines.idle.randomElement()!)
         } else if r < 0.82 {
@@ -469,20 +489,20 @@ final class PetController: NSObject {
         } else if r < 0.88 {
             menuBoard()
         } else if r < 0.92 {
-            act(.work, 3); say("努力工作中！", 2.5)
+            act(.work, 3); say(Lines.working, 2.5)
         } else {
             stateTime = Double.random(in: 2...5)
         }
     }
 }
 
-// MARK: - 截图模式（开发时检查画面用）: WhaleGirl --snapshot <目录>
+// MARK: - Snapshot mode for checking the art during development: WhaleGirl --snapshot <dir>
 @MainActor func renderSnapshots(to dir: String) {
     let atlas = Atlas()
     let cases: [(String, (Int, Int), String?, Bool)] = [
         ("idle", (0, 6), Lines.greet, false),
         ("walk", (1, 3), nil, false),
-        ("think", (8, 2), "💭 深度思考中···", false),
+        ("think", (8, 2), Lines.thinking + "···", false),
         ("drag", (5, 3), Lines.drag[1], false),
         ("sleep", (8, 3), nil, true),
         ("board", (0, 2), nil, false),
@@ -499,7 +519,7 @@ final class PetController: NSObject {
     }
 }
 
-// MARK: - 启动
+// MARK: - Entry point
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let pet = PetController()
     func applicationDidFinishLaunching(_ n: Notification) { pet.start() }
