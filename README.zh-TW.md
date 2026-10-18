@@ -19,6 +19,7 @@
 - **其他廠商**：34 個範本，包括 OpenRouter、Kimi、階躍、Novita 的餘額，智譜、Kimi Coding、MiniMax、OpenCode Go 的訂閱額度，以及 OpenAI 相容中轉站。金鑰只會送往範本裡的官方端點，自訂位址需要你手動允許。
 - **Codex 統計**：讀取本機 Codex 對話紀錄，統計 token 用量和訂閱時段，不連網。
 - **Mac 原生**：隨意拖曳，放開後吸附到螢幕邊緣，貼左時自動翻轉；選單列顯示餘額、登入時自動啟動、金鑰存在鑰匙圈。
+- **訂閱與 API 費用**：自動辨識本機的 cswap（顯示每個 Claude 帳號的 5 小時、7 天、額外用量與各模型額度）、Claude Code 的訂閱與 token 用量，以及 Codex 背後的 ChatGPT 訂閱。填入組織的 Admin Key 後還能顯示 OpenAI API 與 Claude API 的費用。
 
 沒有移植的功能：每輪對話花費、任務結束音、提問 / 授權提示、對話名稱模組。它們依賴 DeepSeek Harness 內部的對話事件，獨立 App 取得不到。
 

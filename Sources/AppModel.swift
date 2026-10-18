@@ -36,6 +36,9 @@ final class AppModel: ObservableObject {
     // Other sources
     @Published var vendorStatus: [String: VendorStatus] = [:]
     @Published var codex = CodexSnapshot()
+    @Published var subs = SubscriptionsSnapshot()
+    @Published var subsLoading = false
+    private var subsTimer: Timer?
 
     // Widget UI
     @Published var bubble: BubbleMode = .hidden
@@ -77,6 +80,29 @@ final class AppModel: ObservableObject {
             self?.now = Date()
         }
         RunLoop.main.add(clockTimer!, forMode: .common)
+        refreshSubscriptions()
+        restartSubsTimer()
+    }
+
+    func restartSubsTimer() {
+        subsTimer?.invalidate()
+        let s = max(1, settings.subsRefreshMinutes) * 60
+        subsTimer = Timer.scheduledTimer(withTimeInterval: s, repeats: true) { [weak self] _ in self?.refreshSubscriptions() }
+    }
+
+    /// Auto-detect cswap / Claude Code / Codex on this Mac and read their usage (no keys involved).
+    func refreshSubscriptions() {
+        guard settings.subsOn, !subsLoading else { return }
+        subsLoading = true
+        let useCswap = settings.subsCswapOn, path = settings.cswapPath
+        DispatchQueue.global(qos: .utility).async {
+            let s = SubscriptionsSnapshot.collect(useCswap: useCswap, cswapOverride: path)
+            DispatchQueue.main.async {
+                self.subs = s
+                self.codex = s.codex
+                self.subsLoading = false
+            }
+        }
     }
 
     func restartRefreshTimer() {
@@ -180,6 +206,7 @@ final class AppModel: ObservableObject {
                 st.balance = prev.balance; st.windows = prev.windows; st.stale = true
             }
             vendorStatus[id] = st
+            if let c = st.costToday, st.error == nil { vendorToday[id] = c }
             if let m = apiModels.first(where: { $0.id == id }), let b = st.balance, st.error == nil {
                 vendorLedgerObserve(model: m, balance: b, currency: st.currency)
             }
@@ -422,6 +449,8 @@ final class AppModel: ObservableObject {
             map["{name}"] = model.name
             map["{balance}"] = st?.balance.map { Money.format($0, currency: st!.currency) } ?? (st?.error != nil ? "出错" : "—")
             map["{today}"] = vendorToday[model.id].map { Money.format($0, currency: model.currency) } ?? "—"
+            map["{cost_today}"] = st?.costToday.map { Money.format($0, currency: "USD") } ?? "—"
+            map["{cost_month}"] = st?.costMonth.map { Money.format($0, currency: "USD") } ?? "—"
             let wins = (st?.windows ?? []).filter { m.window.isEmpty || $0.key == m.window }
             map["{quota}"] = wins.isEmpty ? manualQuotaText(model) : wins.map { w in
                 "\(w.label) 已用 \(w.usedPct.map { String(format: "%.0f%%", $0) } ?? "—")" + (w.resetAt.map { " · " + Self.shortReset($0) } ?? "")
@@ -432,6 +461,7 @@ final class AppModel: ObservableObject {
             map["{quota_total}"] = q.total
             map["{quota_reset}"] = wins.first?.resetAt.map { Self.shortReset($0) } ?? "—"
         }
+        if out.contains("{sub_") { for (k, v) in subscriptionValues(m) { map[k] = v } }
         for (k, v) in map where out.contains(k) { out = out.replacingOccurrences(of: k, with: v) }
         return out
     }
@@ -485,5 +515,58 @@ final class AppModel: ObservableObject {
             catch { NSLog("WhaleBalance: launch at login: \(error)") }
             objectWillChange.send()
         }
+    }
+}
+
+// MARK: - Subscription placeholders for bubble modules
+
+extension AppModel {
+    /// Values for {sub_*} placeholders. The module's `window` field picks the source:
+    /// "cswap" (active account), "cswap:<number>", "cswap:all", "claude", "codex".
+    func subscriptionValues(_ m: BubbleModule?) -> [String: String] {
+        let source = (m?.window ?? "").isEmpty ? defaultSubscriptionSource : m!.window
+        var v: [String: String] = ["{sub_account}": "—", "{sub_plan}": "—", "{sub_5h}": "—", "{sub_7d}": "—",
+                                   "{sub_spend}": "—", "{sub_reset}": "—", "{sub_tokens_today}": "—", "{sub_all}": "—"]
+        func fill(_ a: CswapAccount) {
+            v["{sub_account}"] = a.alias ?? a.email
+            let u = a.shownUsage
+            v["{sub_5h}"] = pctText(u?.fiveHour?.pct)
+            v["{sub_7d}"] = pctText(u?.sevenDay?.pct)
+            if let s = u?.spend, let used = s.used {
+                v["{sub_spend}"] = Money.format(used, currency: s.currency ?? "USD") + (s.limit.map { " / " + Money.format($0, currency: s.currency ?? "USD") } ?? "")
+            }
+            v["{sub_reset}"] = u?.fiveHour?.resetDate.map { Self.shortReset($0) } ?? "—"
+            v["{sub_plan}"] = a.organizationName ?? "Claude"
+        }
+        if source == "cswap:all", let accts = subs.cswap?.accounts, !accts.isEmpty {
+            v["{sub_all}"] = accts.map { a in
+                let u = a.shownUsage
+                return (a.active == true ? "▶ " : "") + (a.alias ?? a.email.components(separatedBy: "@").first ?? a.email)
+                    + " 5h \(pctText(u?.fiveHour?.pct)) · 7d \(pctText(u?.sevenDay?.pct))"
+            }.joined(separator: "\n")
+            if let a = subs.activeCswap { fill(a) }
+        } else if source.hasPrefix("cswap") {
+            let num = Int(source.split(separator: ":").last ?? "")
+            if let a = num.flatMap({ n in subs.cswap?.accounts?.first { $0.number == n } }) ?? subs.activeCswap { fill(a) }
+        } else if source == "claude" {
+            let c = subs.claude
+            v["{sub_account}"] = c.account?.email ?? "—"
+            v["{sub_plan}"] = c.account.map { "Claude " + $0.plan } ?? "—"
+            v["{sub_tokens_today}"] = CodexStats.formatTokens(c.today.total)
+        } else if source == "codex" {
+            v["{sub_plan}"] = subs.codex.planType.map { "ChatGPT " + $0.capitalized } ?? "ChatGPT"
+            v["{sub_tokens_today}"] = CodexStats.formatTokens(subs.codex.today)
+            for w in subs.codex.windows {
+                if w.label == "5h" { v["{sub_5h}"] = pctText(w.usedPct); v["{sub_reset}"] = w.resetAt.map { Self.shortReset($0) } ?? "—" }
+                if w.label == "周" { v["{sub_7d}"] = pctText(w.usedPct) }
+            }
+        }
+        return v
+    }
+
+    var defaultSubscriptionSource: String {
+        if subs.cswap?.accounts?.isEmpty == false { return "cswap" }
+        if subs.claude.account != nil { return "claude" }
+        return "codex"
     }
 }

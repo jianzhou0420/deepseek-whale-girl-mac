@@ -21,6 +21,7 @@ struct CodexWindow: Codable, Equatable {
 }
 
 struct CodexFileCache: Codable {
+    var planType: String?
     var size: Int
     var mtime: Double
     var days: [String: [String: CodexTokens]]
@@ -28,12 +29,13 @@ struct CodexFileCache: Codable {
     var windowsAt: Double
 }
 
-struct CodexSnapshot {
+struct CodexSnapshot: Equatable {
     var today = 0, week = 0, month = 0, all = 0
     var fileCount = 0
     var byModelToday: [String: Int] = [:]
     var days: [String: Int] = [:]
     var windows: [CodexWindow] = []
+    var planType: String?
     var found = false
 }
 
@@ -79,12 +81,13 @@ final class CodexStats {
         return out
     }
 
-    static func parse(_ text: String) -> (days: [String: [String: CodexTokens]], windows: [CodexWindow], windowsAt: Double) {
+    static func parse(_ text: String) -> (days: [String: [String: CodexTokens]], windows: [CodexWindow], windowsAt: Double, plan: String?) {
         var days: [String: [String: CodexTokens]] = [:]
         var model = "codex"
         var prevTotal: Int? = nil
         var windows: [CodexWindow] = []
         var windowsAt: Double = 0
+        var plan: String? = nil
         let iso = ISO8601DateFormatter()
         iso.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let iso2 = ISO8601DateFormatter()
@@ -131,9 +134,10 @@ final class CodexStats {
                     if let w = rl[key] as? [String: Any], let win = normalize(w, label: label, eventTime: ts) { ws.append(win) }
                 }
                 if !ws.isEmpty { windows = ws; windowsAt = ts.timeIntervalSince1970 }
+                if let pt = rl["plan_type"] as? String, !pt.isEmpty { plan = pt }
             }
         }
-        return (days, windows, windowsAt)
+        return (days, windows, windowsAt, plan)
     }
 
     private static func normalize(_ w: [String: Any], label: String, eventTime: Date) -> CodexWindow? {
@@ -178,7 +182,7 @@ final class CodexStats {
                 guard size < 200_000_000, let data = try? Data(contentsOf: url),
                       let text = String(data: data, encoding: .utf8) else { continue }
                 let r = Self.parse(text)
-                cache[path] = CodexFileCache(size: size, mtime: mtime, days: r.days, windows: r.windows, windowsAt: r.windowsAt)
+                cache[path] = CodexFileCache(planType: r.plan, size: size, mtime: mtime, days: r.days, windows: r.windows, windowsAt: r.windowsAt)
                 changed = true
             }
             for k in cache.keys where !seen.contains(k) { cache.removeValue(forKey: k); changed = true }
@@ -200,7 +204,7 @@ final class CodexStats {
                     if day >= weekStart && day <= today { snap.week += sum }
                     if day.hasPrefix(monthPrefix) { snap.month += sum }
                 }
-                if c.windowsAt > latestAt, !c.windows.isEmpty { latestAt = c.windowsAt; snap.windows = c.windows }
+                if c.windowsAt > latestAt, !c.windows.isEmpty { latestAt = c.windowsAt; snap.windows = c.windows; snap.planType = c.planType ?? snap.planType }
             }
             return snap
         }

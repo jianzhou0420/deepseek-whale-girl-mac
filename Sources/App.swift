@@ -3,7 +3,6 @@ import AppKit
 import Combine
 import SwiftUI
 
-let appVersion = "0.0.2"
 
 final class WindowManager {
     static let shared = WindowManager()
@@ -168,6 +167,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         m.addItem(.separator())
 
         m.addItem(item("小鲸鱼记账…") { Windows.usage() })
+        m.addItem(item("订阅与用量…") { Windows.settings(tab: .subscriptions) })
         m.addItem(item("模型与厂商…") { Windows.settings(tab: .vendors) })
         m.addItem(item("余额预警与今日预算…") { Windows.settings(tab: .alerts) })
         m.addItem(item("资源管理…") { Windows.settings(tab: .resources) })

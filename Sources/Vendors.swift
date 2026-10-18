@@ -36,7 +36,7 @@ struct QuotaSpec {
     var resetAt: String = ""
 }
 
-enum VendorKind: String, Codable { case balance, quota, codex }
+enum VendorKind: String, Codable { case balance, quota, codex, costs }
 
 struct VendorTemplate: Identifiable {
     var id: String
@@ -126,6 +126,12 @@ enum Vendors {
         VendorTemplate(id: "custom", name: "自定义 HTTP", currency: "CNY", keyRef: "CUSTOM_API_KEY",
                        balance: BalanceSpec(url: "", auth: "Bearer {key}"),
                        note: "自己填接口地址与 JSON 字段路径（支持 a.b[0].c）。需要勾选「允许把密钥发送到自定义地址」。"),
+        VendorTemplate(id: "openai_costs", name: "OpenAI API 费用（Admin Key）", currency: "USD", keyRef: "OPENAI_ADMIN_KEY", kind: .costs,
+                       probeURL: "https://api.openai.com/v1/organization/costs",
+                       note: "需要组织的 Admin Key（sk-admin-…，在 platform.openai.com 的 Admin keys 页面创建），普通 API Key 查不到费用。显示本月和今天的 API 费用（UTC 计日）。"),
+        VendorTemplate(id: "anthropic_costs", name: "Claude API 费用（Admin Key）", currency: "USD", keyRef: "ANTHROPIC_ADMIN_KEY", kind: .costs,
+                       probeURL: "https://api.anthropic.com/v1/organizations/cost_report",
+                       note: "需要组织的 Admin Key（sk-ant-admin01-…，在 Claude Console 创建）。个人账号没有 Admin API。显示本月和今天的 API 费用（UTC 计日）。Claude 订阅（Pro / Max）的额度请看「订阅」页。"),
         VendorTemplate(id: "codex", name: "Codex（本地会话）", currency: "CNY", keyRef: "", kind: .codex,
                        note: "读取本机 ~/.codex/sessions 里的会话日志统计 token，不联网、不需要密钥。"),
         probeOnly("siliconflow_cn", "硅基流动（CN）", "CNY", "SILICONFLOW_API_KEY", "https://api.siliconflow.cn/v1/models",
@@ -230,6 +236,8 @@ struct VendorStatus: Equatable {
     var error: String?
     var updatedAt: Date?
     var stale = false
+    var costToday: Double?
+    var costMonth: Double?
 }
 
 // MARK: - JSON path ("a.b[0].c")
@@ -393,6 +401,10 @@ enum VendorClient {
             switch t.kind {
             case .codex:
                 return st
+            case .costs:
+                guard let key, !key.isEmpty else { throw VendorError.noKey(model.keyRef) }
+                let c = try await CostAPI.fetch(provider: t.id, key: key)
+                st.costToday = c.today; st.costMonth = c.month; st.currency = "USD"
             case .quota:
                 guard let q = t.quota else { return st }
                 guard let key, !key.isEmpty else { throw VendorError.noKey(model.keyRef) }
@@ -480,6 +492,11 @@ enum VendorClient {
         if t.kind == .codex {
             let s = CodexStats.shared.snapshot()
             return "本地统计：今日 \(CodexStats.formatTokens(s.today)) tokens，共 \(s.fileCount) 个会话文件"
+        }
+        if t.kind == .costs {
+            let st = await fetch(model: model, key: key)
+            if let e = st.error { return "❌ " + e }
+            return "✅ 本月 " + Money.format(st.costMonth, currency: "USD") + "，今天 " + Money.format(st.costToday, currency: "USD")
         }
         if t.hasBalanceAPI || t.kind == .quota || !model.urlOverride.isEmpty {
             let st = await fetch(model: model, key: key)

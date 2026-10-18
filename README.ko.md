@@ -19,6 +19,7 @@ Mac 화면 구석에 사는 DeepSeek 고래 소녀입니다. 말풍선에 DeepSe
 - **다른 업체**: 34개 템플릿. OpenRouter, Kimi, StepFun, Novita 잔액, Zhipu, Kimi Coding, MiniMax, OpenCode Go 구독 한도, OpenAI 호환 게이트웨이를 지원합니다. 키는 각 템플릿의 공식 엔드포인트로만 전송되며, 사용자 지정 주소는 직접 허용해야 합니다.
 - **Codex 통계**: 로컬 Codex 세션 기록에서 토큰 사용량과 구독 기간을 집계합니다. 네트워크를 사용하지 않습니다.
 - **Mac 네이티브**: 자유롭게 드래그하면 화면 가장자리에 붙고, 왼쪽에 붙으면 좌우가 뒤집힙니다. 메뉴 막대에 잔액 표시, 로그인 시 자동 실행, API 키는 키체인에 저장됩니다.
+- **구독과 API 비용**: 이 Mac의 cswap(Claude 계정별 5시간, 7일, 추가 사용량, 모델별 한도), Claude Code 요금제와 토큰 사용량, Codex의 ChatGPT 요금제를 자동으로 감지합니다. 조직 Admin 키를 넣으면 OpenAI API와 Claude API 비용도 표시합니다.
 
 옮기지 않은 기능: 턴별 비용, 작업 종료음, 질문 / 승인 알림, 대화 이름 모듈. 이 기능들은 DeepSeek Harness 내부 이벤트에 의존하므로 독립 앱에서는 가져올 수 없습니다.
 

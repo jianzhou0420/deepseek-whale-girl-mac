@@ -3,7 +3,7 @@
 import Foundation
 
 enum ModuleType: String, Codable, CaseIterable {
-    case text, link, random, image, randomImage, balance, bonus, recharge, today, peak, vendorBalance, vendorQuota, codex
+    case text, link, random, image, randomImage, balance, bonus, recharge, today, peak, vendorBalance, vendorQuota, codex, subscription
 
     var label: String {
         switch self {
@@ -20,6 +20,7 @@ enum ModuleType: String, Codable, CaseIterable {
         case .vendorBalance: return "余额·其它厂商"
         case .vendorQuota: return "额度·其它厂商"
         case .codex: return "Codex 用量"
+        case .subscription: return "订阅额度"
         }
     }
     var isImage: Bool { self == .image || self == .randomImage }
@@ -33,6 +34,7 @@ enum ModuleType: String, Codable, CaseIterable {
         case .vendorBalance: return "{name} {balance}"
         case .vendorQuota: return "{name} {quota}"
         case .codex: return "Codex 今日 {codex_today} tokens"
+        case .subscription: return "{sub_account} 5h {sub_5h} · 7d {sub_7d}"
         default: return ""
         }
     }
@@ -269,9 +271,10 @@ enum BubbleDefaults {
     static var randomItem: BubbleItem {
         var r = BubbleModule(type: .random); r.lines = randomLines; r.size = 8; r.bold = true
         var img = BubbleModule(type: .randomImage); img.size = 6
+        // Every generated still except poses that only make sense at a screen edge or as an alert.
+        let skip: Set<String> = ["gen_broke", "gen_peek_side", "gen_hang", "gen_climb", "gen_falling", "gen_dragged", "gen_landing"]
         img.imgs = [WeightedImage(imgId: "bimg_wave", w: 2)]
-            + ["gen_rice", "gen_busy", "gen_nap", "gen_pat", "gen_coin"].filter { BuiltinImages.generatedURL($0) != nil }
-                .map { WeightedImage(imgId: $0, w: 1) }
+            + BuiltinImages.generated.map(\.id).filter { !skip.contains($0) }.map { WeightedImage(imgId: $0, w: 1) }
         return BubbleItem(kind: "choice", name: "随机台词", options: [
             ChoiceOption(w: 10, item: BubbleItem(modules: [r])),
             ChoiceOption(w: 1, item: BubbleItem(modules: [img])),

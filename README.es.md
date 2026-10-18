@@ -19,6 +19,7 @@ Una chica ballena de DeepSeek que vive en una esquina de la pantalla de tu Mac. 
 - **Otros proveedores**: 34 plantillas, con saldos de OpenRouter, Kimi, StepFun y Novita, cuotas de suscripción de Zhipu, Kimi Coding, MiniMax y OpenCode Go, y pasarelas compatibles con OpenAI. Las claves solo se envían al endpoint oficial de cada plantilla, salvo que permitas uno personalizado.
 - **Estadísticas de Codex**: lee los registros locales de sesiones de Codex para contar tokens y ventanas de suscripción, sin conexión a internet.
 - **App nativa de Mac**: arrástrala a cualquier sitio; se pega a los bordes de la pantalla y se voltea al pegarse a la izquierda. Saldo en la barra de menús, inicio automático al iniciar sesión y claves de API guardadas en el Llavero.
+- **Suscripciones y costes de API**: detecta automáticamente cswap (el uso de 5 horas, 7 días, gasto extra y por modelo de cada cuenta de Claude), el plan y los tokens de Claude Code y el plan de ChatGPT detrás de Codex. Con una clave Admin de organización también muestra los costes de las API de OpenAI y Claude.
 
 No se han portado el coste por turno, el sonido de fin de tarea, los avisos de preguntas y aprobaciones ni el módulo de nombre de conversación. Dependen de eventos internos de DeepSeek Harness que una app independiente no puede ver.
 

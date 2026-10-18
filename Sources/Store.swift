@@ -2,6 +2,8 @@
 import Foundation
 import Security
 
+let appVersion = "0.0.3"
+
 enum Store {
     static let dir: URL = {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
@@ -139,6 +141,10 @@ struct Settings: Codable, Equatable {
     var roleId = "default"
     var animateRole = true
     var customGroups: [SoundGroup] = []
+    var subsOn = true                 // auto-detect local subscriptions (cswap, Claude Code, Codex)
+    var subsCswapOn = true
+    var cswapPath = ""                // empty = auto-detect
+    var subsRefreshMinutes = 5.0
     var fragments: [SoundFragment] = []
 }
 

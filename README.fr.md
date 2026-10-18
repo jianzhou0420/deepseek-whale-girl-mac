@@ -19,6 +19,7 @@ Une fille-baleine DeepSeek qui vit dans un coin de l'écran de votre Mac. Sa bul
 - **Autres fournisseurs** : 34 modèles, dont les soldes OpenRouter, Kimi, StepFun et Novita, les quotas d'abonnement Zhipu, Kimi Coding, MiniMax et OpenCode Go, et les passerelles compatibles OpenAI. Les clés ne partent que vers le point d'accès officiel de chaque modèle, sauf si vous en autorisez un autre.
 - **Statistiques Codex** : lit les journaux de session Codex locaux pour compter les tokens et les fenêtres d'abonnement, sans accès réseau.
 - **App Mac native** : déplacez-la où vous voulez ; elle s'aimante aux bords de l'écran et se retourne quand elle est collée à gauche. Solde dans la barre des menus, lancement à l'ouverture de session et clés d'API dans le trousseau.
+- **Abonnements et coûts d'API** : détecte automatiquement cswap (usage sur 5 heures, 7 jours, dépenses supplémentaires et par modèle pour chaque compte Claude), l'abonnement et les tokens de Claude Code, et l'abonnement ChatGPT derrière Codex. Avec une clé Admin d'organisation, affiche aussi les coûts des API OpenAI et Claude.
 
 Le coût par tour, le son de fin de tâche, les invites de question et d'approbation et le module de nom de conversation ne sont pas portés. Ils dépendent d'événements internes à DeepSeek Harness, inaccessibles à une app autonome.
 

@@ -28,5 +28,545 @@
     "file" : "gen_nap.png",
     "id" : "gen_nap",
     "name" : "鲸鱼娘·打盹"
+  },
+  {
+    "file" : "gen_abacus.png",
+    "id" : "gen_abacus",
+    "name" : "鲸鱼娘·打算盘"
+  },
+  {
+    "file" : "gen_receipt.png",
+    "id" : "gen_receipt",
+    "name" : "鲸鱼娘·账单好长"
+  },
+  {
+    "file" : "gen_peak.png",
+    "id" : "gen_peak",
+    "name" : "鲸鱼娘·高峰赶路"
+  },
+  {
+    "file" : "gen_float.png",
+    "id" : "gen_float",
+    "name" : "鲸鱼娘·空闲躺平"
+  },
+  {
+    "file" : "gen_piggy.png",
+    "id" : "gen_piggy",
+    "name" : "鲸鱼娘·存钱罐"
+  },
+  {
+    "file" : "gen_laptop.png",
+    "id" : "gen_laptop",
+    "name" : "鲸鱼娘·敲代码"
+  },
+  {
+    "file" : "gen_thumbs.png",
+    "id" : "gen_thumbs",
+    "name" : "鲸鱼娘·点赞"
+  },
+  {
+    "file" : "gen_tea.png",
+    "id" : "gen_tea",
+    "name" : "鲸鱼娘·喝茶"
+  },
+  {
+    "file" : "gen_laugh.png",
+    "id" : "gen_laugh",
+    "name" : "鲸鱼娘·笑出声"
+  },
+  {
+    "file" : "gen_pout.png",
+    "id" : "gen_pout",
+    "name" : "鲸鱼娘·鼓脸生气"
+  },
+  {
+    "file" : "gen_wail.png",
+    "id" : "gen_wail",
+    "name" : "鲸鱼娘·嚎啕大哭"
+  },
+  {
+    "file" : "gen_hide_face.png",
+    "id" : "gen_hide_face",
+    "name" : "鲸鱼娘·捂脸害羞"
+  },
+  {
+    "file" : "gen_smug.png",
+    "id" : "gen_smug",
+    "name" : "鲸鱼娘·得意"
+  },
+  {
+    "file" : "gen_shock.png",
+    "id" : "gen_shock",
+    "name" : "鲸鱼娘·震惊"
+  },
+  {
+    "file" : "gen_finger_heart.png",
+    "id" : "gen_finger_heart",
+    "name" : "鲸鱼娘·比心"
+  },
+  {
+    "file" : "gen_dizzy_stars.png",
+    "id" : "gen_dizzy_stars",
+    "name" : "鲸鱼娘·眼冒金星"
+  },
+  {
+    "file" : "gen_question.png",
+    "id" : "gen_question",
+    "name" : "鲸鱼娘·疑惑"
+  },
+  {
+    "file" : "gen_gloomy.png",
+    "id" : "gen_gloomy",
+    "name" : "鲸鱼娘·蹲墙角"
+  },
+  {
+    "file" : "gen_rice_guard.png",
+    "id" : "gen_rice_guard",
+    "name" : "鲸鱼娘·护饭"
+  },
+  {
+    "file" : "gen_rice_refill.png",
+    "id" : "gen_rice_refill",
+    "name" : "鲸鱼娘·再来一碗"
+  },
+  {
+    "file" : "gen_tsundere.png",
+    "id" : "gen_tsundere",
+    "name" : "鲸鱼娘·傲娇"
+  },
+  {
+    "file" : "gen_fish_slice.png",
+    "id" : "gen_fish_slice",
+    "name" : "鲸鱼娘·叫你鱼片"
+  },
+  {
+    "file" : "gen_think_gears.png",
+    "id" : "gen_think_gears",
+    "name" : "鲸鱼娘·深度思考中"
+  },
+  {
+    "file" : "gen_think_long.png",
+    "id" : "gen_think_long",
+    "name" : "鲸鱼娘·想太久了"
+  },
+  {
+    "file" : "gen_busy_queue.png",
+    "id" : "gen_busy_queue",
+    "name" : "鲸鱼娘·排队等服务器"
+  },
+  {
+    "file" : "gen_fat_fish.png",
+    "id" : "gen_fat_fish",
+    "name" : "鲸鱼娘·大肥鱼"
+  },
+  {
+    "file" : "gen_open_gift.png",
+    "id" : "gen_open_gift",
+    "name" : "鲸鱼娘·开源送礼"
+  },
+  {
+    "file" : "gen_cheap_tag.png",
+    "id" : "gen_cheap_tag",
+    "name" : "鲸鱼娘·便宜又好用"
+  },
+  {
+    "file" : "gen_sit_edge.png",
+    "id" : "gen_sit_edge",
+    "name" : "鲸鱼娘·坐在边上"
+  },
+  {
+    "file" : "gen_climb.png",
+    "id" : "gen_climb",
+    "name" : "鲸鱼娘·爬墙"
+  },
+  {
+    "file" : "gen_hang.png",
+    "id" : "gen_hang",
+    "name" : "鲸鱼娘·挂着"
+  },
+  {
+    "file" : "gen_falling.png",
+    "id" : "gen_falling",
+    "name" : "鲸鱼娘·掉下去了"
+  },
+  {
+    "file" : "gen_landing.png",
+    "id" : "gen_landing",
+    "name" : "鲸鱼娘·落地"
+  },
+  {
+    "file" : "gen_dragged.png",
+    "id" : "gen_dragged",
+    "name" : "鲸鱼娘·被拎起来"
+  },
+  {
+    "file" : "gen_jump.png",
+    "id" : "gen_jump",
+    "name" : "鲸鱼娘·跳起来"
+  },
+  {
+    "file" : "gen_spin.png",
+    "id" : "gen_spin",
+    "name" : "鲸鱼娘·转圈圈"
+  },
+  {
+    "file" : "gen_sing.png",
+    "id" : "gen_sing",
+    "name" : "鲸鱼娘·唱歌"
+  },
+  {
+    "file" : "gen_magic.png",
+    "id" : "gen_magic",
+    "name" : "鲸鱼娘·变魔术"
+  },
+  {
+    "file" : "gen_overtime_faint.png",
+    "id" : "gen_overtime_faint",
+    "name" : "鲸鱼娘·加班到昏厥"
+  },
+  {
+    "file" : "gen_still_can.png",
+    "id" : "gen_still_can",
+    "name" : "鲸鱼娘·我还能加班"
+  },
+  {
+    "file" : "gen_bug_run.png",
+    "id" : "gen_bug_run",
+    "name" : "鲸鱼娘·跑去改bug"
+  },
+  {
+    "file" : "gen_bug_catch.png",
+    "id" : "gen_bug_catch",
+    "name" : "鲸鱼娘·抓到bug"
+  },
+  {
+    "file" : "gen_slack_phone.png",
+    "id" : "gen_slack_phone",
+    "name" : "鲸鱼娘·摸鱼"
+  },
+  {
+    "file" : "gen_lie_flat.png",
+    "id" : "gen_lie_flat",
+    "name" : "鲸鱼娘·躺平"
+  },
+  {
+    "file" : "gen_worker.png",
+    "id" : "gen_worker",
+    "name" : "鲸鱼娘·打工人出发"
+  },
+  {
+    "file" : "gen_merge_conflict.png",
+    "id" : "gen_merge_conflict",
+    "name" : "鲸鱼娘·代码冲突"
+  },
+  {
+    "file" : "gen_deploy.png",
+    "id" : "gen_deploy",
+    "name" : "鲸鱼娘·上线祈祷"
+  },
+  {
+    "file" : "gen_meeting_sleep.png",
+    "id" : "gen_meeting_sleep",
+    "name" : "鲸鱼娘·开会犯困"
+  },
+  {
+    "file" : "gen_count_cash.png",
+    "id" : "gen_count_cash",
+    "name" : "鲸鱼娘·数钱"
+  },
+  {
+    "file" : "gen_coin_rain.png",
+    "id" : "gen_coin_rain",
+    "name" : "鲸鱼娘·金币雨"
+  },
+  {
+    "file" : "gen_calculator.png",
+    "id" : "gen_calculator",
+    "name" : "鲸鱼娘·按计算器"
+  },
+  {
+    "file" : "gen_topup_button.png",
+    "id" : "gen_topup_button",
+    "name" : "鲸鱼娘·充值"
+  },
+  {
+    "file" : "gen_empty_pockets.png",
+    "id" : "gen_empty_pockets",
+    "name" : "鲸鱼娘·掏空口袋"
+  },
+  {
+    "file" : "gen_shopping_bags.png",
+    "id" : "gen_shopping_bags",
+    "name" : "鲸鱼娘·买买买"
+  },
+  {
+    "file" : "gen_treasure_chest.png",
+    "id" : "gen_treasure_chest",
+    "name" : "鲸鱼娘·宝箱"
+  },
+  {
+    "file" : "gen_coin_stack.png",
+    "id" : "gen_coin_stack",
+    "name" : "鲸鱼娘·顶硬币"
+  },
+  {
+    "file" : "gen_budget_check.png",
+    "id" : "gen_budget_check",
+    "name" : "鲸鱼娘·核对账本"
+  },
+  {
+    "file" : "gen_tip_jar.png",
+    "id" : "gen_tip_jar",
+    "name" : "鲸鱼娘·打赏罐"
+  },
+  {
+    "file" : "gen_alarm.png",
+    "id" : "gen_alarm",
+    "name" : "鲸鱼娘·闹钟响了"
+  },
+  {
+    "file" : "gen_hourglass.png",
+    "id" : "gen_hourglass",
+    "name" : "鲸鱼娘·盯着沙漏"
+  },
+  {
+    "file" : "gen_wristwatch.png",
+    "id" : "gen_wristwatch",
+    "name" : "鲸鱼娘·看表"
+  },
+  {
+    "file" : "gen_sunrise.png",
+    "id" : "gen_sunrise",
+    "name" : "鲸鱼娘·早起"
+  },
+  {
+    "file" : "gen_night_owl.png",
+    "id" : "gen_night_owl",
+    "name" : "鲸鱼娘·夜猫子"
+  },
+  {
+    "file" : "gen_red_paddle.png",
+    "id" : "gen_red_paddle",
+    "name" : "鲸鱼娘·高峰别用"
+  },
+  {
+    "file" : "gen_green_paddle.png",
+    "id" : "gen_green_paddle",
+    "name" : "鲸鱼娘·空闲随便用"
+  },
+  {
+    "file" : "gen_calendar.png",
+    "id" : "gen_calendar",
+    "name" : "鲸鱼娘·撕日历"
+  },
+  {
+    "file" : "gen_countdown.png",
+    "id" : "gen_countdown",
+    "name" : "鲸鱼娘·倒计时"
+  },
+  {
+    "file" : "gen_weekend.png",
+    "id" : "gen_weekend",
+    "name" : "鲸鱼娘·周末到了"
+  },
+  {
+    "file" : "gen_hello.png",
+    "id" : "gen_hello",
+    "name" : "鲸鱼娘·你好呀"
+  },
+  {
+    "file" : "gen_bow.png",
+    "id" : "gen_bow",
+    "name" : "鲸鱼娘·鞠躬"
+  },
+  {
+    "file" : "gen_salute.png",
+    "id" : "gen_salute",
+    "name" : "鲸鱼娘·收到"
+  },
+  {
+    "file" : "gen_ok_sign.png",
+    "id" : "gen_ok_sign",
+    "name" : "鲸鱼娘·好的"
+  },
+  {
+    "file" : "gen_thanks.png",
+    "id" : "gen_thanks",
+    "name" : "鲸鱼娘·谢谢"
+  },
+  {
+    "file" : "gen_sorry.png",
+    "id" : "gen_sorry",
+    "name" : "鲸鱼娘·对不起"
+  },
+  {
+    "file" : "gen_good_job.png",
+    "id" : "gen_good_job",
+    "name" : "鲸鱼娘·做得好"
+  },
+  {
+    "file" : "gen_hug.png",
+    "id" : "gen_hug",
+    "name" : "鲸鱼娘·抱抱"
+  },
+  {
+    "file" : "gen_peek_side.png",
+    "id" : "gen_peek_side",
+    "name" : "鲸鱼娘·偷看"
+  },
+  {
+    "file" : "gen_bye.png",
+    "id" : "gen_bye",
+    "name" : "鲸鱼娘·拜拜"
+  },
+  {
+    "file" : "gen_dumplings.png",
+    "id" : "gen_dumplings",
+    "name" : "鲸鱼娘·吃饺子"
+  },
+  {
+    "file" : "gen_noodles.png",
+    "id" : "gen_noodles",
+    "name" : "鲸鱼娘·嗦面"
+  },
+  {
+    "file" : "gen_milktea.png",
+    "id" : "gen_milktea",
+    "name" : "鲸鱼娘·奶茶"
+  },
+  {
+    "file" : "gen_icecream.png",
+    "id" : "gen_icecream",
+    "name" : "鲸鱼娘·冰淇淋"
+  },
+  {
+    "file" : "gen_dried_fish.png",
+    "id" : "gen_dried_fish",
+    "name" : "鲸鱼娘·小鱼干"
+  },
+  {
+    "file" : "gen_cake.png",
+    "id" : "gen_cake",
+    "name" : "鲸鱼娘·蛋糕"
+  },
+  {
+    "file" : "gen_hotpot.png",
+    "id" : "gen_hotpot",
+    "name" : "鲸鱼娘·火锅"
+  },
+  {
+    "file" : "gen_watermelon.png",
+    "id" : "gen_watermelon",
+    "name" : "鲸鱼娘·啃西瓜"
+  },
+  {
+    "file" : "gen_bento.png",
+    "id" : "gen_bento",
+    "name" : "鲸鱼娘·便当"
+  },
+  {
+    "file" : "gen_coffee.png",
+    "id" : "gen_coffee",
+    "name" : "鲸鱼娘·续命咖啡"
+  },
+  {
+    "file" : "gen_red_envelope.png",
+    "id" : "gen_red_envelope",
+    "name" : "鲸鱼娘·红包"
+  },
+  {
+    "file" : "gen_lantern.png",
+    "id" : "gen_lantern",
+    "name" : "鲸鱼娘·提灯笼"
+  },
+  {
+    "file" : "gen_fireworks.png",
+    "id" : "gen_fireworks",
+    "name" : "鲸鱼娘·看烟花"
+  },
+  {
+    "file" : "gen_zongzi.png",
+    "id" : "gen_zongzi",
+    "name" : "鲸鱼娘·粽子"
+  },
+  {
+    "file" : "gen_mooncake.png",
+    "id" : "gen_mooncake",
+    "name" : "鲸鱼娘·月饼"
+  },
+  {
+    "file" : "gen_snowman.png",
+    "id" : "gen_snowman",
+    "name" : "鲸鱼娘·堆雪人"
+  },
+  {
+    "file" : "gen_umbrella.png",
+    "id" : "gen_umbrella",
+    "name" : "鲸鱼娘·下雨天"
+  },
+  {
+    "file" : "gen_summer_fan.png",
+    "id" : "gen_summer_fan",
+    "name" : "鲸鱼娘·好热"
+  },
+  {
+    "file" : "gen_birthday.png",
+    "id" : "gen_birthday",
+    "name" : "鲸鱼娘·生日快乐"
+  },
+  {
+    "file" : "gen_santa.png",
+    "id" : "gen_santa",
+    "name" : "鲸鱼娘·圣诞"
+  },
+  {
+    "file" : "gen_spout.png",
+    "id" : "gen_spout",
+    "name" : "鲸鱼娘·喷水"
+  },
+  {
+    "file" : "gen_swim.png",
+    "id" : "gen_swim",
+    "name" : "鲸鱼娘·游来游去"
+  },
+  {
+    "file" : "gen_surf.png",
+    "id" : "gen_surf",
+    "name" : "鲸鱼娘·冲浪"
+  },
+  {
+    "file" : "gen_seashell.png",
+    "id" : "gen_seashell",
+    "name" : "鲸鱼娘·听贝壳"
+  },
+  {
+    "file" : "gen_fishing.png",
+    "id" : "gen_fishing",
+    "name" : "鲸鱼娘·钓鱼"
+  },
+  {
+    "file" : "gen_baby_whale.png",
+    "id" : "gen_baby_whale",
+    "name" : "鲸鱼娘·抱小鲸鱼"
+  },
+  {
+    "file" : "gen_message_bottle.png",
+    "id" : "gen_message_bottle",
+    "name" : "鲸鱼娘·漂流瓶"
+  },
+  {
+    "file" : "gen_anchor.png",
+    "id" : "gen_anchor",
+    "name" : "鲸鱼娘·拖船锚"
+  },
+  {
+    "file" : "gen_snorkel.png",
+    "id" : "gen_snorkel",
+    "name" : "鲸鱼娘·潜水"
+  },
+  {
+    "file" : "gen_starfish.png",
+    "id" : "gen_starfish",
+    "name" : "鲸鱼娘·海星糊脸"
   }
 ]

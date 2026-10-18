@@ -114,5 +114,33 @@ let partial = try! JSONDecoder().decode(BubbleModule.self, from: Data(#"{"type":
 check(partial.size == 6 && partial.text == "hi", "missing fields get defaults")
 check(BubbleDefaults.randomLines.count == 50, "random lines \(BubbleDefaults.randomLines.count)")
 
+print("== Subscriptions")
+let cs = #"{"schemaVersion":1,"activeAccountNumber":2,"accounts":[{"number":1,"email":"a@x.com","active":false,"usageStatus":"token_expired","usage":null,"lastGoodUsage":{"fiveHour":{"pct":80.0,"resetsAt":"2026-10-18T05:00:00Z"}},"lastGoodAgeSeconds":900},{"number":2,"email":"b@x.com","alias":"work","organizationName":"Acme","active":true,"usageStatus":"ok","usage":{"fiveHour":{"pct":25.0,"resetsAt":"2026-10-18T05:00:00Z","countdown":"2h"},"sevenDay":{"pct":16.0,"resetsAt":"2026-10-22T17:59:59Z","expectedPct":30.5,"aheadOfPace":false},"spend":{"used":12.5,"limit":50,"pct":25,"currency":"USD"},"scoped":[{"name":"Fable","pct":60.0,"resetsAt":"2026-10-22T17:59:59Z"}]},"futureField":{"x":1}}]}"#
+let parsed = Cswap.decode(Data(cs.utf8))
+check(parsed?.accounts?.count == 2, "cswap list decodes, unknown fields ignored")
+let active = parsed.map { SubscriptionsSnapshot(cswap: $0).activeCswap }
+check(active??.alias == "work" && active??.shownUsage?.sevenDay?.expectedPct == 30.5, "active account + pace fields")
+check(parsed?.accounts?[0].isStale == true && parsed?.accounts?[0].shownUsage?.fiveHour?.pct == 80, "falls back to lastGoodUsage")
+check(parsed?.accounts?[1].shownUsage?.scoped?.first?.name == "Fable", "per-model windows")
+check(Cswap.decode(Data(#"{"schemaVersion":1,"error":{"type":"X","message":"boom"}}"#.utf8))?.error?.message == "boom", "error envelope")
+let cl = """
+{"type":"assistant","requestId":"r1","timestamp":"2026-10-18T02:00:00.000Z","message":{"id":"m1","model":"claude-opus-5","usage":{"input_tokens":10,"output_tokens":20,"cache_creation_input_tokens":30,"cache_read_input_tokens":40}}}
+{"type":"assistant","requestId":"r1","timestamp":"2026-10-18T02:00:01.000Z","message":{"id":"m1","model":"claude-opus-5","usage":{"input_tokens":10,"output_tokens":20,"cache_creation_input_tokens":30,"cache_read_input_tokens":40}}}
+{"type":"assistant","requestId":"r2","timestamp":"2026-10-18T03:00:00.000Z","message":{"id":"m2","model":"<synthetic>","usage":{"input_tokens":5,"output_tokens":5}}}
+{"type":"user","message":{"content":"usage"}}
+"""
+var seenIds = Set<String>()
+let cdays = ClaudeLocal.parse(cl, seen: &seenIds)
+let cday = CodexStats.localDay(ISO8601DateFormatter().date(from: "2026-10-18T02:00:00Z")!)
+check(cdays[cday]?["claude-opus-5"]?.total == 100 && cdays[cday]?["claude-opus-5"]?.messages == 1, "Claude usage dedup by message+request id")
+check(ClaudeAccountInfo(organizationType: "claude_max", rateLimitTier: "default_claude_max_20x").plan == "Max 20x", "plan label")
+let tStart = ISO8601DateFormatter().date(from: "2026-10-18T00:00:00Z")!
+let oj = try! JSONSerialization.jsonObject(with: Data(#"{"data":[{"start_time":1792195200,"results":[{"amount":{"value":1.25,"currency":"usd"}}]},{"start_time":\#(Int(tStart.timeIntervalSince1970)),"results":[{"amount":{"value":0.5,"currency":"usd"}},{"amount":{"value":0.25,"currency":"usd"}}]}],"has_more":true,"next_page":"p2"}"#.utf8))
+let o = CostAPI.parseOpenAI(oj, todayStart: tStart)
+check(o.0 == 0.75 && o.1 == 2.0 && o.2 == "p2", "OpenAI costs: today \(o.0), month \(o.1), next page")
+let aj = try! JSONSerialization.jsonObject(with: Data(#"{"data":[{"starting_at":"2026-10-17T00:00:00Z","results":[{"amount":"123.45","currency":"USD"}]},{"starting_at":"2026-10-18T00:00:00Z","results":[{"amount":"50","currency":"USD"}]}],"has_more":false,"next_page":null}"#.utf8))
+let an2 = CostAPI.parseAnthropic(aj, todayStart: tStart)
+check(abs(an2.0 - 0.5) < 1e-9 && abs(an2.1 - 1.7345) < 1e-9 && an2.2 == nil, "Anthropic cost report in cents")
+
 print(failures == 0 ? "\nALL PASSED" : "\n\(failures) FAILED")
 exit(failures == 0 ? 0 : 1)

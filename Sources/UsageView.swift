@@ -56,6 +56,7 @@ struct UsageView: View {
                     ForEach(filteredDays, id: \.self) { d in dayRow(d); Divider() }
                 }
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color(nsColor: .controlBackgroundColor)))
+                SubscriptionsSummary(model: model)
                 if model.codex.found { codexView }
                 Text("今日已用由「余额下降」累计得到：只在应用运行、能取到余额时观测；充值和赠金单独记录，不会冲掉消费。一天中途才开始观测会标为「部分数据」。逐条明细保留 90 天，每日合计保留 365 天。")
                     .font(.footnote).foregroundStyle(.secondary)

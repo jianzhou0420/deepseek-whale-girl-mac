@@ -94,6 +94,7 @@ struct ModuleListEditor: View {
         if m.type == .randomImage { m.imgs = [WeightedImage(imgId: "bimg_wave"), WeightedImage(imgId: "bimg_cheer")] }
         if m.type == .peak { m.peakColor = "#e0433f"; m.offColor = "#2fa24c"; m.bold = true }
         if m.type == .vendorBalance || m.type == .vendorQuota { m.modelId = model.apiModels.first?.id ?? "" }
+        if m.type == .subscription { m.size = 5; m.bold = true }
         if let i = index { modules.insert(m, at: i + 1) } else { modules.append(m) }
         selected = m.id
     }
@@ -191,13 +192,25 @@ struct ModuleForm: View {
                     ForEach(windowKeys, id: \.self) { Text($0).tag($0) }
                 }
             }
-            templateField(m.type == .vendorBalance ? "{name} {balance} {today}" : "{name} {quota} {quota_used} {quota_left} {quota_total} {quota_reset}")
+            templateField(m.type == .vendorBalance ? "{name} {balance} {today} {cost_today} {cost_month}" : "{name} {quota} {quota_used} {quota_left} {quota_total} {quota_reset}")
         case .balance, .bonus, .recharge:
             templateField("{balance_ds} {bonus_ds} {recharge_ds}")
         case .today:
             templateField("{expense_ds}")
         case .codex:
             templateField("{codex_today} {codex_week} {codex_month}")
+        case .subscription:
+            Picker("来源", selection: $m.window) {
+                Text("自动（有 cswap 用 cswap 当前账号）").tag("")
+                if model.subs.cswap?.accounts?.isEmpty == false {
+                    Text("cswap 当前账号").tag("cswap")
+                    Text("cswap 全部账号（每个账号一行）").tag("cswap:all")
+                    ForEach(model.subs.cswap?.accounts ?? []) { a in Text("cswap #\(a.number) \(a.alias ?? a.email)").tag("cswap:\(a.number)") }
+                }
+                Text("Claude Code").tag("claude")
+                Text("Codex / ChatGPT").tag("codex")
+            }
+            templateField("{sub_account} {sub_plan} {sub_5h} {sub_7d} {sub_spend} {sub_reset} {sub_tokens_today} {sub_all}")
         }
         if !isFirst && !m.type.isImage {
             Toggle("与上一个模块放在同一行", isOn: $m.joinPrev)

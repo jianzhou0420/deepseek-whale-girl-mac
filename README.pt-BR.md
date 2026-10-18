@@ -19,6 +19,7 @@ Uma garota-baleia do DeepSeek que mora num canto da tela do seu Mac. O balão de
 - **Outros fornecedores**: 34 modelos, com saldos de OpenRouter, Kimi, StepFun e Novita, cotas de assinatura de Zhipu, Kimi Coding, MiniMax e OpenCode Go, e gateways compatíveis com OpenAI. As chaves só vão para o endpoint oficial de cada modelo, a menos que você libere um personalizado.
 - **Estatísticas do Codex**: lê os logs locais de sessões do Codex para contar tokens e janelas de assinatura, sem acesso à rede.
 - **App nativo para Mac**: arraste-a para onde quiser; ela gruda nas bordas da tela e vira de lado quando presa à esquerda. Saldo na barra de menus, abertura automática ao iniciar sessão e chaves de API guardadas no Chaveiro.
+- **Assinaturas e custos de API**: detecta automaticamente o cswap (uso de 5 horas, 7 dias, gasto extra e por modelo de cada conta do Claude), o plano e os tokens do Claude Code e o plano do ChatGPT por trás do Codex. Com uma chave Admin da organização, também mostra os custos das APIs da OpenAI e do Claude.
 
 Não foram portados o custo por turno, o som de fim de tarefa, os avisos de pergunta e aprovação e o módulo de nome da conversa. Eles dependem de eventos internos do DeepSeek Harness, que um app independente não consegue ver.
 

@@ -19,6 +19,7 @@ A DeepSeek whale girl who lives in a corner of your Mac screen. Her speech bubbl
 - **Other vendors**: 34 templates, including balances for OpenRouter, Kimi, StepFun, and Novita, subscription quotas for Zhipu, Kimi Coding, MiniMax, and OpenCode Go, and OpenAI-compatible gateways. Keys only go to each template's official endpoint unless you allow a custom one.
 - **Codex stats**: reads local Codex session logs for token usage and subscription windows, with no network access.
 - **Native Mac app**: drag her anywhere and she snaps to screen edges and flips when snapped left. Balance in the menu bar, launch at login, and API keys stored in the Keychain.
+- **Subscriptions and API costs**: automatically detects cswap (every Claude account's 5-hour, 7-day, extra spend, and per-model usage), your Claude Code plan and token usage, and the ChatGPT plan behind Codex. With an organization Admin key it also shows OpenAI API and Claude API costs.
 
 Per-turn cost, task-end sounds, question and approval prompts, and the session-name module are not ported. They depend on events inside DeepSeek Harness, which a standalone app cannot see.
 

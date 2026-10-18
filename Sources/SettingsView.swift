@@ -4,12 +4,13 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 enum SettingsTab: String, CaseIterable, Identifiable {
-    case general, deepseek, alerts, sound, snap, vendors, resources, about
+    case general, deepseek, subscriptions, alerts, sound, snap, vendors, resources, about
     var id: String { rawValue }
     var title: String {
         switch self {
         case .general: return "通用"
         case .deepseek: return "DeepSeek"
+        case .subscriptions: return "订阅"
         case .alerts: return "提醒"
         case .sound: return "音效"
         case .snap: return "吸附"
@@ -22,6 +23,7 @@ enum SettingsTab: String, CaseIterable, Identifiable {
         switch self {
         case .general: return "gearshape"
         case .deepseek: return "key"
+        case .subscriptions: return "person.2.badge.gearshape"
         case .alerts: return "bell"
         case .sound: return "speaker.wave.2"
         case .snap: return "rectangle.portrait.and.arrow.right"
@@ -52,6 +54,7 @@ struct SettingsView: View {
                 switch ui.tab {
                 case .general: GeneralTab(model: model)
                 case .deepseek: DeepSeekTab(model: model)
+                case .subscriptions: SubscriptionsTab(model: model)
                 case .alerts: AlertsTab(model: model)
                 case .sound: SoundTab(model: model)
                 case .snap: SnapTab(model: model)
@@ -489,6 +492,7 @@ struct VendorsTab: View {
         if m.provider == "codex" { return "今日 " + CodexStats.formatTokens(model.codex.today) + " tokens" }
         guard let st = model.vendorStatus[m.id] else { return m.template?.noBalanceAPI == true ? "无余额接口" : "未获取" }
         if let e = st.error { return "❌ " + e }
+        if let c = st.costMonth { return "本月 " + Money.format(c, currency: "USD") + " · 今天 " + Money.format(st.costToday, currency: "USD") }
         if let b = st.balance { return Money.format(b, currency: st.currency) + (st.stale ? "（旧）" : "") }
         if !st.windows.isEmpty { return st.windows.map { "\($0.label) \($0.usedPct.map { String(format: "%.0f%%", $0) } ?? "—")" }.joined(separator: " · ") }
         return "—"

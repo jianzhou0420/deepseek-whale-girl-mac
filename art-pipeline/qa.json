@@ -1,18 +1,168 @@
 [
   {
+    "coverage" : 0.5387081926272279,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_abacus",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 364
+  },
+  {
+    "coverage" : 0.582448511814474,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_alarm",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 326
+  },
+  {
+    "coverage" : 0.3660171273639456,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 5,
+    "height" : 332,
+    "id" : "gen_anchor",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 448
+  },
+  {
+    "coverage" : 0.5668594676315208,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 6,
+    "height" : 448,
+    "id" : "gen_baby_whale",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 329
+  },
+  {
+    "coverage" : 0.5791266688734414,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 447,
+    "id" : "gen_bento",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 321
+  },
+  {
+    "coverage" : 0.5885367908631343,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_birthday",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 306
+  },
+  {
+    "coverage" : 0.43362990136985435,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_bow",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 413
+  },
+  {
     "coverage" : 0.5982313311626739,
     "edgeTouch" : [
 
     ],
     "fragmentsRemoved" : 0,
-    "height" : 640,
+    "height" : 447,
     "id" : "gen_broke",
     "pass" : true,
     "problems" : [
 
     ],
     "residue" : 0,
-    "width" : 455
+    "width" : 318
+  },
+  {
+    "coverage" : 0.5804944182967416,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_budget_check",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 318
+  },
+  {
+    "coverage" : 0.5830058828909517,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_bug_catch",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 328
+  },
+  {
+    "coverage" : 0.4680691571760044,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 4,
+    "height" : 447,
+    "id" : "gen_bug_run",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 439
   },
   {
     "coverage" : 0.5560340500576545,
@@ -20,14 +170,134 @@
 
     ],
     "fragmentsRemoved" : 8,
-    "height" : 640,
+    "height" : 448,
     "id" : "gen_busy",
     "pass" : true,
     "problems" : [
 
     ],
     "residue" : 0,
-    "width" : 574
+    "width" : 401
+  },
+  {
+    "coverage" : 0.5331701795472287,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_busy_queue",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 349
+  },
+  {
+    "coverage" : 0.5201224798683359,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_bye",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 295
+  },
+  {
+    "coverage" : 0.5207247323827844,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_cake",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 334
+  },
+  {
+    "coverage" : 0.6003613778899595,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_calculator",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 321
+  },
+  {
+    "coverage" : 0.5610979529231953,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 438,
+    "id" : "gen_calendar",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 448
+  },
+  {
+    "coverage" : 0.5863549933862434,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_cheap_tag",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 330
+  },
+  {
+    "coverage" : 0.4972041353944033,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_climb",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 192
+  },
+  {
+    "coverage" : 0.5636774540875021,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_coffee",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 356
   },
   {
     "coverage" : 0.5787988377539957,
@@ -35,38 +305,68 @@
 
     ],
     "fragmentsRemoved" : 0,
-    "height" : 640,
+    "height" : 448,
     "id" : "gen_coin",
     "pass" : true,
     "problems" : [
 
     ],
     "residue" : 0,
-    "width" : 474
+    "width" : 331
   },
   {
-    "coverage" : 0.596108769895423,
+    "coverage" : 0.4887890717706021,
     "edgeTouch" : [
 
     ],
-    "fragmentsRemoved" : 5,
-    "height" : 640,
-    "id" : "gen_nap",
+    "fragmentsRemoved" : 17,
+    "height" : 448,
+    "id" : "gen_coin_rain",
     "pass" : true,
     "problems" : [
 
     ],
     "residue" : 0,
-    "width" : 506
+    "width" : 404
   },
   {
-    "coverage" : 0.6176130943946126,
+    "coverage" : 0.4491990834899467,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 8,
+    "height" : 448,
+    "id" : "gen_coin_stack",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 277
+  },
+  {
+    "coverage" : 0.5559786065916684,
     "edgeTouch" : [
 
     ],
     "fragmentsRemoved" : 2,
-    "height" : 640,
-    "id" : "gen_pat",
+    "height" : 448,
+    "id" : "gen_count_cash",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 384
+  },
+  {
+    "coverage" : 0.4844137000480574,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 4,
+    "height" : 448,
+    "id" : "gen_countdown",
     "pass" : true,
     "problems" : [
 
@@ -75,18 +375,1338 @@
     "width" : 445
   },
   {
+    "coverage" : 0.5594405307153566,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_deploy",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 376
+  },
+  {
+    "coverage" : 0.5548096201081437,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 16,
+    "height" : 448,
+    "id" : "gen_dizzy_stars",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 343
+  },
+  {
+    "coverage" : 0.5361888189889796,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_dragged",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 345
+  },
+  {
+    "coverage" : 0.5767427539206832,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_dried_fish",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 331
+  },
+  {
+    "coverage" : 0.5685054013174752,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_dumplings",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 323
+  },
+  {
+    "coverage" : 0.5731901268077526,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_empty_pockets",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 329
+  },
+  {
+    "coverage" : 0.5403092305832021,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 3,
+    "height" : 448,
+    "id" : "gen_falling",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 426
+  },
+  {
+    "coverage" : 0.5705449953587168,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_fat_fish",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 363
+  },
+  {
+    "coverage" : 0.5569652456329894,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 4,
+    "height" : 448,
+    "id" : "gen_finger_heart",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 321
+  },
+  {
+    "coverage" : 0.4792587801440349,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 105,
+    "height" : 448,
+    "id" : "gen_fireworks",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 381
+  },
+  {
+    "coverage" : 0.5736909510641248,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_fish_slice",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 332
+  },
+  {
+    "coverage" : 0.4569389461470207,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 8,
+    "height" : 413,
+    "id" : "gen_fishing",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 447
+  },
+  {
+    "coverage" : 0.557510708422313,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 399,
+    "id" : "gen_float",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 448
+  },
+  {
+    "coverage" : 0.5438197159148669,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 7,
+    "height" : 448,
+    "id" : "gen_gloomy",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 405
+  },
+  {
+    "coverage" : 0.5674513168811258,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_good_job",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 343
+  },
+  {
+    "coverage" : 0.5639785816300398,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 447,
+    "id" : "gen_green_paddle",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 342
+  },
+  {
+    "coverage" : 0.5391153288729179,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_hang",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 310
+  },
+  {
+    "coverage" : 0.5454181416931471,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 4,
+    "height" : 448,
+    "id" : "gen_hello",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 339
+  },
+  {
+    "coverage" : 0.5736399717594978,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_hide_face",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 336
+  },
+  {
+    "coverage" : 0.5380390906011,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_hotpot",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 443
+  },
+  {
+    "coverage" : 0.5782172234543129,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_hourglass",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 369
+  },
+  {
+    "coverage" : 0.5580876952012043,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_hug",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 331
+  },
+  {
+    "coverage" : 0.5833068798814885,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 447,
+    "id" : "gen_icecream",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 334
+  },
+  {
+    "coverage" : 0.5875536291281956,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_jump",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 374
+  },
+  {
+    "coverage" : 0.502581571106751,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 16,
+    "height" : 398,
+    "id" : "gen_landing",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 448
+  },
+  {
+    "coverage" : 0.5585845616898736,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_lantern",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 344
+  },
+  {
+    "coverage" : 0.5894492562605912,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_laptop",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 372
+  },
+  {
+    "coverage" : 0.5833695050036811,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 447,
+    "id" : "gen_laugh",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 336
+  },
+  {
+    "coverage" : 0.44701643318965517,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 169,
+    "id" : "gen_lie_flat",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 448
+  },
+  {
+    "coverage" : 0.4625534188034188,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 129,
+    "height" : 448,
+    "id" : "gen_magic",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 388
+  },
+  {
+    "coverage" : 0.5871559449110919,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_meeting_sleep",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 309
+  },
+  {
+    "coverage" : 0.5025462390414159,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_merge_conflict",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 421
+  },
+  {
+    "coverage" : 0.5909142355418671,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_message_bottle",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 320
+  },
+  {
+    "coverage" : 0.5907415542930327,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_milktea",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 339
+  },
+  {
+    "coverage" : 0.5745578975769786,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_mooncake",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 332
+  },
+  {
+    "coverage" : 0.596108769895423,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 5,
+    "height" : 447,
+    "id" : "gen_nap",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 354
+  },
+  {
+    "coverage" : 0.5616564263440051,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 3,
+    "height" : 444,
+    "id" : "gen_night_owl",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 448
+  },
+  {
+    "coverage" : 0.5783333810655745,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_noodles",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 334
+  },
+  {
+    "coverage" : 0.5726812526074484,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_ok_sign",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 325
+  },
+  {
+    "coverage" : 0.5162108195332149,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 19,
+    "height" : 447,
+    "id" : "gen_open_gift",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 416
+  },
+  {
+    "coverage" : 0.4586540596867046,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 403,
+    "id" : "gen_overtime_faint",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 448
+  },
+  {
+    "coverage" : 0.6176130943946126,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_pat",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 311
+  },
+  {
+    "coverage" : 0.48478474930087834,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 5,
+    "height" : 448,
+    "id" : "gen_peak",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 415
+  },
+  {
+    "coverage" : 0.6563722916602327,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_peek_side",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 313
+  },
+  {
+    "coverage" : 0.5764309970655458,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_piggy",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 332
+  },
+  {
+    "coverage" : 0.5849070945945946,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_pout",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 323
+  },
+  {
+    "coverage" : 0.5961200709656138,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_question",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 313
+  },
+  {
+    "coverage" : 0.5730295720539623,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_receipt",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 296
+  },
+  {
+    "coverage" : 0.5781197683721553,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_red_envelope",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 331
+  },
+  {
+    "coverage" : 0.5824251525881429,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_red_paddle",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 337
+  },
+  {
     "coverage" : 0.5734821550663203,
     "edgeTouch" : [
 
     ],
     "fragmentsRemoved" : 2,
-    "height" : 640,
+    "height" : 448,
     "id" : "gen_rice",
     "pass" : true,
     "problems" : [
 
     ],
     "residue" : 0,
-    "width" : 514
+    "width" : 360
+  },
+  {
+    "coverage" : 0.5840253199296199,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_rice_guard",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 341
+  },
+  {
+    "coverage" : 0.5922003540560241,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_rice_refill",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 337
+  },
+  {
+    "coverage" : 0.5615173695713899,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_salute",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 332
+  },
+  {
+    "coverage" : 0.596760514424748,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_santa",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 317
+  },
+  {
+    "coverage" : 0.5856559391899557,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_seashell",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 308
+  },
+  {
+    "coverage" : 0.47427173583363,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_shock",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 396
+  },
+  {
+    "coverage" : 0.5254094651806892,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_shopping_bags",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 380
+  },
+  {
+    "coverage" : 0.5723072984897081,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 4,
+    "height" : 448,
+    "id" : "gen_sing",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 332
+  },
+  {
+    "coverage" : 0.4990826820810857,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_sit_edge",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 334
+  },
+  {
+    "coverage" : 0.5911052326449279,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_slack_phone",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 317
+  },
+  {
+    "coverage" : 0.5750874477400165,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 5,
+    "height" : 448,
+    "id" : "gen_smug",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 338
+  },
+  {
+    "coverage" : 0.5474910309667673,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_snorkel",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 347
+  },
+  {
+    "coverage" : 0.6044498672701529,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_snowman",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 357
+  },
+  {
+    "coverage" : 0.5702854667376648,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 13,
+    "height" : 448,
+    "id" : "gen_sorry",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 323
+  },
+  {
+    "coverage" : 0.42451916231792547,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 15,
+    "height" : 448,
+    "id" : "gen_spin",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 431
+  },
+  {
+    "coverage" : 0.49779925886120574,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 7,
+    "height" : 448,
+    "id" : "gen_spout",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 280
+  },
+  {
+    "coverage" : 0.5805085969192568,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_starfish",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 330
+  },
+  {
+    "coverage" : 0.6176115612274884,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_still_can",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 323
+  },
+  {
+    "coverage" : 0.578462010635123,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 3,
+    "height" : 448,
+    "id" : "gen_summer_fan",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 327
+  },
+  {
+    "coverage" : 0.5616935086682427,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 3,
+    "height" : 448,
+    "id" : "gen_sunrise",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 316
+  },
+  {
+    "coverage" : 0.5884931234465617,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 32,
+    "height" : 448,
+    "id" : "gen_surf",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 432
+  },
+  {
+    "coverage" : 0.5153495909862633,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 15,
+    "height" : 332,
+    "id" : "gen_swim",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 448
+  },
+  {
+    "coverage" : 0.5939402463093446,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_tea",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 314
+  },
+  {
+    "coverage" : 0.5799855392182733,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_thanks",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 317
+  },
+  {
+    "coverage" : 0.5140789534294532,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_think_gears",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 298
+  },
+  {
+    "coverage" : 0.5323928104575163,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_think_long",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 421
+  },
+  {
+    "coverage" : 0.5582116503661125,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_thumbs",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 343
+  },
+  {
+    "coverage" : 0.5785542168674699,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_tip_jar",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 320
+  },
+  {
+    "coverage" : 0.5427775788865441,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 448,
+    "id" : "gen_topup_button",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 346
+  },
+  {
+    "coverage" : 0.5192068515216972,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 3,
+    "height" : 448,
+    "id" : "gen_treasure_chest",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 382
+  },
+  {
+    "coverage" : 0.5698652712055855,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_tsundere",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 309
+  },
+  {
+    "coverage" : 0.5532486460736364,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 13,
+    "height" : 448,
+    "id" : "gen_umbrella",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 322
+  },
+  {
+    "coverage" : 0.5526923552230134,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 9,
+    "height" : 448,
+    "id" : "gen_wail",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 346
+  },
+  {
+    "coverage" : 0.5723887392617789,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 3,
+    "height" : 448,
+    "id" : "gen_watermelon",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 349
+  },
+  {
+    "coverage" : 0.5457409623261079,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 25,
+    "height" : 448,
+    "id" : "gen_weekend",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 340
+  },
+  {
+    "coverage" : 0.5400189492571988,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 448,
+    "id" : "gen_worker",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 362
+  },
+  {
+    "coverage" : 0.5766833238885168,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 7,
+    "height" : 448,
+    "id" : "gen_wristwatch",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 305
+  },
+  {
+    "coverage" : 0.6014388049981684,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 1,
+    "height" : 448,
+    "id" : "gen_zongzi",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 330
   }
 ]

@@ -1,7 +1,7 @@
 // Art asset pipeline: generate character images with Codex CLI (ChatGPT plan, built-in image
 // generation), key out the background, clean up, run quality checks, install into the app.
 //
-//   ./art.sh all                 generate missing images, process, retry failures, install, preview
+//   ./art.sh all [--jobs N]      generate missing images (N at a time), process, retry failures, install, preview
 //   ./art.sh generate [ids…]     generate (or with --force, regenerate) raw images
 //   ./art.sh process [ids…]      key out background + QA for raw images
 //   ./art.sh install             copy passing images into assets/generated + manifest
@@ -43,7 +43,7 @@ func loadManifest() -> Manifest {
 
 // MARK: - Generation via Codex CLI
 
-func generate(_ a: AssetSpec, _ m: Manifest, attempt: Int) -> Bool {
+func generate(_ a: AssetSpec, _ m: Manifest, attempt: Int, allowFallback: Bool = true) -> Bool {
     let work = FileManager.default.temporaryDirectory.appendingPathComponent("artgen-\(a.id)-\(UUID().uuidString.prefix(6))")
     try? FileManager.default.createDirectory(at: work, withIntermediateDirectories: true)
     let ref = work.appendingPathComponent("reference.png")
@@ -70,11 +70,11 @@ func generate(_ a: AssetSpec, _ m: Manifest, attempt: Int) -> Bool {
     p.standardError = FileHandle.nullDevice
     p.standardInput = FileHandle.nullDevice
     let start = Date()
-    print("  generating \(a.id) (\(a.name)) …", terminator: ""); fflush(stdout)
+    if allowFallback { print("  generating \(a.id) (\(a.name)) …", terminator: ""); fflush(stdout) }
     do { try p.run() } catch { print(" failed to start codex: \(error)"); return false }
     p.waitUntilExit()
     var result = work.appendingPathComponent(out)
-    if !FileManager.default.fileExists(atPath: result.path) {
+    if !FileManager.default.fileExists(atPath: result.path) && allowFallback {
         // Fall back to the newest file Codex wrote to ~/.codex/generated_images during this run.
         let gen = URL(fileURLWithPath: NSHomeDirectory() + "/.codex/generated_images")
         let files = (FileManager.default.enumerator(at: gen, includingPropertiesForKeys: [.contentModificationDateKey])?
@@ -86,12 +86,14 @@ func generate(_ a: AssetSpec, _ m: Manifest, attempt: Int) -> Bool {
         if let f = fresh { result = f.0 }
     }
     guard FileManager.default.fileExists(atPath: result.path) else {
-        print(" no image produced (exit \(p.terminationStatus)), see logs/\(a.id)-\(attempt).jsonl"); return false
+        print("  \(a.id): no image produced (exit \(p.terminationStatus)), see logs/\(a.id)-\(attempt).jsonl"); return false
     }
     let dest = path("raw/\(a.id).png")
     try? FileManager.default.removeItem(at: dest)
     try? FileManager.default.copyItem(at: result, to: dest)
-    print(String(format: " done in %.0fs", Date().timeIntervalSince(start)))
+    let secs = Date().timeIntervalSince(start)
+    if allowFallback { print(String(format: " done in %.0fs", secs)) }
+    else { print(String(format: "  generated \(a.id) (\(a.name)) in %.0fs", secs)); fflush(stdout) }
     return true
 }
 
@@ -246,7 +248,7 @@ func process(_ id: String, allowEdges: [String] = []) -> QAResult? {
         let si = ((y + cy0) * im.w + (x + cx0)) * 4, di = (y * cw + x) * 4
         crop[di] = im.px[si]; crop[di + 1] = im.px[si + 1]; crop[di + 2] = im.px[si + 2]; crop[di + 3] = im.px[si + 3]
     } }
-    let out = scaled(RGBA(w: cw, h: ch, px: crop), maxSide: 640)
+    let out = scaled(RGBA(w: cw, h: ch, px: crop), maxSide: 448)
     save(out, path("processed/\(id).png"))
 
     let coverage = Double(opaque) / Double(cw * ch)
@@ -330,11 +332,33 @@ let args = Array(CommandLine.arguments.dropFirst())
 let cmd = args.first ?? "all"
 let force = args.contains("--force")
 var retries = 1
+var jobs = 1
+if let i = args.firstIndex(of: "--jobs"), i + 1 < args.count, let j = Int(args[i + 1]) { jobs = max(1, min(6, j)) }
 if let i = args.firstIndex(of: "--retries"), i + 1 < args.count, let r = Int(args[i + 1]) { retries = r }
 let manifest = loadManifest()
 let wanted = Set(args.dropFirst().filter { !$0.hasPrefix("--") && Int($0) == nil })
 let selected = manifest.assets.filter { wanted.isEmpty || wanted.contains($0.id) }
 var qa = loadQA()
+
+/// Generate several assets, `jobs` at a time. With jobs > 1 the "newest file" fallback is off,
+/// so one run can never pick up another run's image.
+func generateMany(_ list: [AssetSpec], attempt: Int) {
+    if jobs <= 1 { for a in list { _ = generate(a, manifest, attempt: attempt) }; return }
+    let sem = DispatchSemaphore(value: jobs)
+    let group = DispatchGroup()
+    var done = 0
+    let lock = NSLock()
+    for a in list {
+        sem.wait(); group.enter()
+        DispatchQueue.global().async {
+            _ = generate(a, manifest, attempt: attempt, allowFallback: false)
+            lock.lock(); done += 1; let n = done; lock.unlock()
+            print("    progress \(n)/\(list.count)"); fflush(stdout)
+            sem.signal(); group.leave()
+        }
+    }
+    group.wait()
+}
 
 func runProcess(_ ids: [String]) {
     for id in ids {
@@ -358,22 +382,23 @@ case "install":
 case "preview":
     preview(manifest, qa)
 case "all":
-    print("1/4 generate")
-    for a in selected where force || !FileManager.default.fileExists(atPath: path("raw/\(a.id).png").path) {
-        _ = generate(a, manifest, attempt: 0)
-    }
+    let todo = selected.filter { force || !FileManager.default.fileExists(atPath: path("raw/\($0.id).png").path) }
+    print("1/4 generate \(todo.count) image(s), \(jobs) at a time")
+    generateMany(todo, attempt: 0)
     print("2/4 process + QA")
     runProcess(selected.map(\.id))
     print("3/4 retry failures (up to \(retries) time(s) each)")
-    for a in selected where qa[a.id]?.pass != true {
-        for attempt in 1...max(1, retries) where retries > 0 {
-            if generate(a, manifest, attempt: attempt) { runProcess([a.id]) }
-            if qa[a.id]?.pass == true { break }
+    if retries > 0 {
+        for attempt in 1...retries {
+            let failed = selected.filter { qa[$0.id]?.pass != true }
+            if failed.isEmpty { break }
+            generateMany(failed, attempt: attempt)
+            runProcess(failed.map(\.id))
         }
     }
     print("4/4 install + preview")
     install(manifest, qa)
     preview(manifest, qa)
 default:
-    print("usage: ./art.sh [all|generate|process|install|preview] [ids…] [--force] [--retries N]")
+    print("usage: ./art.sh [all|generate|process|install|preview] [ids…] [--force] [--retries N] [--jobs N]")
 }

@@ -19,6 +19,7 @@
 - **其它厂商**：34 个模板，包括 OpenRouter、Kimi、阶跃、Novita 的余额，智谱、Kimi Coding、MiniMax、OpenCode Go 的订阅额度，以及 OpenAI 兼容中转站。密钥只会发往模板里的官方接口，自定义地址需要你手动允许。
 - **Codex 统计**：读取本机 Codex 会话日志，统计 token 用量和订阅窗口，不联网。
 - **Mac 原生**：随意拖动，松手吸附屏幕边缘，贴左时自动翻转；菜单栏显示余额，开机自动启动，密钥保存在钥匙串。
+- **订阅与 API 费用**：自动识别本机的 cswap（显示每个 Claude 账号的 5 小时、7 天、额外用量和各模型额度）、Claude Code 的订阅和 token 用量，以及 Codex 背后的 ChatGPT 订阅。填入组织的 Admin Key 后还能显示 OpenAI API 和 Claude API 的费用。
 
 没有移植的功能：每轮对话消耗、任务结束音、提问 / 授权提示、对话名模块。它们依赖 DeepSeek Harness 内部的会话事件，独立应用拿不到。
 
