@@ -1,0 +1,13 @@
+{
+  "character": "the exact same chibi whale maid girl as in the attached reference image: same face, big blue eyes, long wavy blue hair fading to light blue, white maid headband with a small blue bow, dark whale-fin ears, navy maid dress with white frilled apron and a small whale emblem, navy shoes, dark blue whale tail",
+  "style": "same anime chibi art style and line quality as the reference, full body visible with generous margin on all sides, centered, single character only",
+  "background": "#FF00FF",
+  "assets": [
+    { "id": "gen_coin",  "name": "鲸鱼娘·捧金币",   "pose": "happily holding up a shiny gold coin with both hands, sparkling eyes" },
+    { "id": "gen_broke", "name": "鲸鱼娘·钱包空了", "pose": "sadly holding an open, empty wallet upside down, teary eyes, one small moth fluttering out of the wallet" },
+    { "id": "gen_rice",  "name": "鲸鱼娘·吃白饭",   "pose": "sitting and eating from a big bowl of plain white rice with chopsticks, cheeks puffed full, content expression" },
+    { "id": "gen_pat",   "name": "鲸鱼娘·摸摸头",   "pose": "eyes closed blissfully and blushing while a cartoon hand coming from the top edge pats her head", "allowEdges": ["top"] },
+    { "id": "gen_busy",  "name": "鲸鱼娘·服务器繁忙", "pose": "flustered and sweating with dizzy swirl eyes, surrounded by many small floating speech bubbles" },
+    { "id": "gen_nap",   "name": "鲸鱼娘·打盹",     "pose": "sitting and dozing peacefully while hugging a small blue whale plushie, a tiny snot bubble at her nose" }
+  ]
+}

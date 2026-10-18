@@ -1,0 +1,32 @@
+[
+  {
+    "file" : "gen_coin.png",
+    "id" : "gen_coin",
+    "name" : "鲸鱼娘·捧金币"
+  },
+  {
+    "file" : "gen_broke.png",
+    "id" : "gen_broke",
+    "name" : "鲸鱼娘·钱包空了"
+  },
+  {
+    "file" : "gen_rice.png",
+    "id" : "gen_rice",
+    "name" : "鲸鱼娘·吃白饭"
+  },
+  {
+    "file" : "gen_pat.png",
+    "id" : "gen_pat",
+    "name" : "鲸鱼娘·摸摸头"
+  },
+  {
+    "file" : "gen_busy.png",
+    "id" : "gen_busy",
+    "name" : "鲸鱼娘·服务器繁忙"
+  },
+  {
+    "file" : "gen_nap.png",
+    "id" : "gen_nap",
+    "name" : "鲸鱼娘·打盹"
+  }
+]

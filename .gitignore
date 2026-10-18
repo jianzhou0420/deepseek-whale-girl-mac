@@ -1,4 +1,7 @@
-WhaleGirl.app/
+WhaleBalance.app/
 dist/
 .DS_Store
-WhaleGirl/
+art-pipeline/.build/
+art-pipeline/raw/
+art-pipeline/processed/
+art-pipeline/logs/

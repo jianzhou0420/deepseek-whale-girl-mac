@@ -1,12 +1,26 @@
-# 🐳 DeepSeek Whale Girl · macOS Desktop Pet
+# 🐋 WhaleBalance · DeepSeek Balance Whale for macOS
 
 [简体中文](README.md) · **English** · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português](README.pt-BR.md) · [Русский](README.ru.md)
 
-A DeepSeek whale girl who lives at the bottom of your Mac screen. She runs around, watches your cursor, talks when you click her, cries when you pick her up, and does some "deep thinking" when she gets bored. Sometimes she holds up a sign with "区" on it and asks what "凶" means.
+A DeepSeek whale girl who lives in a corner of your Mac screen. Her speech bubble shows your DeepSeek balance, today's spending, and a countdown to the next peak / off-peak switch. It is a native Mac port of the [DSH balance whale widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) and does not need DeepSeek Harness.
 
 ![Preview](docs/preview.png)
 
 > This is an unofficial fan project. It is not affiliated with or endorsed by DeepSeek.
+
+## Features
+
+- **Balance**: checks your DeepSeek balance with your API key, refreshes every 60 seconds, and refreshes when you click her. Total, granted, and topped-up balances are all available.
+- **Today's spending**: adds up balance drops as spending. Top-ups are recorded separately and never cancel spending, and you can correct any day by hand. Each API key gets its own ledger.
+- **Ledger window**: today, the last 7 days, or all records, with per-entry details, search by date or model, and a spending breakdown.
+- **Peak / off-peak**: weekdays 9–12 and 14–18 Beijing time are peak; weekends and Chinese public holidays are off-peak. Five display styles, including a live countdown.
+- **Custom bubbles**: a click sequence, weighted A/B choices, and modules for text, links, random lines, images, balance, today's spending, peak status, other vendors, and Codex usage. Each module has its own size, colors, animated gradient, and font.
+- **Alerts**: low-balance and daily-budget alerts with editable content.
+- **Other vendors**: 34 templates, including balances for OpenRouter, Kimi, StepFun, and Novita, subscription quotas for Zhipu, Kimi Coding, MiniMax, and OpenCode Go, and OpenAI-compatible gateways. Keys only go to each template's official endpoint unless you allow a custom one.
+- **Codex stats**: reads local Codex session logs for token usage and subscription windows, with no network access.
+- **Native Mac app**: drag her anywhere and she snaps to screen edges and flips when snapped left. Balance in the menu bar, launch at login, and API keys stored in the Keychain.
+
+Per-turn cost, task-end sounds, question and approval prompts, and the session-name module are not ported. They depend on events inside DeepSeek Harness, which a standalone app cannot see.
 
 ## Install
 
@@ -24,13 +38,13 @@ It installs the app into `~/Applications` and launches it.
 
 ### Option 2: download manually
 
-1. Download `WhaleGirl-macOS.zip` from [Releases](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/latest) and double-click it to unzip.
-2. Drag `WhaleGirl.app` into your Applications folder.
+1. Download `WhaleBalance-macOS.zip` from [Releases](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/latest) and double-click it to unzip.
+2. Drag `WhaleBalance.app` into your Applications folder.
 3. The first time you open it, macOS will say it can't verify the developer, because the app isn't notarized. To open it anyway:
-   - **Right-click** `WhaleGirl.app`, choose **Open**, then click **Open** again.
+   - **Right-click** `WhaleBalance.app`, choose **Open**, then click **Open** again.
    - If it still won't open, run this in Terminal:
      ```bash
-     xattr -dr com.apple.quarantine /Applications/WhaleGirl.app
+     xattr -dr com.apple.quarantine /Applications/WhaleBalance.app
      ```
 
 ### Option 3: build from source
@@ -41,41 +55,38 @@ You need Xcode or the Xcode Command Line Tools (run `xcode-select --install` if 
 git clone https://github.com/jianzhou0420/deepseek-whale-girl-mac.git
 cd deepseek-whale-girl-mac
 ./build.sh
-open WhaleGirl.app
+open WhaleBalance.app
 ```
 
-## How to play
+On first launch the settings window opens. Paste your DeepSeek API key and click Save. The key is stored only in the macOS Keychain.
 
-She speaks Chinese. Her lines are DeepSeek in-jokes, such as "服务器繁忙，请稍后再试" ("The server is busy, please try again later").
+## How to use
 
 | You | She |
 |---|---|
-| Move the mouse | Turns her head toward the cursor (16 directions) |
-| Click her | Waves, hops, says something, or starts "deep thinking" |
-| Drag her | Cries "put me down!" and falls back to the ground when you let go |
-| Right-click her, or click 🐳 in the menu bar | Menu: talk, think, hold up the sign, sleep, move to the center, quit |
-| Leave her alone | Wanders around, daydreams, naps, and holds up her sign |
+| Click her | Refreshes the balance and shows the balance bubble |
+| Click the bubble | Shows the next item (random lines and images) and closes after the last one |
+| Drag her | Moves her; she snaps to the nearest edge when you let go |
+| Right-click her, the ⋯ button, or 🐳 in the menu bar | Menu: size, sounds, bubbles, snapping, ledger, settings, quit |
 
-She won't get in your way. Clicks on the transparent area around her go straight through to the window behind.
+## Art pipeline
 
-**Quit**: Click 🐳 in the menu bar and choose 退出鲸鱼娘 (Quit). The app has no Dock icon, so ⌘Q doesn't work.
+`art-pipeline/` generates new whale-girl poses with the image generation built into Codex CLI, using your ChatGPT plan instead of an API key. It keys out the background, cleans the edges, checks each image for problems, regenerates failures, and installs the results into the app's built-in gallery. List new poses in `art-pipeline/assets.json`, then run:
 
-**Open again**: Search for `WhaleGirl` in Spotlight (⌘ Space).
+```bash
+codex login
+./art.sh all
+```
 
-**Uninstall**: Quit her, then move `WhaleGirl.app` to the Trash.
+Each image takes about 40 seconds. Image generation uses Codex limits 3–5 times faster than text.
 
-## Make her your own
+![Images made by the art pipeline](docs/generated-art.png)
 
-All the code is in a single file, [`main.swift`](main.swift):
-
-- Everything she says, plus the menu text, is in `enum Lines`.
-- The animation frames each state uses are in `struct Anim`.
-- How often she walks, sleeps, and talks is set in `decide()`.
-
-Run `./build.sh` again after making changes.
+Looking for the walking desktop pet from the first version? It is still available in the [v0.0.1 release](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/tag/v0.0.1).
 
 ## Credits and license
 
-- Character animation atlas by [f0909172434/deepseek-girl-codex-pet](https://github.com/f0909172434/deepseek-girl-codex-pet) (MIT License). See [`assets/SOURCE.md`](assets/SOURCE.md) and [`assets/LICENSE`](assets/LICENSE).
+- Features, accounting rules, vendor templates, and default lines are ported from [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) (MIT). Its images and sounds are not MIT licensed and are not used here.
+- Character art by [f0909172434/deepseek-girl-codex-pet](https://github.com/f0909172434/deepseek-girl-codex-pet) (MIT).
+- The images in `assets/generated` were made by the art pipeline with OpenAI's gpt-image-2, using that character as the reference. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 - The code in this project is released under the [MIT License](LICENSE).
-- The DeepSeek name and logo belong to their respective owners.

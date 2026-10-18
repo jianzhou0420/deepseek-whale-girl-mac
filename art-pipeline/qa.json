@@ -1,0 +1,92 @@
+[
+  {
+    "coverage" : 0.5982313311626739,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 640,
+    "id" : "gen_broke",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 455
+  },
+  {
+    "coverage" : 0.5560340500576545,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 8,
+    "height" : 640,
+    "id" : "gen_busy",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 574
+  },
+  {
+    "coverage" : 0.5787988377539957,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 0,
+    "height" : 640,
+    "id" : "gen_coin",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 474
+  },
+  {
+    "coverage" : 0.596108769895423,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 5,
+    "height" : 640,
+    "id" : "gen_nap",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 506
+  },
+  {
+    "coverage" : 0.6176130943946126,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 640,
+    "id" : "gen_pat",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 445
+  },
+  {
+    "coverage" : 0.5734821550663203,
+    "edgeTouch" : [
+
+    ],
+    "fragmentsRemoved" : 2,
+    "height" : 640,
+    "id" : "gen_rice",
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "residue" : 0,
+    "width" : 514
+  }
+]

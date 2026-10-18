@@ -1,12 +1,26 @@
-# 🐳 DeepSeek クジラ娘 · Mac デスクトップマスコット
+# 🐋 WhaleBalance · DeepSeek 残高クジラ（Mac ネイティブ版）
 
 [简体中文](README.md) · [English](README.en.md) · [繁體中文](README.zh-TW.md) · **日本語** · [한국어](README.ko.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português](README.pt-BR.md) · [Русский](README.ru.md)
 
-Mac の画面の下に住んでいる、DeepSeek のクジラ娘です。走り回ったり、マウスカーソルを目で追ったり、クリックするとおしゃべりしたり、つまみ上げると泣いたり、ヒマなときは「深く考え」たりします。「区」と書かれた札を持って、「凶」ってどういう意味？と聞いてくることもあります。
+Mac の画面の隅に住む DeepSeek のクジラ娘です。吹き出しに DeepSeek の残高、今日の利用額、ピーク / オフピーク切り替えまでのカウントダウンを表示します。[DSH 残高クジラウィジェット](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) の Mac ネイティブ移植版で、DeepSeek Harness は不要です。
 
 ![プレビュー](docs/preview.png)
 
 > これはファンによる非公式プロジェクトです。DeepSeek とは関係がなく、公認も受けていません。
+
+## 機能
+
+- **残高**：DeepSeek の API キーで残高を取得し、60 秒ごとに自動更新、キャラをクリックすると即更新します。合計残高・付与分・チャージ分を個別に表示できます。
+- **今日の利用額**：残高の減少分を利用額として積み上げます。チャージは別に記録されて利用額を打ち消さず、どの日も手動で補正できます。API キーごとに別の帳簿になります。
+- **帳簿ウィンドウ**：今日・直近 7 日・全記録。日付ごとの明細、日付やモデル名での検索、利用内訳グラフつき。
+- **ピーク / オフピーク**：平日 9–12 時と 14–18 時（北京時間）がピーク、週末と中国の祝日は終日オフピーク。秒単位のカウントダウンを含む 5 種類の表示スタイル。
+- **吹き出しのカスタマイズ**：クリック順のシーケンス、重み付き A/B 抽選。テキスト・リンク・ランダムなセリフ・画像・残高・今日の利用額・ピーク状態・他社・Codex 使用量のモジュールがあり、それぞれ文字サイズ・色・流れるグラデーション・フォントを設定できます。
+- **アラート**：残高不足と今日の予算のアラート。内容は自由に編集できます。
+- **他社サービス**：34 種類のテンプレート。OpenRouter・Kimi・StepFun・Novita の残高、智譜・Kimi Coding・MiniMax・OpenCode Go のサブスク枠、OpenAI 互換ゲートウェイに対応。キーは各テンプレートの公式エンドポイントにだけ送られ、独自 URL は手動で許可が必要です。
+- **Codex 統計**：ローカルの Codex セッションログからトークン使用量とサブスク枠を集計します。通信はしません。
+- **Mac ネイティブ**：ドラッグで自由に動かせて画面の端に吸着、左端では左右反転。メニューバーに残高表示、ログイン時に自動起動、API キーはキーチェーンに保存。
+
+移植していない機能：ターンごとのコスト、タスク終了音、質問 / 承認の通知、会話名モジュール。これらは DeepSeek Harness 内部のイベントに依存しており、単体アプリからは取得できません。
 
 ## インストール
 
@@ -24,13 +38,13 @@ curl -fsSL https://raw.githubusercontent.com/jianzhou0420/deepseek-whale-girl-ma
 
 ### 方法 2：手動でダウンロード
 
-1. [Releases](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/latest) から `WhaleGirl-macOS.zip` をダウンロードし、ダブルクリックで展開します。
-2. `WhaleGirl.app` を「アプリケーション」フォルダにドラッグします。
+1. [Releases](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/latest) から `WhaleBalance-macOS.zip` をダウンロードし、ダブルクリックで展開します。
+2. `WhaleBalance.app` を「アプリケーション」フォルダにドラッグします。
 3. 初めて開くとき、アプリが公証されていないため、macOS が「開発元を確認できません」と表示します。次の方法で開けます。
-   - `WhaleGirl.app` を**右クリック**して「開く」を選び、もう一度「開く」をクリックします。
+   - `WhaleBalance.app` を**右クリック**して「開く」を選び、もう一度「開く」をクリックします。
    - それでも開けない場合は、ターミナルで次を実行します。
      ```bash
-     xattr -dr com.apple.quarantine /Applications/WhaleGirl.app
+     xattr -dr com.apple.quarantine /Applications/WhaleBalance.app
      ```
 
 ### 方法 3：ソースからビルド
@@ -41,41 +55,38 @@ Xcode または Xcode コマンドラインツールが必要です（ない場�
 git clone https://github.com/jianzhou0420/deepseek-whale-girl-mac.git
 cd deepseek-whale-girl-mac
 ./build.sh
-open WhaleGirl.app
+open WhaleBalance.app
 ```
 
-## 遊び方
+初回起動時に設定ウィンドウが開きます。DeepSeek の API キーを貼り付けて保存してください。キーは macOS のキーチェーンにだけ保存されます。
 
-セリフは中国語です。DeepSeek ネタが中心で、たとえば「服务器繁忙，请稍后再试」（サーバーが混み合っています。しばらくしてから再度お試しください）などと言います。
+## 使い方
 
-| あなたの操作 | 彼女の反応 |
+| 操作 | 動作 |
 |---|---|
-| マウスを動かす | カーソルのほうを向く（16 方向） |
-| クリックする | 手を振る、跳ねる、しゃべる、または「深く考え」はじめる |
-| ドラッグする | 「おろして〜！」と泣き、離すと地面に落ちる |
-| 右クリック、またはメニューバーの 🐳 | メニュー：しゃべる、考える、札を掲げる、寝る、画面の中央に戻る、終了 |
-| 何もしない | 歩き回ったり、ぼーっとしたり、昼寝したり、札を掲げたりする |
+| キャラをクリック | 残高を更新して残高の吹き出しを表示 |
+| 吹き出しをクリック | 次の項目（ランダムなセリフと画像）を表示、最後の項目のあとで閉じる |
+| キャラをドラッグ | 位置を移動、離すと近くの端に吸着 |
+| キャラを右クリック、⋯ ボタン、またはメニューバーの 🐳 | メニュー：サイズ、効果音、吹き出し、吸着、帳簿、設定、終了 |
 
-作業のじゃまはしません。彼女の体以外の透明な部分をクリックすると、後ろのウインドウにそのまま届きます。
+## アート素材パイプライン
 
-**終了**：メニューバーの 🐳 から「退出鲸鱼娘」（終了）を選びます。Dock アイコンがないので ⌘Q は効きません。
+`art-pipeline/` は Codex CLI に内蔵された画像生成で、クジラ娘の新しいポーズをまとめて生成します。API キーではなく ChatGPT のサブスク枠を使います。背景の除去、輪郭の整理、1 枚ずつの品質チェック、不合格分の再生成を自動で行い、合格した画像をアプリの内蔵ギャラリーに組み込みます。`art-pipeline/assets.json` に新しいポーズを書いて、次を実行します。
 
-**もう一度開く**：Spotlight（⌘ + スペース）で `WhaleGirl` を検索します。
+```bash
+codex login
+./art.sh all
+```
 
-**アンインストール**：終了してから `WhaleGirl.app` をゴミ箱に入れるだけです。
+1 枚あたり約 40 秒です。画像生成はテキストより 3–5 倍速く Codex の利用枠を消費します。
 
-## カスタマイズ
+![パイプラインで生成した画像](docs/generated-art.png)
 
-コードはすべて [`main.swift`](main.swift) の 1 ファイルにあります。
-
-- セリフとメニューの文字は `enum Lines` にあります。
-- 各状態で使うアニメーションのコマは `struct Anim` にあります。
-- 歩く・寝る・しゃべる頻度は `decide()` で決めています。
-
-変更したら `./build.sh` をもう一度実行してください。
+最初のバージョンの歩き回るデスクトップマスコットをお探しですか？ [v0.0.1 リリース](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/tag/v0.0.1) から入手できます。
 
 ## クレジットとライセンス
 
-- キャラクターのアニメーション素材は [f0909172434/deepseek-girl-codex-pet](https://github.com/f0909172434/deepseek-girl-codex-pet)（MIT ライセンス）によるものです。詳しくは [`assets/SOURCE.md`](assets/SOURCE.md) と [`assets/LICENSE`](assets/LICENSE) をご覧ください。
+- 機能設計、帳簿のルール、ベンダーテンプレート、デフォルトのセリフは [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget)（MIT）から移植しました。元プロジェクトの画像と効果音は MIT の対象外のため使用していません。
+- キャラクターのアートは [f0909172434/deepseek-girl-codex-pet](https://github.com/f0909172434/deepseek-girl-codex-pet)（MIT）によるものです。
+- `assets/generated` の画像は、上記のキャラクターを参考にアートパイプラインが OpenAI の gpt-image-2 で生成したものです。詳しくは [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) をご覧ください。
 - このプロジェクトのコードは [MIT ライセンス](LICENSE) で公開しています。
-- 「DeepSeek」の名称とロゴは各権利者に帰属します。
