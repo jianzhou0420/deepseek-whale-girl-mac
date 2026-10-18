@@ -237,7 +237,9 @@ enum BubbleDefaults {
         count.size = 4; count.bold = true; count.peakStyle = "count"; count.tpl = "{countdown}"
         count.peakColor = "#e0433f"; count.offColor = "#2fa24c"; count.peakRgb = "rouge"; count.offRgb = "bamboo"
         count.joinPrev = true
-        return BubbleItem(name: "余额", modules: [title, bal, today, mini, count])
+        var subs = BubbleModule(type: .subscription)
+        subs.window = "overview"; subs.tpl = "{sub_all}"; subs.size = 4
+        return BubbleItem(name: "余额", modules: [title, bal, today, mini, count, subs])
     }
 
     static let randomLines: [RandomLine] = [

@@ -388,3 +388,11 @@ struct SubscriptionsSnapshot: Equatable {
 }
 
 func pctText(_ v: Double?) -> String { v.map { String(format: "%.0f%%", $0) } ?? "—" }
+
+/// A compact, display-ready summary of one subscription (used by the pet's bubble).
+struct SubRow {
+    var name: String
+    var bars: [(String, Double?)] = []
+    var note = ""
+    var stale = false
+}

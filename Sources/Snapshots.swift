@@ -27,6 +27,7 @@ enum Snapshots {
         m.balance = 23.45; m.shownBalance = 23.45; m.bonus = 3; m.recharge = 20.45; m.state = .ok
         m.today = BalanceSummary(day: BeijingTime.day(), amount: 1.27, currency: "CNY", source: .observed, label: "已观测消费",
                                  needsReview: false, revision: "", partialDay: false)
+        m.subs = SubscriptionsSnapshot.collect(useCswap: true, cswapOverride: m.settings.cswapPath)
         let items = BubbleDefaults.items
         let cases: [(String, BubbleMode, Bool)] = [
             ("main", .item(index: 0, item: items[0]), false),

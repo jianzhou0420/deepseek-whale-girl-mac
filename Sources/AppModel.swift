@@ -538,6 +538,10 @@ extension AppModel {
             v["{sub_reset}"] = u?.fiveHour?.resetDate.map { Self.shortReset($0) } ?? "—"
             v["{sub_plan}"] = a.organizationName ?? "Claude"
         }
+        if source == "overview" {
+            v["{sub_all}"] = subscriptionOverview.isEmpty ? "未检测到订阅" : subscriptionOverview.joined(separator: "\n")
+            return v
+        }
         if source == "cswap:all", let accts = subs.cswap?.accounts, !accts.isEmpty {
             v["{sub_all}"] = accts.map { a in
                 let u = a.shownUsage
@@ -562,6 +566,41 @@ extension AppModel {
             }
         }
         return v
+    }
+
+    /// One row per detected subscription: every cswap account (or Claude Code), then Codex.
+    var subscriptionRows: [SubRow] {
+        var rows: [SubRow] = []
+        guard settings.subsOn else { return rows }
+        if let accts = subs.cswap?.accounts, !accts.isEmpty {
+            for a in accts where a.disabled != true {
+                let u = a.shownUsage
+                let short = a.alias ?? a.email.components(separatedBy: "@").first ?? a.email
+                let name = accts.count == 1 ? (subs.claude.account.map { "Claude \($0.plan)" } ?? short)
+                    : (a.active == true ? "▶ " : "") + short
+                rows.append(SubRow(name: name,
+                                   bars: [("5h", u?.fiveHour?.pct), ("7d", u?.sevenDay?.pct)], stale: a.isStale))
+            }
+        } else if let acct = subs.claude.account {
+            rows.append(SubRow(name: "Claude \(acct.plan)", note: "今日 \(CodexStats.formatTokens(subs.claude.today.total)) tokens"))
+        }
+        if subs.codex.found || !subs.codex.windows.isEmpty {
+            let name = subs.codex.planType.map { "ChatGPT " + $0.capitalized } ?? "Codex"
+            let w5 = subs.codex.windows.first { $0.label == "5h" }, w7 = subs.codex.windows.first { $0.label == "周" }
+            let bars = [("5h", w5?.usedPct), ("周", w7?.usedPct)].filter { $0.1 != nil }
+            if !bars.isEmpty {
+                rows.append(SubRow(name: name, bars: bars))
+            } else {
+                rows.append(SubRow(name: name, note: "今日 \(CodexStats.formatTokens(subs.codex.today)) tokens"))
+            }
+        }
+        return rows
+    }
+
+    var subscriptionOverview: [String] {
+        subscriptionRows.map { r in
+            r.bars.isEmpty ? "\(r.name)  \(r.note)" : r.name + "  " + r.bars.map { "\($0.0) \(pctText($0.1))" }.joined(separator: " · ")
+        }
     }
 
     var defaultSubscriptionSource: String {

@@ -2,7 +2,7 @@
 import Foundation
 import Security
 
-let appVersion = "0.0.3"
+let appVersion = "0.0.4"
 
 enum Store {
     static let dir: URL = {

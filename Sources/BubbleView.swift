@@ -189,6 +189,8 @@ struct ModuleView: View {
                        italic: m.italic, underline: m.ul, color: color.isEmpty ? m.color : color,
                        rgb: rgb.isEmpty && color.isEmpty ? m.rgb : rgb, bg: m.bg, bgRgb: bgRgb.isEmpty ? m.bgRgb : bgRgb,
                        font: m.font, u: u)
+        case .subscription where m.window == "overview":
+            SubscriptionBars(rows: model.subscriptionRows, size: m.size, u: u)
         case .text:
             StyledText(text: model.substitute(m.text, module: m), size: m.size, bold: m.bold, italic: m.italic,
                        underline: m.ul, color: m.color, rgb: m.rgb, bg: m.bg, bgRgb: m.bgRgb, font: m.font, u: u)
@@ -197,6 +199,52 @@ struct ModuleView: View {
                        bold: m.bold, italic: m.italic, underline: m.ul, color: m.color, rgb: m.rgb, bg: m.bg,
                        bgRgb: m.bgRgb, font: m.font, u: u)
         }
+    }
+}
+
+/// Subscription usage as compact progress bars inside the bubble.
+struct SubscriptionBars: View {
+    var rows: [SubRow]
+    var size: Int
+    var u: CGFloat
+
+    var body: some View {
+        let px = StyledText.px(size, u)
+        VStack(alignment: .leading, spacing: px * 0.35) {
+            if !rows.isEmpty { Rectangle().fill(Color.bubbleInk.opacity(0.15)).frame(height: max(1, px * 0.04)) }
+            ForEach(Array(rows.enumerated()), id: \.offset) { _, r in
+                VStack(alignment: .leading, spacing: px * 0.15) {
+                    Text(r.name).font(.system(size: px, weight: .heavy, design: .rounded)).foregroundColor(.bubbleInk).lineLimit(1)
+                    if r.bars.isEmpty {
+                        Text(r.note).font(.system(size: px * 0.85, weight: .semibold, design: .rounded))
+                            .foregroundColor(.bubbleInk.opacity(0.65)).lineLimit(1)
+                    }
+                    ForEach(Array(r.bars.enumerated()), id: \.offset) { _, b in
+                        HStack(spacing: px * 0.3) {
+                            Text(b.0).font(.system(size: px * 0.8, weight: .bold, design: .rounded))
+                                .foregroundColor(.bubbleInk.opacity(0.7)).frame(width: px * 1.4, alignment: .leading)
+                            bar(b.1, stale: r.stale, h: px * 0.45)
+                            Text(pctText(b.1)).font(.system(size: px * 0.8, weight: .bold, design: .rounded)).monospacedDigit()
+                                .foregroundColor(.bubbleInk).frame(width: px * 2.1, alignment: .trailing)
+                        }
+                    }
+                }
+            }
+        }
+        .frame(width: 470 * u)
+    }
+
+    private func bar(_ pct: Double?, stale: Bool, h: CGFloat) -> some View {
+        let p = min(100, max(0, pct ?? 0))
+        let fill: Color = p >= 90 ? Color(red: 0.88, green: 0.26, blue: 0.25)
+            : p >= 70 ? Color(red: 0.95, green: 0.6, blue: 0.2) : Color(red: 0.3, green: 0.45, blue: 0.95)
+        return GeometryReader { g in
+            ZStack(alignment: .leading) {
+                Capsule().fill(Color.bubbleInk.opacity(0.12))
+                Capsule().fill(fill.opacity(stale ? 0.45 : 1)).frame(width: max(pct == nil ? 0 : h, g.size.width * p / 100))
+            }
+        }
+        .frame(height: h)
     }
 }
 

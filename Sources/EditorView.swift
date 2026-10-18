@@ -202,6 +202,7 @@ struct ModuleForm: View {
         case .subscription:
             Picker("来源", selection: $m.window) {
                 Text("自动（有 cswap 用 cswap 当前账号）").tag("")
+                Text("全部订阅一览（每个一行）").tag("overview")
                 if model.subs.cswap?.accounts?.isEmpty == false {
                     Text("cswap 当前账号").tag("cswap")
                     Text("cswap 全部账号（每个账号一行）").tag("cswap:all")
