@@ -1,0 +1,162 @@
+[
+  {
+    "frames" : 6,
+    "headWidthCV" : 0.0033752113660455727,
+    "heightCV" : 0.005432788240093362,
+    "id" : "anim_count",
+    "meanIoU" : 0.9832402254395706,
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "size" : [
+      360,
+      416
+    ],
+    "split" : "gaps"
+  },
+  {
+    "frames" : 6,
+    "headWidthCV" : 0.04751451304075845,
+    "heightCV" : 0.0028599708223833093,
+    "id" : "anim_dance",
+    "meanIoU" : 0.8359406456642456,
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "size" : [
+      385,
+      416
+    ],
+    "split" : "gaps"
+  },
+  {
+    "frames" : 6,
+    "headWidthCV" : 0.012629436365745263,
+    "heightCV" : 0.015403700675010302,
+    "id" : "anim_doze",
+    "meanIoU" : 0.932395877246114,
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "size" : [
+      355,
+      416
+    ],
+    "split" : "gaps"
+  },
+  {
+    "frames" : 6,
+    "headWidthCV" : 0.002788114685161832,
+    "heightCV" : 0.001017293997965412,
+    "id" : "anim_eat",
+    "meanIoU" : 0.9816597167545592,
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "size" : [
+      334,
+      416
+    ],
+    "split" : "gaps"
+  },
+  {
+    "frames" : 6,
+    "headWidthCV" : 0.012905154826285603,
+    "heightCV" : 0.022828448206179602,
+    "id" : "anim_hop",
+    "meanIoU" : 0.8126851570993993,
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "size" : [
+      382,
+      416
+    ],
+    "split" : "gaps"
+  },
+  {
+    "frames" : 6,
+    "headWidthCV" : 0.057470929034102176,
+    "heightCV" : 0.004882454707734679,
+    "id" : "anim_stretch",
+    "meanIoU" : 0.8984295488280107,
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "size" : [
+      347,
+      416
+    ],
+    "split" : "gaps"
+  },
+  {
+    "frames" : 6,
+    "headWidthCV" : 0.0019342359767891683,
+    "heightCV" : 0.0010044130414581642,
+    "id" : "anim_tail",
+    "meanIoU" : 0.9310335048200568,
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "size" : [
+      344,
+      416
+    ],
+    "split" : "gaps"
+  },
+  {
+    "frames" : 6,
+    "headWidthCV" : 0.004598932336879671,
+    "heightCV" : 0.00205761316872428,
+    "id" : "anim_tea",
+    "meanIoU" : 0.9857019060555885,
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "size" : [
+      330,
+      416
+    ],
+    "split" : "gaps"
+  },
+  {
+    "frames" : 6,
+    "headWidthCV" : 0.0017100526751790749,
+    "heightCV" : 0.0007960370158418618,
+    "id" : "anim_type",
+    "meanIoU" : 0.9911653303588901,
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "size" : [
+      416,
+      391
+    ],
+    "split" : "gaps"
+  },
+  {
+    "frames" : 6,
+    "headWidthCV" : 0.025220047365740152,
+    "heightCV" : 0.0035607678167547383,
+    "id" : "anim_yawn",
+    "meanIoU" : 0.9439202716459074,
+    "pass" : true,
+    "problems" : [
+
+    ],
+    "size" : [
+      340,
+      416
+    ],
+    "split" : "gaps"
+  }
+]

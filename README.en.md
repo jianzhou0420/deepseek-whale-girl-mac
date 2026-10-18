@@ -6,6 +6,8 @@ A DeepSeek whale girl who lives in a corner of your Mac screen. Her speech bubbl
 
 ![Preview](docs/preview.png)
 
+![10 AI-generated moves](docs/animations.gif)
+
 > This is an unofficial fan project. It is not affiliated with or endorsed by DeepSeek.
 
 ## Features
@@ -20,6 +22,8 @@ A DeepSeek whale girl who lives in a corner of your Mac screen. Her speech bubbl
 - **Codex stats**: reads local Codex session logs for token usage and subscription windows, with no network access.
 - **Native Mac app**: drag her anywhere and she snaps to screen edges and flips when snapped left. Balance in the menu bar, launch at login, and API keys stored in the Keychain.
 - **Subscriptions and API costs**: automatically detects cswap (every Claude account's 5-hour, 7-day, extra spend, and per-model usage), your Claude Code plan and token usage, and the ChatGPT plan behind Codex. With an organization Admin key it also shows OpenAI API and Claude API costs.
+- **Autoplay**: every 1–3 minutes she does something on her own: a small move, a random bubble, or a usage report. Each move comes with 5 matching lines that don't repeat. She also speaks up when peak/off-peak switches or a subscription crosses its threshold or resets, and stays quiet in full screen, during meetings, when you're away, and at night. Autoplay never makes sound.
+- **AI-generated moves**: 10 frame-by-frame animations made by the art pipeline (stretching, eating, dozing, typing, dancing, counting money and more), mixed in with the original moves.
 
 Per-turn cost, task-end sounds, question and approval prompts, and the session-name module are not ported. They depend on events inside DeepSeek Harness, which a standalone app cannot see.
 
@@ -78,6 +82,8 @@ On first launch the settings window opens. Paste your DeepSeek API key and click
 codex login
 ./art.sh all
 ```
+
+`./art.sh anim` generates frame animations from `art-pipeline/anims.json`: 6 frames per image, split automatically, aligned at the feet and checked for consistency. `./art.sh anim-install` then adds them to the app.
 
 Each image takes about 40 seconds. Image generation uses Codex limits 3–5 times faster than text.
 

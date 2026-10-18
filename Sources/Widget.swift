@@ -17,15 +17,31 @@ struct CharacterView: View {
                 AnimatedImage(image: ns).frame(width: width, height: h)
             } else if model.settings.animateRole {
                 TimelineView(.animation(minimumInterval: 1.0 / 15)) { tl in
-                    let anim = model.dragging ? Anim.panic : model.roleAnim
-                    let (r, c) = anim.frame(at: tl.date.timeIntervalSince(model.roleAnimStart))
-                    sprite(r, c, h)
+                    let t = tl.date.timeIntervalSince(model.roleAnimStart)
+                    if !model.dragging, let id = model.roleClip, let clip = Clips.shared.clip(id) {
+                        clipFrame(clip, t, h)
+                    } else {
+                        let (r, c) = (model.dragging ? Anim.panic : model.roleAnim).frame(at: t)
+                        sprite(r, c, h)
+                    }
                 }
             } else {
                 sprite(0, 6, h)
             }
         }
         .frame(width: width, height: h)
+    }
+
+    /// A clip frame placed so the feet and figure height match the atlas character.
+    func clipFrame(_ clip: Clip, _ t: Double, _ h: CGFloat) -> some View {
+        let s = width / CGFloat(Atlas.cellW), k = clip.scale * s
+        let img = clip.frame(at: t), feet = Clips.shared.atlasFeet
+        var x = feet.x * s - clip.feet.x * k
+        x -= max(0, x + clip.right * k - width)   // keep wide poses inside the window's right edge
+        return Image(decorative: img, scale: 1).resizable().interpolation(.high)
+            .frame(width: CGFloat(img.width) * k, height: CGFloat(img.height) * k)
+            .offset(x: x, y: feet.y * s - clip.feet.y * k)
+            .frame(width: width, height: h, alignment: .topLeading)
     }
 
     @ViewBuilder func sprite(_ r: Int, _ c: Int, _ h: CGFloat) -> some View {

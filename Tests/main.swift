@@ -142,5 +142,41 @@ let aj = try! JSONSerialization.jsonObject(with: Data(#"{"data":[{"starting_at":
 let an2 = CostAPI.parseAnthropic(aj, todayStart: tStart)
 check(abs(an2.0 - 0.5) < 1e-9 && abs(an2.1 - 1.7345) < 1e-9 && an2.2 == nil, "Anthropic cost report in cents")
 
+// Autoplay policy
+var ap = AutoPlayConfig()
+check(AutoPlayPolicy.isNight(hour: 23, start: 23, end: 8) && AutoPlayPolicy.isNight(hour: 3, start: 23, end: 8)
+      && !AutoPlayPolicy.isNight(hour: 8, start: 23, end: 8) && !AutoPlayPolicy.isNight(hour: 14, start: 23, end: 8), "night window across midnight")
+check(AutoPlayPolicy.isNight(hour: 13, start: 12, end: 14) && !AutoPlayPolicy.isNight(hour: 14, start: 12, end: 14), "night window same day")
+let busy = AutoPlayPolicy.Env(hour: 14, idleSeconds: 10, fullscreen: false, meeting: false)
+check(AutoPlayPolicy.quietReason(ap, busy) == nil, "active daytime is not quiet")
+check(AutoPlayPolicy.quietReason(ap, .init(hour: 14, idleSeconds: 10, fullscreen: true, meeting: false)) == "全屏中", "fullscreen is quiet")
+check(AutoPlayPolicy.quietReason(ap, .init(hour: 14, idleSeconds: 10, fullscreen: false, meeting: true)) != nil, "meeting is quiet")
+check(AutoPlayPolicy.quietReason(ap, .init(hour: 14, idleSeconds: 301, fullscreen: false, meeting: false)) == "你不在电脑前", "away is quiet")
+check(AutoPlayPolicy.quietReason(ap, .init(hour: 1, idleSeconds: 10, fullscreen: false, meeting: false)) == "夜间免打扰", "night is quiet")
+ap.quietNight = false
+check(AutoPlayPolicy.quietReason(ap, .init(hour: 1, idleSeconds: 10, fullscreen: false, meeting: false)) == nil, "night quiet can be turned off")
+check(AutoPlayPolicy.pick(ap, r: 0) == .anim && AutoPlayPolicy.pick(ap, r: 0.6) == .random && AutoPlayPolicy.pick(ap, r: 0.99) == .report, "weighted pick 3:2:1")
+ap.wAnim = 0; ap.wRandom = 0
+check(AutoPlayPolicy.pick(ap, r: 0) == .report, "zero weights are skipped")
+ap.wReport = 0
+check(AutoPlayPolicy.pick(ap, r: 0.5) == nil, "all weights zero picks nothing")
+check(AutoPlayPolicy.interval(ap, r: 0) == 60 && AutoPlayPolicy.interval(ap, r: 1) == 180, "interval 1-3 minutes by default")
+ap.minMinutes = 20; ap.maxMinutes = 10
+check(AutoPlayPolicy.interval(ap, r: 0) == 600 && AutoPlayPolicy.interval(ap, r: 1) == 1200, "swapped min/max still works")
+let ap2 = AutoPlayConfig()
+check(AutoPlayPolicy.events(ap2, prevPeak: nil, peak: true, prev: [:], cur: [:]).isEmpty, "no event on first observation")
+check(AutoPlayPolicy.events(ap2, prevPeak: false, peak: true, prev: [:], cur: [:]).map(\.kind) == ["peak"], "peak starts")
+check(AutoPlayPolicy.events(ap2, prevPeak: true, peak: false, prev: [:], cur: [:]).map(\.kind) == ["offpeak"], "off-peak starts")
+let ev = AutoPlayPolicy.events(ap2, prevPeak: true, peak: true, prev: ["Claude|5h": 70, "Claude|7d": 85, "Codex|周": 40],
+                               cur: ["Claude|5h": 82, "Claude|7d": 90, "Codex|周": 2, "New|5h": 99])
+check(ev.map(\.kind) == ["threshold", "reset"] && ev[0].highlight == "82%", "threshold crossing once, reset, no event for new keys: \(ev)")
+
+var bag = ShuffleBag()
+var dealt: [Int] = []
+for _ in 0..<50 { dealt.append(bag.next(count: 5)!) }
+check(stride(from: 0, to: 50, by: 5).allSatisfy { Set(dealt[$0..<$0 + 5]) == Set(0..<5) }, "shuffle bag: each round of 5 has no repeats")
+check(zip(dealt, dealt.dropFirst()).allSatisfy { $0 != $1 }, "shuffle bag: never the same line twice in a row")
+check(bag.next(count: 1) == 0 && bag.next(count: 1) == 0 && bag.next(count: 0) == nil, "shuffle bag: single line and empty")
+
 print(failures == 0 ? "\nALL PASSED" : "\n\(failures) FAILED")
 exit(failures == 0 ? 0 : 1)

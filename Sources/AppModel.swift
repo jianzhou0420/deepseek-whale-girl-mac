@@ -17,7 +17,15 @@ final class AppModel: ObservableObject {
     static let shared = AppModel()
 
     // Persisted
-    @Published var settings: Settings { didSet { if settings != oldValue { scheduleSave() } } }
+    @Published var settings: Settings {
+        didSet {
+            guard settings != oldValue else { return }
+            scheduleSave()
+            if settings.autoPlay.on != oldValue.autoPlay.on || settings.autoPlay.minMinutes != oldValue.autoPlay.minMinutes
+                || settings.autoPlay.maxMinutes != oldValue.autoPlay.maxMinutes { autoPlayer.reschedule() }
+        }
+    }
+    let autoPlayer = AutoPlayer()
     @Published var bubbleConfig: BubbleConfig { didSet { if bubbleConfig != oldValue { Store.save("bubble.json", bubbleConfig) } } }
     @Published var apiModels: [ApiModel] { didSet { if apiModels != oldValue { Store.save("api.json", apiModels) } } }
     @Published private(set) var ledger: Ledger
@@ -48,6 +56,7 @@ final class AppModel: ObservableObject {
     @Published var dragging = false
     @Published var roleAnim: Anim = .neutral
     @Published var roleAnimStart = Date()
+    @Published var roleClip: String?          // an AI-generated clip playing instead of roleAnim
     @Published var now = Date()
     @Published var pickedLines: [String: Int] = [:]   // random-line picks per module id
     @Published var pickedImages: [String: String] = [:]
@@ -82,6 +91,7 @@ final class AppModel: ObservableObject {
         RunLoop.main.add(clockTimer!, forMode: .common)
         refreshSubscriptions()
         restartSubsTimer()
+        autoPlayer.start(self)
     }
 
     func restartSubsTimer() {
@@ -275,12 +285,29 @@ final class AppModel: ObservableObject {
     var idleAnim: Anim { lowBalance ? .sulk : .neutral }
 
     func playRole(_ a: Anim, for seconds: Double) {
+        roleClip = nil
         roleAnim = a; roleAnimStart = Date()
         roleResetWork?.cancel()
         let w = DispatchWorkItem { [weak self] in self?.roleAnim = self?.idleAnim ?? .neutral }
         roleResetWork = w
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: w)
     }
+    /// Play an AI-generated clip for a few loops (about 4 seconds), then return to idle. Returns the duration.
+    @discardableResult
+    func playClip(_ id: String) -> Double {
+        guard let clip = Clips.shared.clip(id) else { return 0 }
+        let loops = max(2, Int((4 / clip.loopSeconds).rounded()))
+        roleClip = id; roleAnimStart = Date()
+        roleResetWork?.cancel()
+        let w = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.roleClip = nil; self.roleAnim = self.idleAnim
+        }
+        roleResetWork = w
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(loops) * clip.loopSeconds, execute: w)
+        return Double(loops) * clip.loopSeconds
+    }
+
     private func stopRoleSoon() {
         if roleAnim.row == Anim.think.row { playRole(idleAnim, for: 0.01) }
     }
@@ -319,12 +346,21 @@ final class AppModel: ObservableObject {
         scheduleClose(autoClose ?? settings.bubbleCloseSec)
     }
 
-    func showAlert(kind: String, modules: [BubbleModule], closeSec: Double) {
+    /// A one-line speech bubble that goes with a small action (no sound, no role change).
+    func showSpeech(_ text: String, seconds: Double) {
+        let modules = [BubbleDefaults.text(text, size: 8)]
+        withAnimation(.spring(response: 0.32, dampingFraction: 0.72)) { bubble = .alert(kind: "speech", modules: modules) }
+        scheduleClose(seconds)
+    }
+
+    var bubbleIsHidden: Bool { if case .hidden = bubble { return true }; return false }
+
+    func showAlert(kind: String, modules: [BubbleModule], closeSec: Double, role: Anim? = nil, sound: Bool = true) {
         pickRandom(in: modules)
         withAnimation(.spring(response: 0.32, dampingFraction: 0.72)) { bubble = .alert(kind: kind, modules: modules) }
         scheduleClose(closeSec)
-        playRole(kind == "low" ? .sulk : .panic, for: 3)
-        if settings.alertSoundOn { SoundPlayer.shared.play(settings.alertSound, volume: settings.alertVolume ?? settings.volume) }
+        playRole(role ?? (kind == "low" ? .sulk : .panic), for: 3)
+        if sound, settings.alertSoundOn { SoundPlayer.shared.play(settings.alertSound, volume: settings.alertVolume ?? settings.volume) }
     }
 
     func hideBubble() {

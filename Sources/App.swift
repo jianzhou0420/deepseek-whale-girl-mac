@@ -166,6 +166,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         m.addItem(snapItem)
         m.addItem(.separator())
 
+        let auto = NSMenu()
+        auto.addItem(item("自动播放", { [weak self] in self?.model.settings.autoPlay.on.toggle() }, checked: s.autoPlay.on))
+        auto.addItem(item("现在来一个") { [weak self] in
+            guard let self else { return }
+            if let a = AutoPlayPolicy.pick(self.model.settings.autoPlay, r: .random(in: 0..<1)) { self.model.autoPlayer.play(a) }
+        })
+        auto.addItem(item("自动播放设置…") { Windows.settings(tab: .autoplay) })
+        let autoItem = NSMenuItem(title: "自动播放", action: nil, keyEquivalent: ""); autoItem.submenu = auto
+        m.addItem(autoItem)
+        m.addItem(.separator())
+
         m.addItem(item("小鲸鱼记账…") { Windows.usage() })
         m.addItem(item("订阅与用量…") { Windows.settings(tab: .subscriptions) })
         m.addItem(item("模型与厂商…") { Windows.settings(tab: .vendors) })

@@ -6,6 +6,8 @@ Ein DeepSeek-Walmädchen, das in einer Ecke deines Mac-Bildschirms wohnt. Ihre S
 
 ![Vorschau](docs/preview.png)
 
+![10 KI-generierte Bewegungen](docs/animations.gif)
+
 > Dies ist ein inoffizielles Fanprojekt. Es steht in keiner Verbindung zu DeepSeek und wird nicht von DeepSeek unterstützt.
 
 ## Funktionen
@@ -20,6 +22,8 @@ Ein DeepSeek-Walmädchen, das in einer Ecke deines Mac-Bildschirms wohnt. Ihre S
 - **Codex-Statistik**: liest lokale Codex-Sitzungsprotokolle für Token-Verbrauch und Abo-Zeitfenster, ganz ohne Netzwerk.
 - **Native Mac-App**: zieh sie überallhin; sie rastet an Bildschirmrändern ein und spiegelt sich am linken Rand. Guthaben in der Menüleiste, Start bei der Anmeldung und API-Schlüssel im Schlüsselbund.
 - **Abos und API-Kosten**: erkennt automatisch cswap (5-Stunden-, 7-Tage-, Zusatz- und Modellnutzung jedes Claude-Kontos), dein Claude-Code-Abo samt Token-Verbrauch und das ChatGPT-Abo hinter Codex. Mit einem Admin-Schlüssel der Organisation zeigt es auch die Kosten der OpenAI- und Claude-API.
+- **Autoplay**: Alle 1–3 Minuten macht sie von selbst etwas: eine kleine Bewegung, eine zufällige Sprechblase oder einen Nutzungsbericht. Jede Bewegung hat 5 passende Sätze, die sich nicht wiederholen. Sie meldet sich auch beim Wechsel zwischen Haupt- und Nebenzeit und wenn ein Abo eine Schwelle überschreitet oder zurückgesetzt wird. Im Vollbild, in Meetings, wenn du weg bist und nachts bleibt sie ruhig, und Autoplay spielt nie Töne ab.
+- **KI-generierte Bewegungen**: 10 Einzelbildanimationen aus der Grafik-Pipeline (Strecken, Essen, Dösen, Tippen, Tanzen, Geld zählen und mehr), gemischt mit den ursprünglichen Bewegungen.
 
 Nicht portiert sind Kosten pro Runde, der Ton bei Aufgabenende, Hinweise zu Rückfragen und Freigaben sowie das Modul für den Gesprächsnamen. Sie hängen von internen Ereignissen in DeepSeek Harness ab, die eine eigenständige App nicht sieht.
 
@@ -78,6 +82,8 @@ Beim ersten Start öffnet sich das Einstellungsfenster. Füge deinen DeepSeek-AP
 codex login
 ./art.sh all
 ```
+
+`./art.sh anim` erzeugt Einzelbildanimationen aus `art-pipeline/anims.json`: 6 Bilder pro Grafik, automatisch zerlegt, an den Füßen ausgerichtet und auf Einheitlichkeit geprüft. `./art.sh anim-install` fügt sie dann der App hinzu.
 
 Ein Bild dauert etwa 40 Sekunden. Bildgenerierung verbraucht Codex-Kontingent 3–5-mal schneller als Text.
 

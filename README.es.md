@@ -6,6 +6,8 @@ Una chica ballena de DeepSeek que vive en una esquina de la pantalla de tu Mac. 
 
 ![Vista previa](docs/preview.png)
 
+![10 movimientos generados con IA](docs/animations.gif)
+
 > Este es un proyecto no oficial hecho por fans. No está afiliado a DeepSeek ni cuenta con su respaldo.
 
 ## Funciones
@@ -20,6 +22,8 @@ Una chica ballena de DeepSeek que vive en una esquina de la pantalla de tu Mac. 
 - **Estadísticas de Codex**: lee los registros locales de sesiones de Codex para contar tokens y ventanas de suscripción, sin conexión a internet.
 - **App nativa de Mac**: arrástrala a cualquier sitio; se pega a los bordes de la pantalla y se voltea al pegarse a la izquierda. Saldo en la barra de menús, inicio automático al iniciar sesión y claves de API guardadas en el Llavero.
 - **Suscripciones y costes de API**: detecta automáticamente cswap (el uso de 5 horas, 7 días, gasto extra y por modelo de cada cuenta de Claude), el plan y los tokens de Claude Code y el plan de ChatGPT detrás de Codex. Con una clave Admin de organización también muestra los costes de las API de OpenAI y Claude.
+- **Reproducción automática**: cada 1–3 minutos hace algo por su cuenta: un pequeño movimiento, una burbuja aleatoria o un informe de uso. Cada movimiento trae 5 frases a juego que no se repiten. También avisa al cambiar entre hora punta y valle, o cuando una suscripción supera su umbral o se reinicia. Se queda en silencio en pantalla completa, en reuniones, cuando no estás y de noche, y la reproducción automática nunca suena.
+- **Movimientos generados con IA**: 10 animaciones fotograma a fotograma creadas con el pipeline de arte (estirarse, comer, dormitar, teclear, bailar, contar dinero y más), mezcladas con los movimientos originales.
 
 No se han portado el coste por turno, el sonido de fin de tarea, los avisos de preguntas y aprobaciones ni el módulo de nombre de conversación. Dependen de eventos internos de DeepSeek Harness que una app independiente no puede ver.
 
@@ -78,6 +82,8 @@ Al abrirla por primera vez se abre la ventana de ajustes. Pega tu clave de API d
 codex login
 ./art.sh all
 ```
+
+`./art.sh anim` genera animaciones a partir de `art-pipeline/anims.json`: 6 fotogramas por imagen, recortados automáticamente, alineados por los pies y revisados para que sean coherentes. Después, `./art.sh anim-install` los añade a la app.
 
 Cada imagen tarda unos 40 segundos. Generar imágenes consume los límites de Codex de 3 a 5 veces más rápido que el texto.
 

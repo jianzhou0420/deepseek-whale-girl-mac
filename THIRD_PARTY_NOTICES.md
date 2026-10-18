@@ -39,7 +39,7 @@ The app icon is generated from a frame of that sheet.
 
 ## Generated images
 
-The images in `assets/generated/` were produced by the pipeline in `art-pipeline/` with OpenAI's gpt-image-2
+The images in `assets/generated/`, the animation frames in `assets/anims/`, and `docs/animations.gif` were produced by the pipeline in `art-pipeline/` with OpenAI's gpt-image-2
 (through Codex CLI), using a frame of the deepseek-girl atlas above as the character reference. They are
 derivative of that MIT-licensed character design. AI-generated images may not be eligible for copyright
 protection in some jurisdictions; they are distributed here under the same MIT terms as the rest of the

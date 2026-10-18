@@ -1,0 +1,214 @@
+{
+  "anims": [
+    {
+      "id": "anim_stretch",
+      "name": "伸懒腰",
+      "fps": 6,
+      "anchor": "feet",
+      "frames": [
+        "standing relaxed, arms down, eyes half closed",
+        "raising both arms up, eyes closed",
+        "both arms stretched straight up over the head, fingers interlaced, eyes closed, mouth open in a small yawn",
+        "same full stretch, leaning slightly to her left",
+        "same full stretch, leaning slightly to her right",
+        "lowering the arms, smiling refreshed"
+      ],
+      "lines": [
+        "嗯～～坐太久啦，伸个懒腰",
+        "伸展运动，预防颈椎病！",
+        "老大你也起来动一动吧",
+        "伸——懒——腰——舒服～",
+        "充电完毕，可以继续干活了"
+      ]
+    },
+    {
+      "id": "anim_eat",
+      "name": "扒饭",
+      "fps": 6,
+      "anchor": "feet",
+      "frames": [
+        "holding a white rice bowl in her left hand and chopsticks in her right hand, chopsticks in the bowl",
+        "lifting a bite of rice with the chopsticks toward her mouth",
+        "chopsticks at her open mouth, eating",
+        "mouth closed, cheeks puffed while chewing, chopsticks lowered to the bowl",
+        "chewing happily, eyes closed in delight, cheeks puffed",
+        "chopsticks back in the bowl, happy expression"
+      ],
+      "lines": [
+        "干饭时间到！谁也别拦我",
+        "一口米饭，一口 token",
+        "我不是吃白饭的…好吧我是",
+        "这碗饭是用你的余额买的哦",
+        "吃饱了才有力气推理！"
+      ]
+    },
+    {
+      "id": "anim_doze",
+      "name": "打瞌睡",
+      "fps": 4,
+      "anchor": "feet",
+      "frames": [
+        "standing, eyes half closed and sleepy",
+        "eyes closed, head tilting slightly forward",
+        "eyes closed, head dropped forward in a nod, a small bubble at her nose",
+        "eyes closed, head dropped further, the nose bubble bigger",
+        "startled awake, eyes wide open, head snapping up, nose bubble popped",
+        "eyes half closed and sleepy again"
+      ],
+      "lines": [
+        "Zzz…上下文…好长…",
+        "我没睡！我在…深度思考…",
+        "呼…梦里额度是无限的…",
+        "DeepSleep 模式启动…",
+        "啊！我醒着！刚才说到哪了？"
+      ]
+    },
+    {
+      "id": "anim_type",
+      "name": "敲键盘",
+      "fps": 8,
+      "anchor": "feet",
+      "frames": [
+        "sitting on the floor with an open laptop on her lap, both hands on the keyboard, focused face",
+        "typing, left hand raised slightly above the keys",
+        "typing, right hand raised slightly above the keys",
+        "typing, left hand raised slightly above the keys, tongue slightly out in concentration",
+        "typing, right hand raised slightly above the keys",
+        "both hands on the keyboard, looking pleased at the screen"
+      ],
+      "lines": [
+        "噼里啪啦，写代码中～",
+        "这行代码我先注释掉…",
+        "Ctrl+C，Ctrl+V，完美！",
+        "写完这个就提交，绝对不改了",
+        "键盘冒烟了，求加钱"
+      ]
+    },
+    {
+      "id": "anim_dance",
+      "name": "摇摆跳舞",
+      "fps": 6,
+      "anchor": "feet",
+      "frames": [
+        "dancing, standing, both arms raised, smiling",
+        "dancing, body swaying to her left, arms waving to her left",
+        "dancing, standing upright, arms up, eyes closed happily",
+        "dancing, body swaying to her right, arms waving to her right",
+        "dancing, standing upright, one arm up and one hand on the hip, winking",
+        "dancing, standing, both arms raised, smiling"
+      ],
+      "lines": [
+        "代码跑通，跳支舞庆祝！",
+        "左摇摇，右摆摆～",
+        "跟我一起跳，烦恼全跑掉",
+        "低谷时段，跳舞也打折！",
+        "今天的心情：适合跳舞"
+      ]
+    },
+    {
+      "id": "anim_count",
+      "name": "数钱",
+      "fps": 6,
+      "anchor": "feet",
+      "frames": [
+        "holding a small stack of blue paper banknotes in her left hand, right hand about to flick one",
+        "flicking one banknote over with her right thumb, counting, mouth saying a number",
+        "flicking the next banknote, concentrating",
+        "flicking the next banknote, smiling",
+        "flicking the next banknote, eyes sparkling",
+        "holding the stack up proudly with both hands, very happy"
+      ],
+      "lines": [
+        "一张、两张、三张…余额还够！",
+        "数钱数到手抽筋～",
+        "这些都是省下来的 token 钱",
+        "老大，咱们又攒了一点点",
+        "算一算…嗯，还能再用几天"
+      ]
+    },
+    {
+      "id": "anim_yawn",
+      "name": "打哈欠",
+      "fps": 5,
+      "anchor": "feet",
+      "frames": [
+        "standing, neutral sleepy face",
+        "mouth starting to open, eyes squinting, one hand rising to the mouth",
+        "big yawn, mouth wide open, eyes shut, one hand covering the mouth, tiny tear at the eye corner",
+        "big yawn continues, head tilted back slightly",
+        "mouth closing, rubbing one eye with a hand",
+        "neutral sleepy face, blinking"
+      ],
+      "lines": [
+        "哈～啊——有点困了",
+        "打个哈欠，不代表我在摸鱼",
+        "老大，该睡觉了吧？",
+        "困…再跑一个任务就睡",
+        "哈欠是会传染的，你打了吗？"
+      ]
+    },
+    {
+      "id": "anim_tail",
+      "name": "摇尾巴",
+      "fps": 8,
+      "anchor": "feet",
+      "frames": [
+        "standing, seen from a three-quarter back view looking over her shoulder at the viewer, whale tail swung to her left, smiling",
+        "same view, whale tail in the middle",
+        "same view, whale tail swung to her right, smiling with eyes closed",
+        "same view, whale tail in the middle",
+        "same view, whale tail swung to her left, happy",
+        "same view, whale tail in the middle, giggling"
+      ],
+      "lines": [
+        "摇摇尾巴，今天心情不错～",
+        "看！鲸鱼尾巴！可爱吧",
+        "尾巴摇起来，好运转起来",
+        "开心的时候尾巴会自己动",
+        "嘿嘿，被你发现我在开心了"
+      ]
+    },
+    {
+      "id": "anim_tea",
+      "name": "喝茶",
+      "fps": 5,
+      "anchor": "feet",
+      "frames": [
+        "holding a white teacup with saucer in front of her chest, gentle smile",
+        "raising the teacup toward her mouth",
+        "sipping from the teacup, eyes closed",
+        "sipping, a faint wisp of steam above the cup",
+        "lowering the teacup, relaxed sigh, eyes closed",
+        "holding the teacup in front of her chest, content smile"
+      ],
+      "lines": [
+        "喝口茶，压压惊",
+        "边喝茶边等模型输出…",
+        "茶要慢慢喝，代码要慢慢改",
+        "这杯茶，敬没写 bug 的你",
+        "休息一下吧，喝茶时间～"
+      ]
+    },
+    {
+      "id": "anim_hop",
+      "name": "开心蹦跳",
+      "fps": 8,
+      "anchor": "cell",
+      "frames": [
+        "crouching slightly with knees bent, ready to jump, fists up",
+        "jumping up, feet leaving the ground, arms rising",
+        "at the top of the jump high in the air, both arms raised, huge smile",
+        "falling back down, arms still up",
+        "landing with knees bent",
+        "standing, fists up, excited"
+      ],
+      "lines": [
+        "蹦蹦跳跳，开心到飞起！",
+        "跳起来！额度刷新啦！",
+        "好耶好耶好耶！",
+        "我能跳得比服务器负载还高！",
+        "今天的我是弹力满满的鲸鱼娘"
+      ]
+    }
+  ]
+}

@@ -13,6 +13,7 @@ cp assets/spritesheet.webp "$APP/Contents/Resources/"
 cp assets/LICENSE "$APP/Contents/Resources/ART-LICENSE"
 [ -f assets/AppIcon.icns ] && cp assets/AppIcon.icns "$APP/Contents/Resources/"
 [ -d assets/generated ] && cp -R assets/generated "$APP/Contents/Resources/generated"
+[ -d assets/anims ] && cp -R assets/anims "$APP/Contents/Resources/anims"
 
 echo "Compiling..."
 swiftc -O -swift-version 5 -parse-as-library -target arm64-apple-macos13.0 Sources/*.swift -o "$TMP/arm64"
@@ -34,8 +35,8 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundleExecutable</key><string>WhaleBalance</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>0.0.4</string>
-  <key>CFBundleVersion</key><string>4</string>
+  <key>CFBundleShortVersionString</key><string>0.0.5</string>
+  <key>CFBundleVersion</key><string>5</string>
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>LSUIElement</key><true/>
   <key>NSHighResolutionCapable</key><true/>

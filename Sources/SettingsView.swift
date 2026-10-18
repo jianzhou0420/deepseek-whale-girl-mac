@@ -4,13 +4,14 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 enum SettingsTab: String, CaseIterable, Identifiable {
-    case general, deepseek, subscriptions, alerts, sound, snap, vendors, resources, about
+    case general, deepseek, subscriptions, autoplay, alerts, sound, snap, vendors, resources, about
     var id: String { rawValue }
     var title: String {
         switch self {
         case .general: return "通用"
         case .deepseek: return "DeepSeek"
         case .subscriptions: return "订阅"
+        case .autoplay: return "自动播放"
         case .alerts: return "提醒"
         case .sound: return "音效"
         case .snap: return "吸附"
@@ -24,6 +25,7 @@ enum SettingsTab: String, CaseIterable, Identifiable {
         case .general: return "gearshape"
         case .deepseek: return "key"
         case .subscriptions: return "person.2.badge.gearshape"
+        case .autoplay: return "sparkles"
         case .alerts: return "bell"
         case .sound: return "speaker.wave.2"
         case .snap: return "rectangle.portrait.and.arrow.right"
@@ -55,6 +57,7 @@ struct SettingsView: View {
                 case .general: GeneralTab(model: model)
                 case .deepseek: DeepSeekTab(model: model)
                 case .subscriptions: SubscriptionsTab(model: model)
+                case .autoplay: AutoPlayTab(model: model, player: model.autoPlayer)
                 case .alerts: AlertsTab(model: model)
                 case .sound: SoundTab(model: model)
                 case .snap: SnapTab(model: model)
@@ -736,6 +739,89 @@ struct AboutTab: View {
             }
             .padding(24)
             .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+}
+
+struct AutoPlayTab: View {
+    @ObservedObject var model: AppModel
+    @ObservedObject var player: AutoPlayer
+
+    var body: some View {
+        let c = $model.settings.autoPlay
+        Form {
+            Section {
+                Toggle("自动播放", isOn: c.on)
+                if model.settings.autoPlay.on {
+                    LabeledContent("状态") {
+                        if let q = player.quietReason { Text("安静中：\(q)").foregroundStyle(.secondary) }
+                        else if let n = player.nextAt { Text("下一次 \(n.formatted(date: .omitted, time: .shortened))") }
+                    }
+                }
+            } footer: { Text("她会每隔一段随机时间自己动一动、冒个泡泡或报一下用量。").font(.footnote).foregroundStyle(.secondary) }
+
+            Section("频率") {
+                Stepper("最短 \(Int(model.settings.autoPlay.minMinutes)) 分钟", value: c.minMinutes, in: 1...120, step: 1)
+                Stepper("最长 \(Int(model.settings.autoPlay.maxMinutes)) 分钟", value: c.maxMinutes, in: 1...240, step: 1)
+            }
+
+            Section("内容比重") {
+                weight("小动作（不出泡泡）", c.wAnim, .anim)
+                weight("随机台词 / 图片", c.wRandom, .random)
+                weight("余额与订阅报告", c.wReport, .report)
+                Toggle("小动作包含 AI 生成的动作（\(Clips.shared.list.count) 个）", isOn: c.aiClips)
+                Toggle("小动作时冒一句对应的台词", isOn: c.moveLines)
+            }
+
+            Section {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 84), spacing: 8)], alignment: .leading, spacing: 8) {
+                    ForEach(AutoPlayer.atlasMoves, id: \.id) { a in Button(a.name) { player.playMove(a.id) }.frame(maxWidth: .infinity) }
+                    ForEach(Clips.shared.list, id: \.id) { clip in Button(clip.name) { player.playMove(clip.id) }.frame(maxWidth: .infinity) }
+                }
+            } header: { Text("动作") } footer: {
+                Text("每个动作有 5 句台词，轮完一遍才会重复。").font(.footnote).foregroundStyle(.secondary)
+            }
+
+            Section("事件提醒") {
+                Toggle("高峰 / 低谷切换", isOn: c.evPeak)
+                Toggle(isOn: c.evThreshold) {
+                    HStack {
+                        Text("订阅额度超过")
+                        TextField("", value: c.threshold, format: .number).frame(width: 44).multilineTextAlignment(.trailing)
+                        Text("%")
+                    }
+                }
+                Toggle("订阅额度重置", isOn: c.evReset)
+            }
+
+            Section {
+                Toggle("全屏、开会、看视频时", isOn: c.quietFullscreen)
+                Toggle(isOn: c.quietAway) {
+                    Stepper("离开电脑超过 \(Int(model.settings.autoPlay.awayMinutes)) 分钟", value: c.awayMinutes, in: 1...60)
+                }
+                Toggle(isOn: c.quietNight) {
+                    HStack {
+                        Text("夜间")
+                        Picker("", selection: c.nightStart) { ForEach(0..<24, id: \.self) { Text("\($0):00").tag($0) } }.frame(width: 80)
+                        Text("到")
+                        Picker("", selection: c.nightEnd) { ForEach(0..<24, id: \.self) { Text("\($0):00").tag($0) } }.frame(width: 80)
+                    }
+                }
+                Toggle("自动播放不发声音", isOn: c.silent)
+            } header: { Text("安静时段") } footer: {
+                Text("开会的判断：摄像头正在使用，或有应用阻止屏幕休眠（视频会议、播放视频时常见）。安静时也不会弹事件提醒。")
+                    .font(.footnote).foregroundStyle(.secondary)
+            }
+        }
+        .formStyle(.grouped)
+    }
+
+    private func weight(_ title: String, _ v: Binding<Double>, _ a: AutoAction) -> some View {
+        HStack {
+            Text(title).frame(width: 150, alignment: .leading)
+            Slider(value: v, in: 0...5, step: 1)
+            Text("\(Int(v.wrappedValue))").monospacedDigit().frame(width: 20)
+            Button("试一下") { player.play(a) }
         }
     }
 }

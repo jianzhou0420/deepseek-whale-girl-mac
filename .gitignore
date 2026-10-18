@@ -5,3 +5,7 @@ art-pipeline/.build/
 art-pipeline/raw/
 art-pipeline/processed/
 art-pipeline/logs/
+art-pipeline/raw-anim/
+art-pipeline/processed-anim/
+art-pipeline/anim-preview.html
+.claude/
