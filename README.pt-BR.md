@@ -26,6 +26,7 @@ Uma garota-baleia do DeepSeek que mora num canto da tela do seu Mac. O balão de
 - **Assinaturas e custos de API**: detecta automaticamente o cswap (uso de 5 horas, 7 dias, gasto extra e por modelo de cada conta do Claude), o plano e os tokens do Claude Code e o plano do ChatGPT por trás do Codex. Com uma chave Admin da organização, também mostra os custos das APIs da OpenAI e do Claude.
 - **Reprodução automática**: a cada 1–3 minutos ela faz algo sozinha: um pequeno movimento, um balão aleatório ou um relatório de uso. Cada movimento tem 5 falas combinando, sem repetição. Ela também avisa na troca entre horário de pico e fora de pico, ou quando uma assinatura passa do limite ou é renovada. Fica quieta em tela cheia, em reuniões, quando você está ausente e à noite, e a reprodução automática nunca toca som.
 - **Movimentos gerados por IA**: 10 animações quadro a quadro feitas pelo pipeline de arte (espreguiçar, comer, cochilar, digitar, dançar, contar dinheiro e mais), misturadas aos movimentos originais.
+- **Converse com ela**: passe o mouse sobre ela e clique no botão de chat. Ela responde pela API da DeepSeek: atrevida, mas informa com precisão seu saldo, o gasto de hoje e o uso das assinaturas. Com a "voz interior" ligada, mostra também uma linha do que ela realmente está pensando. Ela também pode puxar conversa sozinha durante a reprodução automática (desligado por padrão). O chat envia para api.deepseek.com a persona, seu saldo, o gasto de hoje, as porcentagens das assinaturas e as mensagens recentes, cobrados do seu saldo DeepSeek; o histórico fica no seu Mac.
 
 Não foram portados o custo por turno, o som de fim de tarefa, os avisos de pergunta e aprovação e o módulo de nome da conversa. Eles dependem de eventos internos do DeepSeek Harness, que um app independente não consegue ver.
 
@@ -74,6 +75,7 @@ Na primeira abertura, a janela de ajustes aparece. Cole sua chave de API do Deep
 | Clica nela | Atualiza o saldo e mostra o balão do saldo |
 | Clica no balão | Mostra o próximo item (frases e imagens aleatórias) e fecha depois do último |
 | Arrasta ela | Move a posição; ao soltar, ela gruda na borda mais próxima |
+| Botão de chat (ao passar o mouse) ou o menu 「和鲸鱼娘聊天」 | Abre a janela de chat |
 | Clique direito nela, o botão ⋯ ou 🐳 na barra de menus | Menu: tamanho, sons, balões, encaixe, contas, ajustes, sair |
 
 ## Pipeline de arte

@@ -26,6 +26,7 @@ A DeepSeek whale girl who lives in a corner of your Mac screen. Her speech bubbl
 - **Subscriptions and API costs**: automatically detects cswap (every Claude account's 5-hour, 7-day, extra spend, and per-model usage), your Claude Code plan and token usage, and the ChatGPT plan behind Codex. With an organization Admin key it also shows OpenAI API and Claude API costs.
 - **Autoplay**: every 1–3 minutes she does something on her own: a small move, a random bubble, or a usage report. Each move comes with 5 matching lines that don't repeat. She also speaks up when peak/off-peak switches or a subscription crosses its threshold or resets, and stays quiet in full screen, during meetings, when you're away, and at night. Autoplay never makes sound.
 - **AI-generated moves**: 10 frame-by-frame animations made by the art pipeline (stretching, eating, dozing, typing, dancing, counting money and more), mixed in with the original moves.
+- **Chat with her**: hover over her and click the chat button. She answers through the DeepSeek API: cheeky, but she quotes your balance, today's spend and subscription usage accurately. With "inner voice" on she also shows one line of what she is really thinking. She can also speak up on her own during autoplay (off by default). Chatting sends the persona, your balance, today's spend, subscription percentages and recent messages to api.deepseek.com and is billed to your DeepSeek balance; the chat history stays on your Mac. She replies in Chinese by default and switches to your language when you write in it.
 
 Per-turn cost, task-end sounds, question and approval prompts, and the session-name module are not ported. They depend on events inside DeepSeek Harness, which a standalone app cannot see.
 
@@ -74,6 +75,7 @@ On first launch the settings window opens. Paste your DeepSeek API key and click
 | Click her | Refreshes the balance and shows the balance bubble |
 | Click the bubble | Shows the next item (random lines and images) and closes after the last one |
 | Drag her | Moves her; she snaps to the nearest edge when you let go |
+| Chat button (on hover), or the menu's 「和鲸鱼娘聊天」 | Open the chat window |
 | Right-click her, the ⋯ button, or 🐳 in the menu bar | Menu: size, sounds, bubbles, snapping, ledger, settings, quit |
 
 ## Art pipeline

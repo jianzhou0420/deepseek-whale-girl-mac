@@ -26,6 +26,7 @@ Une fille-baleine DeepSeek qui vit dans un coin de l'écran de votre Mac. Sa bul
 - **Abonnements et coûts d'API** : détecte automatiquement cswap (usage sur 5 heures, 7 jours, dépenses supplémentaires et par modèle pour chaque compte Claude), l'abonnement et les tokens de Claude Code, et l'abonnement ChatGPT derrière Codex. Avec une clé Admin d'organisation, affiche aussi les coûts des API OpenAI et Claude.
 - **Lecture automatique** : toutes les 1 à 3 minutes, elle fait quelque chose d'elle-même : un petit geste, une bulle aléatoire ou un point sur l'utilisation. Chaque geste a 5 répliques assorties qui ne se répètent pas. Elle prévient aussi au passage heures pleines/creuses, ou quand un abonnement dépasse son seuil ou se réinitialise. Elle reste discrète en plein écran, en réunion, quand vous êtes absent et la nuit, et la lecture automatique n'émet jamais de son.
 - **Gestes générés par IA** : 10 animations image par image créées par le pipeline graphique (s'étirer, manger, somnoler, taper au clavier, danser, compter de l'argent, etc.), jouées avec les gestes d'origine.
+- **Discuter avec elle** : survolez-la et cliquez sur le bouton de discussion. Elle répond via l’API DeepSeek : espiègle, mais elle cite avec précision votre solde, les dépenses du jour et l’utilisation de vos abonnements. Avec la « voix intérieure », elle affiche aussi une ligne de ce qu’elle pense vraiment. Elle peut aussi prendre la parole d’elle-même pendant la lecture automatique (désactivé par défaut). La discussion envoie à api.deepseek.com le personnage, votre solde, les dépenses du jour, les pourcentages d’abonnement et les messages récents, facturés sur votre solde DeepSeek ; l’historique reste sur votre Mac.
 
 Le coût par tour, le son de fin de tâche, les invites de question et d'approbation et le module de nom de conversation ne sont pas portés. Ils dépendent d'événements internes à DeepSeek Harness, inaccessibles à une app autonome.
 
@@ -74,6 +75,7 @@ Au premier lancement, la fenêtre de réglages s'ouvre. Collez votre clé d'API 
 | Cliquez sur elle | Met à jour le solde et affiche la bulle du solde |
 | Cliquez sur la bulle | Affiche l'élément suivant (phrases et images aléatoires) et se ferme après le dernier |
 | Faites-la glisser | La déplace ; elle s'aimante au bord le plus proche quand vous la lâchez |
+| Bouton de discussion (au survol) ou le menu 「和鲸鱼娘聊天」 | Ouvre la fenêtre de discussion |
 | Clic droit sur elle, le bouton ⋯ ou 🐳 dans la barre des menus | Menu : taille, sons, bulles, aimantation, comptes, réglages, quitter |
 
 ## Chaîne de création d'images

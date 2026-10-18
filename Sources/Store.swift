@@ -3,7 +3,7 @@
 import Foundation
 import Security
 
-let appVersion = "0.0.6"
+let appVersion = "0.0.7"
 
 enum Store {
     static let dir: URL = {
@@ -179,6 +179,7 @@ struct Settings: Codable, Equatable {
     var cswapPath = ""                // empty = auto-detect
     var subsRefreshMinutes = 5.0
     var autoPlay = AutoPlayConfig()
+    var chat = ChatConfig()
     var fragments: [SoundFragment] = []
 }
 

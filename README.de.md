@@ -26,6 +26,7 @@ Ein DeepSeek-Walmädchen, das in einer Ecke deines Mac-Bildschirms wohnt. Ihre S
 - **Abos und API-Kosten**: erkennt automatisch cswap (5-Stunden-, 7-Tage-, Zusatz- und Modellnutzung jedes Claude-Kontos), dein Claude-Code-Abo samt Token-Verbrauch und das ChatGPT-Abo hinter Codex. Mit einem Admin-Schlüssel der Organisation zeigt es auch die Kosten der OpenAI- und Claude-API.
 - **Autoplay**: Alle 1–3 Minuten macht sie von selbst etwas: eine kleine Bewegung, eine zufällige Sprechblase oder einen Nutzungsbericht. Jede Bewegung hat 5 passende Sätze, die sich nicht wiederholen. Sie meldet sich auch beim Wechsel zwischen Haupt- und Nebenzeit und wenn ein Abo eine Schwelle überschreitet oder zurückgesetzt wird. Im Vollbild, in Meetings, wenn du weg bist und nachts bleibt sie ruhig, und Autoplay spielt nie Töne ab.
 - **KI-generierte Bewegungen**: 10 Einzelbildanimationen aus der Grafik-Pipeline (Strecken, Essen, Dösen, Tippen, Tanzen, Geld zählen und mehr), gemischt mit den ursprünglichen Bewegungen.
+- **Mit ihr chatten**: Maus über sie bewegen und auf den Chat-Knopf klicken. Sie antwortet über die DeepSeek-API: frech, aber Guthaben, heutige Ausgaben und Abo-Auslastung nennt sie korrekt. Mit „innere Stimme“ zeigt sie zusätzlich eine Zeile mit ihren eigentlichen Gedanken. Auf Wunsch spricht sie beim Autoplay auch von sich aus (standardmäßig aus). Beim Chatten werden Persona, Guthaben, heutige Ausgaben, Abo-Prozente und die letzten Nachrichten an api.deepseek.com gesendet und von deinem DeepSeek-Guthaben abgerechnet; der Verlauf bleibt auf deinem Mac.
 
 Nicht portiert sind Kosten pro Runde, der Ton bei Aufgabenende, Hinweise zu Rückfragen und Freigaben sowie das Modul für den Gesprächsnamen. Sie hängen von internen Ereignissen in DeepSeek Harness ab, die eine eigenständige App nicht sieht.
 
@@ -74,6 +75,7 @@ Beim ersten Start öffnet sich das Einstellungsfenster. Füge deinen DeepSeek-AP
 | Sie anklicken | Aktualisiert das Guthaben und zeigt die Guthaben-Sprechblase |
 | Sprechblase anklicken | Zeigt den nächsten Eintrag (zufällige Sprüche und Bilder) und schließt nach dem letzten |
 | Sie ziehen | Verschiebt sie; beim Loslassen rastet sie am nächsten Rand ein |
+| Chat-Knopf (beim Überfahren) oder Menüpunkt 「和鲸鱼娘聊天」 | Chatfenster öffnen |
 | Rechtsklick auf sie, die ⋯-Taste oder 🐳 in der Menüleiste | Menü: Größe, Töne, Sprechblasen, Einrasten, Kassenbuch, Einstellungen, Beenden |
 
 ## Grafik-Pipeline

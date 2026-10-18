@@ -43,7 +43,7 @@ enum Snapshots {
             m.flipped = flip
             m.hovering = name == "hidden"
             if case .item(_, let it) = mode, let rm = it.modules.first(where: { $0.type == .randomImage }) { m.pickedImages[rm.id] = "gen_rice" }
-            capture(WidgetView(model: m, base: 375, openMenu: {}).background(bg), size: NSSize(width: 375, height: 375),
+            capture(WidgetView(model: m, base: 375, openMenu: {}, openChat: {}).background(bg), size: NSSize(width: 375, height: 375),
                     to: out.appendingPathComponent(name + ".png"))
         }
         m.bubble = .hidden
@@ -51,8 +51,17 @@ enum Snapshots {
         for id in ["anim_eat", "anim_type", "anim_hop", "anim_dance"] where Clips.shared.clip(id) != nil {
             m.roleClip = id; m.roleAnimStart = Date().addingTimeInterval(-0.2)
             if let line = Clips.shared.clip(id)?.lines.first { m.bubble = .alert(kind: "speech", modules: [BubbleDefaults.text(line, size: 8)]) }
-            capture(WidgetView(model: m, base: 375, openMenu: {}).background(bg), size: NSSize(width: 375, height: 375),
+            capture(WidgetView(model: m, base: 375, openMenu: {}, openChat: {}).background(bg), size: NSSize(width: 375, height: 375),
                     to: out.appendingPathComponent("clip-\(id).png"))
+        }
+        m.roleClip = nil; m.roleAnim = .wave; m.roleAnimStart = Date()
+        for (name, inner, text) in [("remark", "老大没理我，那我主动找点话说", "老大，订阅额度一周才用了22%，你这是打算留着过年吗？趁低谷还有两小时，赶紧烧点token～"),
+                                    ("remark-short", nil, "低谷时段到啦，快用！")] as [(String, String?, String)] {
+            var mods = [BubbleDefaults.text(text, size: 7)]
+            if let inner { mods.insert(BubbleDefaults.text("（\(inner)）", size: 5, bold: false, color: "#8a93b8"), at: 0) }
+            m.bubble = .alert(kind: "remark", modules: mods)
+            capture(WidgetView(model: m, base: 375, openMenu: {}, openChat: {}).background(bg), size: NSSize(width: 375, height: 375),
+                    to: out.appendingPathComponent(name + ".png"))
         }
         m.roleClip = nil; m.bubble = .hidden
         if CommandLine.arguments.contains("--windows") {

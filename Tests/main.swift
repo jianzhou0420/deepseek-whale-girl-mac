@@ -191,5 +191,34 @@ check(migrated == "legacy-value" && Keychain.get(mref) == "legacy-value", "keych
 kcDelete(Keychain.service)
 check(Keychain.get(mref) == nil, "keychain: test entries cleaned up")
 
+print("== Chat")
+var apc = AutoPlayConfig()
+check(AutoPlayPolicy.pick(apc, r: 0.999) == .report, "AI remarks are off by default (weight 0)")
+apc.wChat = 6
+check(AutoPlayPolicy.pick(apc, r: 0.99) == .chat, "AI remark joins the pool when weighted")
+let sys = ChatPersona.system(ChatContext(now: "10月18日 周日 14:00", peak: "低谷", balance: "¥12.34", todayCost: "¥0.56",
+                                         subscriptions: "Claude Max  5h 20%", recentEvent: "无"), .bubble)
+check(sys.contains("¥12.34") && sys.contains("¥0.56") && sys.contains("Claude Max  5h 20%") && sys.contains("40 个字"), "persona gets live data and the bubble length rule")
+check(!sys.contains("{"), "no placeholder left in the persona prompt")
+check(ChatPersona.system(ChatContext(), .panel).contains("100 个字"), "panel length rule")
+check(ChatPersona.clean("**老大**，\n今天`省钱`了吗？", limit: 40) == "老大， 今天省钱了吗？", "markdown and newlines cleaned")
+check(ChatPersona.clean("“嘿嘿，被你发现了～”", limit: 40) == "嘿嘿，被你发现了～", "wrapping quotes removed")
+check(ChatPersona.clean("鲸鱼娘：哼。", limit: 40) == "哼。", "name prefix removed")
+let long = String(repeating: "米饭", count: 40) + "。"
+check(ChatPersona.clean(long, limit: 40).count <= 50, "long reply cut")
+check(ChatPersona.cut("第一句话说完了。第二句话还在继续说个不停个不停", limit: 12) == "第一句话说完了。", "cut at a sentence end")
+check(ChatPersona.innerVoice("用户问余额，我需要用角色语气回答。（其实我就是想要米饭）") == "其实我就是想要米饭", "inner voice keeps the in-character aside")
+check(ChatPersona.innerVoice("用户在问我是谁。我应该按照设定回答。") == nil, "inner voice drops role-play meta talk")
+check(ChatPersona.innerVoice("（老大又在花钱。回复：“老大别花了”）") == "老大又在花钱", "inner voice skips reply drafts")
+check((ChatPersona.innerVoice("（这个老大今天写了好多好多好多好多好多好多代码啊真的好厉害）") ?? "x").count <= 20, "inner voice is short")
+check(ChatPersona.innerVoice("用户问今天花了多少钱。数据显示今日花费 ¥0.00。一句话给数字，再贱一句。") == nil, "inner voice drops planning notes")
+check(ChatPersona.innerVoice("不超过100字。说我是鲸鱼娘，WhaleSeek看板娘，同人二创。 maybe “嘿嘿” 可以。") == nil, "inner voice drops persona recital")
+check(ChatPersona.innerVoice("（老大这是骂我笨鱼呢，看来他心情不坏。）（被骂了就收下。顺便提一嘴今天的账单，显得我干活了。）") == "顺便提一嘴今天的账单，显得我干活了", "inner voice uses the last aside sentence")
+check(ChatPersona.innerVoice("def qs(a): return a if len(a)<2 else a") == nil, "inner voice drops code")
+check(ChatPersona.innerVoice(nil) == nil && ChatPersona.innerVoice("") == nil, "no reasoning, no inner voice")
+let hist = (0..<30).map { ChatMessage(role: $0 % 2 == 0 ? "user" : "assistant", text: "m\($0)") }
+let msgs = ChatPersona.messages(system: "S", history: hist, keep: 4, user: "hi")
+check(msgs.count == 6 && msgs.first?["role"] == "system" && msgs[1]["content"] == "m26" && msgs.last?["content"] == "hi", "history trimmed to the last N")
+
 print(failures == 0 ? "\nALL PASSED" : "\n\(failures) FAILED")
 exit(failures == 0 ? 0 : 1)

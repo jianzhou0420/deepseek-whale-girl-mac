@@ -67,6 +67,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var bag = Set<AnyCancellable>()
 
     func applicationDidFinishLaunching(_ n: Notification) {
+        NSApp.mainMenu = Self.editMenu()
         widget.makeMenu = { [weak self] in self?.buildMenu() ?? NSMenu() }
         widget.start()
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -84,6 +85,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                                                queue: .main) { [weak self] _ in self?.statusItem.menu = self?.buildMenu() }
         model.start()
         let args = CommandLine.arguments
+        if let i = args.firstIndex(of: "--chat-test") {   // development aid: one chat turn per argument, printed, not saved
+            DispatchQueue.main.asyncAfter(deadline: .now() + 6) { ChatSession.shared.devTest(Array(args[(i + 1)...]), model: self.model) }
+            return
+        }
         if let i = args.firstIndex(of: "--open"), i + 1 < args.count {   // development aid
             let what = args[i + 1]
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -96,6 +101,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if model.deepseekKey == nil {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { Windows.settings(tab: .deepseek) }
         }
+    }
+
+    /// An accessory app has no menu bar, but ⌘C / ⌘V / ⌘X / ⌘A / ⌘Z in text fields are routed through
+    /// the main menu's Edit items, so install one (never shown) to make copy and paste work.
+    static func editMenu() -> NSMenu {
+        let main = NSMenu()
+        let edit = NSMenu(title: "编辑")
+        let items: [(String, Selector, String, NSEvent.ModifierFlags)] = [
+            ("撤销", Selector(("undo:")), "z", .command), ("重做", Selector(("redo:")), "z", [.command, .shift]),
+            ("剪切", #selector(NSText.cut(_:)), "x", .command), ("拷贝", #selector(NSText.copy(_:)), "c", .command),
+            ("粘贴", #selector(NSText.paste(_:)), "v", .command), ("全选", #selector(NSText.selectAll(_:)), "a", .command),
+            ("关闭窗口", #selector(NSWindow.performClose(_:)), "w", .command),
+        ]
+        for (title, sel, key, mods) in items {
+            let i = NSMenuItem(title: title, action: sel, keyEquivalent: key)
+            i.keyEquivalentModifierMask = mods
+            edit.addItem(i)
+        }
+        let editItem = NSMenuItem(title: "编辑", action: nil, keyEquivalent: "")
+        editItem.submenu = edit
+        main.addItem(NSMenuItem(title: "WhaleSeek", action: nil, keyEquivalent: ""))
+        main.addItem(editItem)
+        return main
     }
 
     private var tooltip: String {
@@ -117,6 +145,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let head = NSMenuItem(title: "余额 " + model.amountText(model.balance) + "  ·  今日 " + model.todayText, action: nil, keyEquivalent: "")
         head.isEnabled = false
         m.addItem(head)
+        if s.chat.on {
+            m.addItem(item(ChatWindow.shared.isOpen ? "收起聊天" : "和鲸鱼娘聊天…") { [weak self] in self?.widget.toggleChat() })
+        }
         m.addItem(item("刷新余额") { [weak self] in self?.model.refresh(manual: true) })
         if case .hidden = model.bubble {
             m.addItem(item("显示气泡") { [weak self] in self?.model.showItem(0) })

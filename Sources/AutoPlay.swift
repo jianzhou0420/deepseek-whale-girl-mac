@@ -62,6 +62,8 @@ final class AutoPlayer: ObservableObject {
     @Published private(set) var nextAt: Date?
     @Published private(set) var quietReason: String?
     @Published private(set) var lastAction = ""
+    /// The last event she announced, for the chat context.
+    private(set) var recentEvent: String?
 
     private weak var model: AppModel?
     private var timer: Timer?
@@ -129,6 +131,8 @@ final class AutoPlayer: ObservableObject {
             m.playRole(.wave, for: 1.5)
         case .report:
             m.showItem(0, autoClose: close)
+        case .chat:
+            if !ChatSession.shared.remark(model: m) { play(.anim) }
         }
     }
 
@@ -166,6 +170,8 @@ final class AutoPlayer: ObservableObject {
     private func show(_ e: AutoPlayPolicy.Event) {
         guard let m = model else { return }
         lastAction = e.kind
+        let f = DateFormatter(); f.dateFormat = "HH:mm"
+        recentEvent = f.string(from: Date()) + " " + e.text + e.highlight
         var mods = [BubbleDefaults.text(e.text, size: 6)]
         if !e.highlight.isEmpty { mods.append(BubbleDefaults.text(e.highlight, size: 9, rgb: "rouge")) }
         let role: Anim = e.kind == "threshold" || e.kind == "peak" ? .panic : .cheer

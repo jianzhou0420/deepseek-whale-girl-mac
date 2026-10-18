@@ -5,6 +5,7 @@ struct AutoPlayConfig: Codable, Equatable {
     var on = true
     var minMinutes = 1.0, maxMinutes = 3.0
     var wAnim = 3.0, wRandom = 2.0, wReport = 1.0
+    var wChat = 0.0                 // she says something written by DeepSeek (costs a little per remark)
     var aiClips = true              // small actions also draw from the AI-generated clips
     var moveLines = true            // small actions come with a matching speech bubble
     var evPeak = true
@@ -19,7 +20,7 @@ struct AutoPlayConfig: Codable, Equatable {
     var silent = true               // autoplay never makes sound
 }
 
-enum AutoAction: String, CaseIterable { case anim, random, report }
+enum AutoAction: String, CaseIterable { case anim, random, report, chat }
 
 /// Pure decisions, kept separate so they can be tested.
 enum AutoPlayPolicy {
@@ -40,7 +41,7 @@ enum AutoPlayPolicy {
 
     /// Weighted pick; `r` is a uniform random number in [0, 1).
     static func pick(_ c: AutoPlayConfig, r: Double) -> AutoAction? {
-        let ws: [(AutoAction, Double)] = [(.anim, c.wAnim), (.random, c.wRandom), (.report, c.wReport)].filter { $0.1 > 0 }
+        let ws: [(AutoAction, Double)] = [(.anim, c.wAnim), (.random, c.wRandom), (.report, c.wReport), (.chat, c.wChat)].filter { $0.1 > 0 }
         let total = ws.reduce(0) { $0 + $1.1 }
         guard total > 0 else { return nil }
         var x = r * total

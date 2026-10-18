@@ -26,6 +26,7 @@ Una chica ballena de DeepSeek que vive en una esquina de la pantalla de tu Mac. 
 - **Suscripciones y costes de API**: detecta automáticamente cswap (el uso de 5 horas, 7 días, gasto extra y por modelo de cada cuenta de Claude), el plan y los tokens de Claude Code y el plan de ChatGPT detrás de Codex. Con una clave Admin de organización también muestra los costes de las API de OpenAI y Claude.
 - **Reproducción automática**: cada 1–3 minutos hace algo por su cuenta: un pequeño movimiento, una burbuja aleatoria o un informe de uso. Cada movimiento trae 5 frases a juego que no se repiten. También avisa al cambiar entre hora punta y valle, o cuando una suscripción supera su umbral o se reinicia. Se queda en silencio en pantalla completa, en reuniones, cuando no estás y de noche, y la reproducción automática nunca suena.
 - **Movimientos generados con IA**: 10 animaciones fotograma a fotograma creadas con el pipeline de arte (estirarse, comer, dormitar, teclear, bailar, contar dinero y más), mezcladas con los movimientos originales.
+- **Chatea con ella**: pasa el ratón por encima y pulsa el botón de chat. Responde a través de la API de DeepSeek: pícara, pero te dice con exactitud tu saldo, el gasto de hoy y el uso de tus suscripciones. Con la «voz interior» activada muestra además una línea de lo que piensa de verdad. También puede hablarte por su cuenta durante la reproducción automática (desactivado por defecto). Al chatear se envían a api.deepseek.com el personaje, tu saldo, el gasto de hoy, los porcentajes de suscripción y los mensajes recientes, con cargo a tu saldo de DeepSeek; el historial se queda en tu Mac.
 
 No se han portado el coste por turno, el sonido de fin de tarea, los avisos de preguntas y aprobaciones ni el módulo de nombre de conversación. Dependen de eventos internos de DeepSeek Harness que una app independiente no puede ver.
 
@@ -74,6 +75,7 @@ Al abrirla por primera vez se abre la ventana de ajustes. Pega tu clave de API d
 | Clic en ella | Actualiza el saldo y muestra el bocadillo del saldo |
 | Clic en el bocadillo | Muestra el siguiente elemento (frases e imágenes aleatorias) y se cierra tras el último |
 | Arrastrarla | La mueve; al soltarla se pega al borde más cercano |
+| Botón de chat (al pasar el ratón) o el menú 「和鲸鱼娘聊天」 | Abre la ventana de chat |
 | Clic derecho sobre ella, el botón ⋯ o 🐳 en la barra de menús | Menú: tamaño, sonidos, bocadillos, anclaje, cuentas, ajustes, salir |
 
 ## Generador de ilustraciones

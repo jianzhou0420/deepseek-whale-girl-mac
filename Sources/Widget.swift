@@ -55,8 +55,11 @@ struct WidgetView: View {
     @ObservedObject var model: AppModel
     var base: CGFloat
     var openMenu: () -> Void
+    var openChat: () -> Void
 
     static let charWidthRatio: CGFloat = 0.62
+    static let menuButtonY: CGFloat = 0.36
+    static let chatButtonY: CGFloat = 0.45
 
     var body: some View {
         let cw = base * Self.charWidthRatio
@@ -81,8 +84,20 @@ struct WidgetView: View {
                 }
                 .buttonStyle(.plain)
                 .scaleEffect(x: model.flipped ? -1 : 1, y: 1)
-                .position(x: base * 0.95, y: base * 0.36)
+                .position(x: base * 0.95, y: base * Self.menuButtonY)
                 .transition(.opacity)
+            }
+            if model.hovering && model.settings.chat.on && !model.dragging {
+                Button(action: openChat) {
+                    Image(systemName: "bubble.left.circle.fill")
+                        .font(.system(size: max(14, base * 0.07)))
+                        .foregroundStyle(.white, Color.bubbleStroke)
+                }
+                .buttonStyle(.plain)
+                .scaleEffect(x: model.flipped ? -1 : 1, y: 1)
+                .position(x: base * 0.95, y: base * Self.chatButtonY)
+                .transition(.opacity)
+                .help("和鲸鱼娘聊天")
             }
         }
         .frame(width: base, height: base, alignment: .topLeading)
@@ -107,7 +122,7 @@ struct WidgetView: View {
     }
 }
 
-enum WidgetRegion { case none, character, bubble, menuButton }
+enum WidgetRegion { case none, character, bubble, menuButton, chatButton }
 
 final class WidgetHostingView: NSHostingView<WidgetView> {
     weak var controller: WidgetController?
@@ -133,7 +148,7 @@ final class WidgetHostingView: NSHostingView<WidgetView> {
     }
 
     override func mouseDragged(with e: NSEvent) {
-        guard let c = controller, let w = window, region != .none, region != .menuButton else { return }
+        guard let c = controller, let w = window, region != .none, region != .menuButton, region != .chatButton else { return }
         let m = NSEvent.mouseLocation
         if !dragged && hypot(m.x - downMouse.x, m.y - downMouse.y) > 3 {
             dragged = true
@@ -188,7 +203,8 @@ final class WidgetController: NSObject {
         window.level = .floating
         window.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary, .ignoresCycle]
         window.isReleasedWhenClosed = false
-        host = WidgetHostingView(rootView: WidgetView(model: model, base: base, openMenu: { [weak self] in self?.showMenuAtMouse() }))
+        host = WidgetHostingView(rootView: WidgetView(model: model, base: base, openMenu: { [weak self] in self?.showMenuAtMouse() },
+                   openChat: { [weak self] in self?.toggleChat() }))
         host.controller = self
         window.contentView = host
         settle(animated: false)
@@ -215,8 +231,11 @@ final class WidgetController: NSObject {
         if model.flipped { x = b - x }
         let yTop = b - p.y   // distance from the top
         // menu button
-        if model.hovering && model.settings.showMenuButton && hypot(x - b * 0.95, yTop - b * 0.36) < max(14, b * 0.05) {
+        if model.hovering && model.settings.showMenuButton && hypot(x - b * 0.95, yTop - b * WidgetView.menuButtonY) < max(14, b * 0.05) {
             return .menuButton
+        }
+        if model.hovering && model.settings.chat.on && hypot(x - b * 0.95, yTop - b * WidgetView.chatButtonY) < max(14, b * 0.05) {
+            return .chatButton
         }
         // character body: central part of the sprite cell at the bottom-right
         let cw = b * WidgetView.charWidthRatio
@@ -235,7 +254,7 @@ final class WidgetController: NSObject {
         let m = NSEvent.mouseLocation
         let local = NSPoint(x: m.x - w.frame.minX, y: m.y - w.frame.minY)
         let r = w.frame.contains(m) ? region(at: local) : .none
-        let hover = r == .character || r == .menuButton
+        let hover = r == .character || r == .menuButton || r == .chatButton
         if model.hovering != hover && !model.dragging { model.hovering = hover }
         let busy = model.pressed || model.dragging || NSEvent.pressedMouseButtons != 0 && !w.ignoresMouseEvents
         let ignore = r == .none && !busy
@@ -247,6 +266,7 @@ final class WidgetController: NSObject {
     func showMenu(with e: NSEvent, in view: NSView) {
         NSMenu.popUpContextMenu(makeMenu(), with: e, for: view)
     }
+    func toggleChat() { ChatWindow.shared.toggle(near: window) }
     func showMenuAtMouse() {
         let m = makeMenu()
         let p = host.convert(window.mouseLocationOutsideOfEventStream, from: nil)
@@ -295,7 +315,8 @@ final class WidgetController: NSObject {
     }
 
     func resize() {
-        host.rootView = WidgetView(model: model, base: base, openMenu: { [weak self] in self?.showMenuAtMouse() })
+        host.rootView = WidgetView(model: model, base: base, openMenu: { [weak self] in self?.showMenuAtMouse() },
+                   openChat: { [weak self] in self?.toggleChat() })
         settle(animated: false)
     }
 

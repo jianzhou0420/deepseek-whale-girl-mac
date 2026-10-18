@@ -4,7 +4,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 enum SettingsTab: String, CaseIterable, Identifiable {
-    case general, deepseek, subscriptions, autoplay, alerts, sound, snap, vendors, resources, about
+    case general, deepseek, subscriptions, autoplay, chat, alerts, sound, snap, vendors, resources, about
     var id: String { rawValue }
     var title: String {
         switch self {
@@ -12,6 +12,7 @@ enum SettingsTab: String, CaseIterable, Identifiable {
         case .deepseek: return "DeepSeek"
         case .subscriptions: return "订阅"
         case .autoplay: return "自动播放"
+        case .chat: return "聊天"
         case .alerts: return "提醒"
         case .sound: return "音效"
         case .snap: return "吸附"
@@ -26,6 +27,7 @@ enum SettingsTab: String, CaseIterable, Identifiable {
         case .deepseek: return "key"
         case .subscriptions: return "person.2.badge.gearshape"
         case .autoplay: return "sparkles"
+        case .chat: return "bubble.left.and.text.bubble.right"
         case .alerts: return "bell"
         case .sound: return "speaker.wave.2"
         case .snap: return "rectangle.portrait.and.arrow.right"
@@ -58,6 +60,7 @@ struct SettingsView: View {
                 case .deepseek: DeepSeekTab(model: model)
                 case .subscriptions: SubscriptionsTab(model: model)
                 case .autoplay: AutoPlayTab(model: model, player: model.autoPlayer)
+                case .chat: ChatTab(model: model, chat: ChatSession.shared)
                 case .alerts: AlertsTab(model: model)
                 case .sound: SoundTab(model: model)
                 case .snap: SnapTab(model: model)
@@ -143,7 +146,7 @@ struct DeepSeekTab: View {
             } header: {
                 Text("DeepSeek API 密钥")
             } footer: {
-                Text("密钥只保存在 macOS 钥匙串里，只会发往 api.deepseek.com/user/balance 查询余额。"
+                Text("密钥只保存在 macOS 钥匙串里，只会发往 api.deepseek.com：查询余额，以及和鲸鱼娘聊天（可在「聊天」里关掉）。"
                      + (Keychain.has("DEEPSEEK_API_KEY") ? "当前已设置密钥。" : "当前还没有设置密钥。"))
                     .font(.footnote).foregroundStyle(.secondary)
             }
@@ -769,6 +772,7 @@ struct AutoPlayTab: View {
                 weight("小动作（不出泡泡）", c.wAnim, .anim)
                 weight("随机台词 / 图片", c.wRandom, .random)
                 weight("余额与订阅报告", c.wReport, .report)
+                weight("AI 搭话（调用 DeepSeek）", c.wChat, .chat)
                 Toggle("小动作包含 AI 生成的动作（\(Clips.shared.list.count) 个）", isOn: c.aiClips)
                 Toggle("小动作时冒一句对应的台词", isOn: c.moveLines)
             }
@@ -822,6 +826,62 @@ struct AutoPlayTab: View {
             Slider(value: v, in: 0...5, step: 1)
             Text("\(Int(v.wrappedValue))").monospacedDigit().frame(width: 20)
             Button("试一下") { player.play(a) }
+        }
+    }
+}
+
+struct ChatTab: View {
+    @ObservedObject var model: AppModel
+    @ObservedObject var chat: ChatSession
+    @State private var confirmClear = false
+
+    static let models = [("deepseek-flash", "Flash（快、便宜）"), ("deepseek-v4-pro", "V4 Pro（更聪明、贵一些）")]
+
+    var body: some View {
+        let c = $model.settings.chat
+        Form {
+            Section {
+                Toggle("和鲸鱼娘聊天", isOn: c.on)
+                HStack {
+                    Button("打开聊天窗口") { ChatWindow.shared.open(near: nil) }
+                    Button("让她说一句") { ChatSession.shared.remark(model: model) }.disabled(chat.busy)
+                    if chat.busy { ProgressView().controlSize(.small) }
+                }
+                if let e = chat.error { Text(e).font(.callout).foregroundStyle(.red) }
+                if model.deepseekKey == nil {
+                    HStack {
+                        Text("还没有 DeepSeek 密钥，聊不了天。").foregroundStyle(.secondary)
+                        Button("去填写") { SettingsState.shared.tab = .deepseek }
+                    }
+                }
+            } footer: {
+                Text("把鼠标移到她身上，点旁边的对话按钮就能聊天。她用 DeepSeek API 回话，费用从你的 DeepSeek 余额里扣，一句大约几厘钱。")
+                    .font(.footnote).foregroundStyle(.secondary)
+            }
+
+            Section("模型") {
+                Picker("模型", selection: c.model) {
+                    ForEach(Self.models, id: \.0) { Text($0.1).tag($0.0) }
+                    if !Self.models.contains(where: { $0.0 == model.settings.chat.model }) {
+                        Text(model.settings.chat.model).tag(model.settings.chat.model)
+                    }
+                }
+                TextField("模型名", text: c.model).font(.system(.body, design: .monospaced))
+                Toggle("显示心声（思考模式，慢一点、贵一点）", isOn: c.innerVoice)
+                Stepper("带上最近 \(model.settings.chat.historyMessages) 条聊天记录", value: c.historyMessages, in: 0...60, step: 2)
+            }
+
+            Section {
+                LabeledContent("已保存", value: "\(chat.messages.count) 条")
+                Button("清空聊天记录", role: .destructive) { confirmClear = true }.disabled(chat.messages.isEmpty)
+            } header: { Text("记录") } footer: {
+                Text("聊天时会把这些发给 api.deepseek.com：鲸鱼娘的人设、当前时间、DeepSeek 余额和今日花费、订阅额度百分比、最近的提醒，以及最近的聊天记录。聊天记录只保存在本机 chat.json 里。")
+                    .font(.footnote).foregroundStyle(.secondary)
+            }
+        }
+        .formStyle(.grouped)
+        .confirmationDialog("清空全部聊天记录？", isPresented: $confirmClear) {
+            Button("清空", role: .destructive) { chat.clear() }
         }
     }
 }
