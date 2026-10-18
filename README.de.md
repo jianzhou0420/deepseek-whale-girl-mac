@@ -22,11 +22,11 @@ Ein DeepSeek-Walmädchen, das in einer Ecke deines Mac-Bildschirms wohnt. Ihre S
 - **Warnungen**: Warnungen bei niedrigem Guthaben und beim Tagesbudget, mit frei bearbeitbarem Inhalt.
 - **Andere Anbieter**: 34 Vorlagen, darunter Guthaben von OpenRouter, Kimi, StepFun und Novita, Abo-Kontingente von Zhipu, Kimi Coding, MiniMax und OpenCode Go sowie OpenAI-kompatible Gateways. Schlüssel gehen nur an den offiziellen Endpunkt der jeweiligen Vorlage, außer du erlaubst einen eigenen.
 - **Codex-Statistik**: liest lokale Codex-Sitzungsprotokolle für Token-Verbrauch und Abo-Zeitfenster, ganz ohne Netzwerk.
-- **Native Mac-App**: zieh sie überallhin; sie rastet an Bildschirmrändern ein und spiegelt sich am linken Rand. Guthaben in der Menüleiste, Start bei der Anmeldung und API-Schlüssel im Schlüsselbund.
+- **Native Mac-App**: zieh sie überallhin; sie rastet an Bildschirmrändern ein und spiegelt sich am linken Rand. Guthaben in der Menüleiste, Start bei der Anmeldung und API-Schlüssel nur auf deinem Mac.
 - **Abos und API-Kosten**: erkennt automatisch cswap (5-Stunden-, 7-Tage-, Zusatz- und Modellnutzung jedes Claude-Kontos), dein Claude-Code-Abo samt Token-Verbrauch und das ChatGPT-Abo hinter Codex. Mit einem Admin-Schlüssel der Organisation zeigt es auch die Kosten der OpenAI- und Claude-API.
 - **Autoplay**: Alle 1–3 Minuten macht sie von selbst etwas: eine kleine Bewegung, eine zufällige Sprechblase oder einen Nutzungsbericht. Jede Bewegung hat 5 passende Sätze, die sich nicht wiederholen. Sie meldet sich auch beim Wechsel zwischen Haupt- und Nebenzeit und wenn ein Abo eine Schwelle überschreitet oder zurückgesetzt wird. Im Vollbild, in Meetings, wenn du weg bist und nachts bleibt sie ruhig, und Autoplay spielt nie Töne ab.
 - **KI-generierte Bewegungen**: 10 Einzelbildanimationen aus der Grafik-Pipeline (Strecken, Essen, Dösen, Tippen, Tanzen, Geld zählen und mehr), gemischt mit den ursprünglichen Bewegungen.
-- **Mit ihr chatten**: Maus über sie bewegen und auf den Chat-Knopf klicken. Sie antwortet über die DeepSeek-API: frech, aber Guthaben, heutige Ausgaben und Abo-Auslastung nennt sie korrekt. Mit „innere Stimme“ zeigt sie zusätzlich eine Zeile mit ihren eigentlichen Gedanken. Auf Wunsch spricht sie beim Autoplay auch von sich aus (standardmäßig aus). Beim Chatten werden Persona, Guthaben, heutige Ausgaben, Abo-Prozente und die letzten Nachrichten an api.deepseek.com gesendet und von deinem DeepSeek-Guthaben abgerechnet; der Verlauf bleibt auf deinem Mac.
+- **Mit ihr chatten**: ein vollwertiger DeepSeek-Assistent mit der Persönlichkeit des Walmädchens. Programmieren, Debuggen, Recherche, Übersetzen: Antworten werden gestreamt, mit Markdown, kopierbaren Codeblöcken und Tabellen. Tiefes Nachdenken an/aus (mit aufklappbarem Denkprozess), Wechsel zwischen Flash und V4 Pro, Bearbeiten und neu senden, neu generieren, mittendrin stoppen sowie Text-, Code- und PDF-Anhänge. Unterhaltungen sind nach Datum gruppiert und lassen sich durchsuchen, umbenennen und löschen. **Automatisches Langzeitgedächtnis**: Nach jedem Chat merkt sie sich dauerhafte Fakten über dich (wer du bist, deine Projekte, Vorlieben) und nutzt sie in späteren Chats; jede Erinnerung kannst du ansehen, bearbeiten oder löschen. Auf Wunsch spricht sie beim Autoplay auch von sich aus (standardmäßig aus). Beim Chatten werden Persona, Erinnerungen, Guthaben, heutige Ausgaben, Abo-Prozente und die Unterhaltung an api.deepseek.com gesendet und von deinem DeepSeek-Guthaben abgerechnet; Unterhaltungen und Erinnerungen bleiben auf deinem Mac.
 
 Nicht portiert sind Kosten pro Runde, der Ton bei Aufgabenende, Hinweise zu Rückfragen und Freigaben sowie das Modul für den Gesprächsnamen. Sie hängen von internen Ereignissen in DeepSeek Harness ab, die eine eigenständige App nicht sieht.
 
@@ -66,7 +66,7 @@ cd whaleseek
 open WhaleSeek.app
 ```
 
-Beim ersten Start öffnet sich das Einstellungsfenster. Füge deinen DeepSeek-API-Schlüssel ein und speichere ihn. Der Schlüssel liegt nur im macOS-Schlüsselbund.
+Beim ersten Start öffnet sich das Einstellungsfenster. Füge deinen DeepSeek-API-Schlüssel ein und speichere ihn. Der Schlüssel liegt nur auf deinem Mac in einer Datei, die nur dein Benutzerkonto lesen kann (keys.json); macOS fragt nie nach deinem Passwort.
 
 ## Bedienung
 

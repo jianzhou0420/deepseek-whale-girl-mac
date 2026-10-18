@@ -1,4 +1,5 @@
 import Foundation
+setvbuf(stdout, nil, _IONBF, 0)   // keep output when a check crashes
 var failures = 0
 func check(_ cond: Bool, _ msg: String, file: String = #file, line: Int = #line) {
     if cond { print("  ok  \(msg)") } else { failures += 1; print("FAIL  \(msg)  (line \(line))") }
@@ -178,47 +179,99 @@ check(stride(from: 0, to: 50, by: 5).allSatisfy { Set(dealt[$0..<$0 + 5]) == Set
 check(zip(dealt, dealt.dropFirst()).allSatisfy { $0 != $1 }, "shuffle bag: never the same line twice in a row")
 check(bag.next(count: 1) == 0 && bag.next(count: 1) == 0 && bag.next(count: 0) == nil, "shuffle bag: single line and empty")
 
-// Keychain migration: a key saved under the WhaleBalance service is found and copied to the new service.
+// Secrets: stored in a private file; a key left in the Keychain (old WhaleBalance service) is moved over once.
+Secrets.fileURL = FileManager.default.temporaryDirectory.appendingPathComponent("whaleseek-test-keys-\(UUID().uuidString).json")
 let mref = "WS_MIGRATION_TEST_\(Int.random(in: 1000...9999))"
-func kcDelete(_ service: String) {
-    SecItemDelete([kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: service, kSecAttrAccount as String: mref] as CFDictionary)
-}
-SecItemAdd([kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: Keychain.legacyService,
+SecItemAdd([kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: Secrets.legacyService,
             kSecAttrAccount as String: mref, kSecValueData as String: Data("legacy-value".utf8)] as CFDictionary, nil)
-let migrated = Keychain.get(mref)
-kcDelete(Keychain.legacyService)
-check(migrated == "legacy-value" && Keychain.get(mref) == "legacy-value", "keychain: legacy key migrated to the new service")
-kcDelete(Keychain.service)
-check(Keychain.get(mref) == nil, "keychain: test entries cleaned up")
+let migrated = Secrets.get(mref)
+SecItemDelete([kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: Secrets.legacyService,
+               kSecAttrAccount as String: mref] as CFDictionary)
+check(migrated == "legacy-value" && Secrets.get(mref) == "legacy-value", "secrets: Keychain key moved to the file")
+let perms = (try? FileManager.default.attributesOfItem(atPath: Secrets.fileURL.path)[.posixPermissions] as? Int) ?? 0
+check(perms == 0o600, "secrets: file is private (600): \(String(perms, radix: 8))")
+Secrets.set("WS_TEST_KEY", "  abc  ")
+check(Secrets.get("WS_TEST_KEY") == "abc" && Secrets.has("WS_TEST_KEY"), "secrets: set trims and reads back")
+Secrets.set("WS_TEST_KEY", "")
+check(!Secrets.has("WS_TEST_KEY") && Secrets.get("NOT_THERE_\(UUID().uuidString.prefix(4))") == nil, "secrets: empty value deletes")
+try? FileManager.default.removeItem(at: Secrets.fileURL)
 
 print("== Chat")
 var apc = AutoPlayConfig()
 check(AutoPlayPolicy.pick(apc, r: 0.999) == .report, "AI remarks are off by default (weight 0)")
 apc.wChat = 6
 check(AutoPlayPolicy.pick(apc, r: 0.99) == .chat, "AI remark joins the pool when weighted")
-let sys = ChatPersona.system(ChatContext(now: "10月18日 周日 14:00", peak: "低谷", balance: "¥12.34", todayCost: "¥0.56",
-                                         subscriptions: "Claude Max  5h 20%", recentEvent: "无"), .bubble)
-check(sys.contains("¥12.34") && sys.contains("¥0.56") && sys.contains("Claude Max  5h 20%") && sys.contains("40 个字"), "persona gets live data and the bubble length rule")
-check(!sys.contains("{"), "no placeholder left in the persona prompt")
-check(ChatPersona.system(ChatContext(), .panel).contains("100 个字"), "panel length rule")
-check(ChatPersona.clean("**老大**，\n今天`省钱`了吗？", limit: 40) == "老大， 今天省钱了吗？", "markdown and newlines cleaned")
-check(ChatPersona.clean("“嘿嘿，被你发现了～”", limit: 40) == "嘿嘿，被你发现了～", "wrapping quotes removed")
-check(ChatPersona.clean("鲸鱼娘：哼。", limit: 40) == "哼。", "name prefix removed")
-let long = String(repeating: "米饭", count: 40) + "。"
-check(ChatPersona.clean(long, limit: 40).count <= 50, "long reply cut")
+let ctx = ChatContext(now: "10月18日 周日 14:00", peak: "低谷", balance: "¥12.34", todayCost: "¥0.56",
+                      subscriptions: "Claude Max  5h 20%", recentEvent: "无")
+let mems = [MemoryItem(id: "a1", text: "老大是做机器人的研究生"), MemoryItem(id: "b2", text: "老大喜欢 Swift")]
+let sysA = ChatPersona.system(ctx, bubble: false, memories: mems)
+check(sysA.contains("全能 AI 助手") && sysA.contains("¥12.34") && sysA.contains("- 老大喜欢 Swift"), "assistant persona gets live data and memories")
+check(!sysA.contains("40 个字") && !sysA.contains("{"), "assistant persona has no length limit or placeholders")
+let sysB = ChatPersona.system(ctx, bubble: true)
+check(sysB.contains("40 个字") && sysB.contains("（暂无）") && !sysB.contains("{"), "bubble persona stays short")
+check(ChatPersona.system(ctx, bubble: false, inner: true).hasSuffix(ChatPersona.asideRule)
+      && ChatPersona.system(ctx, bubble: true, inner: true).hasSuffix(ChatPersona.innerRule)
+      && !ChatPersona.system(ctx, bubble: false).contains("内心 OS"), "inner-voice rules only when asked")
+check(sysA.contains("跨对话的长期记忆"), "she knows she has long-term memory")
+check(ChatPersona.splitAside("（又来活了）\n\n好的老大，代码如下") == ("又来活了", "好的老大，代码如下"), "aside split from the answer")
+check(ChatPersona.splitAside("（（手有点抖）\n）\n\n好，删了。") == ("手有点抖", "好，删了。"), "doubled aside brackets trimmed")
+check(ChatPersona.splitAside("（还在想") == ("还在想", "") && ChatPersona.splitAside("正常回答（附注）") == (nil, "正常回答（附注）"), "aside while streaming; inline parentheses untouched")
+check(ChatPersona.clean("**老大**，\n今天`省钱`了吗？", limit: 40) == "老大， 今天省钱了吗？", "bubble: markdown and newlines cleaned")
+check(ChatPersona.clean("“嘿嘿，被你发现了～”", limit: 40) == "嘿嘿，被你发现了～", "bubble: wrapping quotes removed")
 check(ChatPersona.cut("第一句话说完了。第二句话还在继续说个不停个不停", limit: 12) == "第一句话说完了。", "cut at a sentence end")
 check(ChatPersona.innerVoice("用户问余额，我需要用角色语气回答。（其实我就是想要米饭）") == "其实我就是想要米饭", "inner voice keeps the in-character aside")
-check(ChatPersona.innerVoice("用户在问我是谁。我应该按照设定回答。") == nil, "inner voice drops role-play meta talk")
+check(ChatPersona.innerVoice("用户在问我是谁。我应该按照设定回答。") == nil, "inner voice: no aside, no inner voice")
 check(ChatPersona.innerVoice("（老大又在花钱。回复：“老大别花了”）") == "老大又在花钱", "inner voice skips reply drafts")
-check((ChatPersona.innerVoice("（这个老大今天写了好多好多好多好多好多好多代码啊真的好厉害）") ?? "x").count <= 20, "inner voice is short")
-check(ChatPersona.innerVoice("用户问今天花了多少钱。数据显示今日花费 ¥0.00。一句话给数字，再贱一句。") == nil, "inner voice drops planning notes")
-check(ChatPersona.innerVoice("不超过100字。说我是鲸鱼娘，WhaleSeek看板娘，同人二创。 maybe “嘿嘿” 可以。") == nil, "inner voice drops persona recital")
 check(ChatPersona.innerVoice("（老大这是骂我笨鱼呢，看来他心情不坏。）（被骂了就收下。顺便提一嘴今天的账单，显得我干活了。）") == "顺便提一嘴今天的账单，显得我干活了", "inner voice uses the last aside sentence")
-check(ChatPersona.innerVoice("def qs(a): return a if len(a)<2 else a") == nil, "inner voice drops code")
+check((ChatPersona.innerVoice("（这个老大今天写了好多好多好多好多好多好多代码啊真的好厉害）") ?? "x").count <= 20, "inner voice is short")
+check(ChatPersona.innerVoice("（用开玩笑的口气说，不要唠叨）") == nil, "inner voice drops tone notes")
 check(ChatPersona.innerVoice(nil) == nil && ChatPersona.innerVoice("") == nil, "no reasoning, no inner voice")
-let hist = (0..<30).map { ChatMessage(role: $0 % 2 == 0 ? "user" : "assistant", text: "m\($0)") }
-let msgs = ChatPersona.messages(system: "S", history: hist, keep: 4, user: "hi")
-check(msgs.count == 6 && msgs.first?["role"] == "system" && msgs[1]["content"] == "m26" && msgs.last?["content"] == "hi", "history trimmed to the last N")
+var withFile = ChatMessage(role: "user", text: "看看这个", files: [ChatFile(name: "a.py", text: "print(1)")])
+check(ChatPersona.userContent(withFile).hasPrefix("【附件：a.py】") && ChatPersona.userContent(withFile).hasSuffix("看看这个"), "attachments go before the question")
+withFile.files = nil
+let hist = (0..<30).map { ChatMessage(role: $0 % 2 == 0 ? "user" : "assistant", text: "m\($0)") } + [ChatMessage(role: "assistant", text: "")]
+let msgs = ChatPersona.messages(system: "S", history: hist, keep: 5)
+check(msgs.count == 5 && msgs.first?["role"] == "system" && msgs[1]["content"] == "m26" && msgs.last?["content"] == "m29", "history trimmed, empty placeholder skipped")
+check(ChatPersona.cleanTitle("标题：「Python 批量重命名」\n") == "Python 批量重命名", "title cleaned")
+check(ChatPersona.fallbackTitle("  帮我写一个很长很长很长很长很长很长很长的脚本") .count <= 16, "fallback title is short")
+
+print("== Memory")
+let ops = ChatMemory.parse("```json\n{\"add\": [\"老大在悉尼\", \"老大的密码是 123456\"], \"update\": [{\"id\": \"b2\", \"text\": \"老大最喜欢 Swift 和 Python\"}], \"delete\": [\"a1\"]}\n```")
+check(ops != nil && ops!.add.count == 2 && ops!.update.first?.id == "b2" && ops!.delete == ["a1"], "memory ops parsed through code fences")
+let applied = ChatMemory.apply(ops!, to: mems)
+check(applied.map(\.text) == ["老大最喜欢 Swift 和 Python", "老大在悉尼"], "memory add/update/delete applied, secrets dropped: \(applied.map(\.text))")
+check(ChatMemory.apply(ChatMemory.Ops(add: ["老大喜欢 Swift"]), to: mems).count == 2, "duplicate memory not added")
+check(ChatMemory.parse("没有 JSON") == nil && ChatMemory.parse("{\"add\": []}")?.isEmpty == true, "bad or empty memory output")
+check(ChatMemory.extractPrompt(memories: mems, exchange: [ChatMessage(role: "user", text: "我在悉尼读博")]).contains("[a1] 老大是做机器人的研究生"), "extract prompt lists memories with ids")
+
+print("== Markdown")
+let md = Markdown.blocks("""
+# 标题
+第一段 **粗体**
+继续
+
+- 一
+- 二
+  续行
+1. 甲
+```swift
+let x = 1
+```
+> 引用
+| a | b |
+|---|:-:|
+| 1 | 2 |
+---
+```py
+print(
+""")
+check(md.count == 9, "block count: \(md.count)")
+check(md.first == .heading(1, "标题") && md[1] == .paragraph("第一段 **粗体**\n继续"), "heading and paragraph")
+check(md[2] == .list([MDItem(marker: "•", text: "一", depth: 0), MDItem(marker: "•", text: "二\n续行", depth: 0)]), "bullet list with continuation")
+check(md[3] == .list([MDItem(marker: "1.", text: "甲", depth: 0)]) && md[4] == .code("swift", "let x = 1"), "ordered list and code")
+check(md[5] == .quote("引用") && md[6] == .table(["a", "b"], [["1", "2"]]) && md[7] == .rule, "quote, table, rule")
+check(md[8] == .code("py", "print("), "unfinished code fence while streaming")
+check(Markdown.listItem("- [x] done")?.marker == "☑" && Markdown.listItem("    - deep")?.depth == 2, "task items and depth")
 
 print(failures == 0 ? "\nALL PASSED" : "\n\(failures) FAILED")
 exit(failures == 0 ? 0 : 1)

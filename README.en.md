@@ -22,11 +22,11 @@ A DeepSeek whale girl who lives in a corner of your Mac screen. Her speech bubbl
 - **Alerts**: low-balance and daily-budget alerts with editable content.
 - **Other vendors**: 34 templates, including balances for OpenRouter, Kimi, StepFun, and Novita, subscription quotas for Zhipu, Kimi Coding, MiniMax, and OpenCode Go, and OpenAI-compatible gateways. Keys only go to each template's official endpoint unless you allow a custom one.
 - **Codex stats**: reads local Codex session logs for token usage and subscription windows, with no network access.
-- **Native Mac app**: drag her anywhere and she snaps to screen edges and flips when snapped left. Balance in the menu bar, launch at login, and API keys stored in the Keychain.
+- **Native Mac app**: drag her anywhere and she snaps to screen edges and flips when snapped left. Balance in the menu bar, launch at login, and API keys stored only on your Mac.
 - **Subscriptions and API costs**: automatically detects cswap (every Claude account's 5-hour, 7-day, extra spend, and per-model usage), your Claude Code plan and token usage, and the ChatGPT plan behind Codex. With an organization Admin key it also shows OpenAI API and Claude API costs.
 - **Autoplay**: every 1–3 minutes she does something on her own: a small move, a random bubble, or a usage report. Each move comes with 5 matching lines that don't repeat. She also speaks up when peak/off-peak switches or a subscription crosses its threshold or resets, and stays quiet in full screen, during meetings, when you're away, and at night. Autoplay never makes sound.
 - **AI-generated moves**: 10 frame-by-frame animations made by the art pipeline (stretching, eating, dozing, typing, dancing, counting money and more), mixed in with the original moves.
-- **Chat with her**: hover over her and click the chat button. She answers through the DeepSeek API: cheeky, but she quotes your balance, today's spend and subscription usage accurately. With "inner voice" on she also shows one line of what she is really thinking. She can also speak up on her own during autoplay (off by default). Chatting sends the persona, your balance, today's spend, subscription percentages and recent messages to api.deepseek.com and is billed to your DeepSeek balance; the chat history stays on your Mac. She replies in Chinese by default and switches to your language when you write in it.
+- **Chat with her**: a full DeepSeek assistant with the whale girl's personality. Code, debugging, research, translation: answers stream in with Markdown, copyable code blocks and tables. Toggle deep thinking (with expandable reasoning), switch between Flash and V4 Pro, edit and resend, regenerate, stop mid-answer, and attach text, code or PDF files. Conversations are grouped by date and can be searched, renamed and deleted. **Automatic long-term memory**: after each chat she notes lasting facts about you (who you are, your projects, your preferences) and uses them in later chats; you can view, edit or delete every memory. She can also speak up on her own during autoplay (off by default). Chatting sends the persona, memories, your balance, today's spend, subscription percentages and the conversation to api.deepseek.com, billed to your DeepSeek balance; conversations and memories stay on your Mac. She replies in Chinese by default and switches to your language when you write in it.
 
 Per-turn cost, task-end sounds, question and approval prompts, and the session-name module are not ported. They depend on events inside DeepSeek Harness, which a standalone app cannot see.
 
@@ -66,7 +66,7 @@ cd whaleseek
 open WhaleSeek.app
 ```
 
-On first launch the settings window opens. Paste your DeepSeek API key and click Save. The key is stored only in the macOS Keychain.
+On first launch the settings window opens. Paste your DeepSeek API key and click Save. The key is stored only on your Mac, in a file only your user account can read (keys.json), so macOS never asks for your password.
 
 ## How to use
 

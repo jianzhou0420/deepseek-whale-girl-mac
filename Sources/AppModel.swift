@@ -130,7 +130,7 @@ final class AppModel: ObservableObject {
 
     // MARK: - Refresh
 
-    var deepseekKey: String? { Keychain.get("DEEPSEEK_API_KEY") }
+    var deepseekKey: String? { Secrets.get("DEEPSEEK_API_KEY") }
 
     /// The ledger is split per API key (a hash of the key), like the original "per-key books".
     private func scope(for key: String) -> String {
@@ -154,7 +154,7 @@ final class AppModel: ObservableObject {
             var statuses: [String: VendorStatus] = [:]
             await withTaskGroup(of: (String, VendorStatus).self) { g in
                 for m in models where m.template?.kind != .codex {
-                    let k = Keychain.get(m.keyRef)
+                    let k = Secrets.get(m.keyRef)
                     g.addTask { (m.id, await VendorClient.fetch(model: m, key: k)) }
                 }
                 for await (id, st) in g { statuses[id] = st }

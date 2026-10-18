@@ -72,6 +72,38 @@ enum Snapshots {
             }
             capture(BubbleEditorView(model: m), size: NSSize(width: 1020, height: 640), to: out.appendingPathComponent("editor.png"))
             capture(UsageView(model: m), size: NSSize(width: 720, height: 620), to: out.appendingPathComponent("usage.png"))
+            let reply = """
+            好了老大，这个我熟。
+
+            ```python
+            def quicksort(a):
+                if len(a) < 2:
+                    return a
+                p = a[0]
+                return quicksort([x for x in a[1:] if x < p]) + [p] + quicksort([x for x in a[1:] if x >= p])
+            ```
+
+            | 决策 | 原因 |
+            |---|---|
+            | 第一个元素做 pivot | 写起来最短 |
+            | 列表推导 | 好读，但会多占内存 |
+
+            - 平均 **O(n log n)**，最坏 O(n²)
+            - 不是稳定排序
+
+            要塞进实时控制回路的话，还是直接用 `sorted()` 吧～
+            """
+            let conv = Conversation(title: "Python 快速排序", titled: true, messages: [
+                ChatMessage(role: "user", text: "帮我写个快速排序，要完整的 Python 代码"),
+                ChatMessage(role: "assistant", text: reply, inner: "又是快排，面试题吗老大", reasoning: "老大要快排……", thinkSeconds: 3, model: "deepseek-flash"),
+            ])
+            let demo = ChatSession()
+            demo.showDemo([conv, Conversation(title: "悉尼的天气", titled: true, updated: Date().addingTimeInterval(-86400), messages: [ChatMessage(role: "user", text: "x")]),
+                           Conversation(title: "论文润色", titled: true, updated: Date().addingTimeInterval(-5 * 86400), messages: [ChatMessage(role: "user", text: "x")])],
+                          memories: [MemoryItem(text: "老大在悉尼读博，研究方向是机器人操作"), MemoryItem(text: "老大常用 Python 和 Swift")])
+            capture(ChatView(model: m, chat: demo), size: NSSize(width: 860, height: 660), to: out.appendingPathComponent("chat.png"))
+            demo.showDemo([Conversation()], memories: [])
+            capture(ChatView(model: m, chat: demo), size: NSSize(width: 860, height: 660), to: out.appendingPathComponent("chat-empty.png"))
         }
     }
 }

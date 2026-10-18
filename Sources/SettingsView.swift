@@ -120,8 +120,8 @@ struct DeepSeekTab: View {
                 SecureField("sk-…", text: $key)
                 HStack {
                     Button("保存密钥") {
-                        Keychain.set("DEEPSEEK_API_KEY", key)
-                        message = key.isEmpty ? "已删除密钥" : "已保存到钥匙串"
+                        Secrets.set("DEEPSEEK_API_KEY", key)
+                        message = key.isEmpty ? "已删除密钥" : "已保存"
                         key = ""
                         model.refresh(manual: true)
                     }
@@ -146,8 +146,8 @@ struct DeepSeekTab: View {
             } header: {
                 Text("DeepSeek API 密钥")
             } footer: {
-                Text("密钥只保存在 macOS 钥匙串里，只会发往 api.deepseek.com：查询余额，以及和鲸鱼娘聊天（可在「聊天」里关掉）。"
-                     + (Keychain.has("DEEPSEEK_API_KEY") ? "当前已设置密钥。" : "当前还没有设置密钥。"))
+                Text("密钥只保存在本机（只有你的账户能读的文件里），只会发往 api.deepseek.com：查询余额，以及和鲸鱼娘聊天（可在「聊天」里关掉）。"
+                     + (Secrets.has("DEEPSEEK_API_KEY") ? "当前已设置密钥。" : "当前还没有设置密钥。"))
                     .font(.footnote).foregroundStyle(.secondary)
             }
             Section("当前状态") {
@@ -526,13 +526,13 @@ struct VendorEditor: View {
                 Section("密钥") {
                     HStack {
                         TextField("凭据名", text: $m.keyRef).frame(width: 200)
-                        Text(Keychain.has(m.keyRef) ? "已设置" : "未设置").foregroundStyle(Keychain.has(m.keyRef) ? .green : .secondary)
+                        Text(Secrets.has(m.keyRef) ? "已设置" : "未设置").foregroundStyle(Secrets.has(m.keyRef) ? .green : .secondary)
                     }
                     HStack {
                         SecureField("粘贴密钥后点保存", text: $key)
                         Button("保存") {
-                            guard Keychain.isValidRef(m.keyRef) else { testResult = "❌ 凭据名只能用字母、数字和下划线"; return }
-                            Keychain.set(m.keyRef, key); key = ""; testResult = "已保存到钥匙串"
+                            guard Secrets.isValidRef(m.keyRef) else { testResult = "❌ 凭据名只能用字母、数字和下划线"; return }
+                            Secrets.set(m.keyRef, key); key = ""; testResult = "已保存"
                         }
                     }
                     Text("同一个凭据名的密钥会被所有使用它的模型共用。").font(.footnote).foregroundStyle(.secondary)
@@ -623,7 +623,7 @@ struct VendorEditor: View {
                         testing = true
                         let mm = m
                         Task {
-                            testResult = await VendorClient.test(model: mm, key: Keychain.get(mm.keyRef))
+                            testResult = await VendorClient.test(model: mm, key: Secrets.get(mm.keyRef))
                             testing = false
                             model.refresh(manual: false)
                         }
@@ -692,7 +692,7 @@ struct ResourcesTab: View {
             if !error.isEmpty { Text(error).foregroundStyle(.red) }
             Section("数据") {
                 Button("在访达中显示数据文件夹") { NSWorkspace.shared.activateFileViewerSelecting([Store.dir]) }
-                Text("设置、记账、泡泡配置都保存在这个文件夹里；API 密钥保存在钥匙串里。").font(.footnote).foregroundStyle(.secondary)
+                Text("设置、记账、泡泡配置都保存在这个文件夹里；API 密钥保存在 keys.json（只有你的账户能读）。").font(.footnote).foregroundStyle(.secondary)
             }
         }
         .formStyle(.grouped)
@@ -834,8 +834,9 @@ struct ChatTab: View {
     @ObservedObject var model: AppModel
     @ObservedObject var chat: ChatSession
     @State private var confirmClear = false
+    @State private var confirmForget = false
 
-    static let models = [("deepseek-flash", "Flash（快、便宜）"), ("deepseek-v4-pro", "V4 Pro（更聪明、贵一些）")]
+    static let models = [("deepseek-flash", "Flash（快、便宜）"), ("deepseek-v4-pro", "V4 Pro（更聪明）")]
 
     var body: some View {
         let c = $model.settings.chat
@@ -844,10 +845,9 @@ struct ChatTab: View {
                 Toggle("和鲸鱼娘聊天", isOn: c.on)
                 HStack {
                     Button("打开聊天窗口") { ChatWindow.shared.open(near: nil) }
-                    Button("让她说一句") { ChatSession.shared.remark(model: model) }.disabled(chat.busy)
-                    if chat.busy { ProgressView().controlSize(.small) }
+                    Button("让她在气泡里说一句") { ChatSession.shared.remark(model: model) }.disabled(chat.remarking)
+                    if chat.remarking { ProgressView().controlSize(.small) }
                 }
-                if let e = chat.error { Text(e).font(.callout).foregroundStyle(.red) }
                 if model.deepseekKey == nil {
                     HStack {
                         Text("还没有 DeepSeek 密钥，聊不了天。").foregroundStyle(.secondary)
@@ -855,7 +855,7 @@ struct ChatTab: View {
                     }
                 }
             } footer: {
-                Text("把鼠标移到她身上，点旁边的对话按钮就能聊天。她用 DeepSeek API 回话，费用从你的 DeepSeek 余额里扣，一句大约几厘钱。")
+                Text("把鼠标移到她身上，点旁边的对话按钮，或在菜单里选「和鲸鱼娘聊天」。她是一个完整的 DeepSeek 助手，只是带着鲸鱼娘的性格。费用从你的 DeepSeek 余额里扣。")
                     .font(.footnote).foregroundStyle(.secondary)
             }
 
@@ -867,21 +867,34 @@ struct ChatTab: View {
                     }
                 }
                 TextField("模型名", text: c.model).font(.system(.body, design: .monospaced))
-                Toggle("显示心声（思考模式，慢一点、贵一点）", isOn: c.innerVoice)
-                Stepper("带上最近 \(model.settings.chat.historyMessages) 条聊天记录", value: c.historyMessages, in: 0...60, step: 2)
+                Toggle("深度思考", isOn: c.thinking)
+                Toggle("显示心声（从思考里挑一句她的内心 OS）", isOn: c.innerVoice)
+                Stepper("每次带上最近 \(model.settings.chat.historyMessages) 条消息", value: c.historyMessages, in: 2...200, step: 2)
             }
 
             Section {
-                LabeledContent("已保存", value: "\(chat.messages.count) 条")
-                Button("清空聊天记录", role: .destructive) { confirmClear = true }.disabled(chat.messages.isEmpty)
+                Toggle("自动长期记忆", isOn: c.memoryOn)
+                LabeledContent("已记住", value: "\(chat.memories.count) 条")
+                Button("清空全部记忆", role: .destructive) { confirmForget = true }.disabled(chat.memories.isEmpty)
+            } header: { Text("记忆") } footer: {
+                Text("每次聊完，她会用 Flash 模型从对话里整理出关于你的长期信息（身份、项目、偏好等），之后的对话都会带上。在聊天窗口点 🧠 可以查看、编辑和删除每一条。")
+                    .font(.footnote).foregroundStyle(.secondary)
+            }
+
+            Section {
+                LabeledContent("对话", value: "\(chat.conversations.filter { !$0.messages.isEmpty }.count) 个")
+                Button("删除全部对话", role: .destructive) { confirmClear = true }.disabled(chat.conversations.isEmpty)
             } header: { Text("记录") } footer: {
-                Text("聊天时会把这些发给 api.deepseek.com：鲸鱼娘的人设、当前时间、DeepSeek 余额和今日花费、订阅额度百分比、最近的提醒，以及最近的聊天记录。聊天记录只保存在本机 chat.json 里。")
+                Text("聊天时会把这些发给 api.deepseek.com：鲸鱼娘的人设、长期记忆、当前时间、DeepSeek 余额和今日花费、订阅额度百分比、最近的提醒，以及这个对话最近的消息和附件。对话和记忆只保存在本机。")
                     .font(.footnote).foregroundStyle(.secondary)
             }
         }
         .formStyle(.grouped)
-        .confirmationDialog("清空全部聊天记录？", isPresented: $confirmClear) {
-            Button("清空", role: .destructive) { chat.clear() }
+        .confirmationDialog("删除全部对话？", isPresented: $confirmClear) {
+            Button("删除", role: .destructive) { chat.deleteAll() }
+        }
+        .confirmationDialog("清空全部记忆？", isPresented: $confirmForget) {
+            Button("清空", role: .destructive) { chat.setMemories([]) }
         }
     }
 }

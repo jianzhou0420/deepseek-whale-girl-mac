@@ -1,4 +1,4 @@
-// Persistence: JSON files in ~/Library/Application Support/WhaleSeek, API keys in the Keychain.
+// Persistence: JSON files in ~/Library/Application Support/WhaleSeek (API keys in keys.json, mode 600).
 // The app was called WhaleBalance before v0.0.6; data from that name is migrated on first launch.
 import Foundation
 import Security
@@ -57,46 +57,71 @@ enum Store {
     }
 }
 
-enum Keychain {
-    static let service = "io.github.jianzhou0420.whaleseek"
+/// API keys live in keys.json in the data folder, readable only by the user (mode 600), cached in memory.
+/// They used to be in the macOS Keychain, but an ad-hoc signed app gets a new signature with every build,
+/// so the Keychain asked for the login password after each update. Keychain entries are moved over once.
+enum Secrets {
+    static var fileURL = Store.dir.appendingPathComponent("keys.json")
+    static let keychainService = "io.github.jianzhou0420.whaleseek"
     static let legacyService = "io.github.jianzhou0420.whalebalance"
 
-    /// Reads a key; a key saved by WhaleBalance is copied to the new service the first time it is read.
-    static func get(_ ref: String) -> String? {
-        if let v = read(ref, service: service) { return v }
-        guard let old = read(ref, service: legacyService) else { return nil }
-        set(ref, old)
-        return old
+    private static let lock = NSLock()
+    private static var cache: [String: String]?
+    private static var keychainTried: Set<String> = []
+
+    private static func load() -> [String: String] {
+        if let c = cache { return c }
+        let c = (try? Data(contentsOf: fileURL)).flatMap { try? JSONDecoder().decode([String: String].self, from: $0) } ?? [:]
+        cache = c
+        return c
     }
 
-    private static func read(_ ref: String, service: String) -> String? {
+    private static func write(_ c: [String: String]) {
+        cache = c
+        let enc = JSONEncoder()
+        enc.outputFormatting = [.prettyPrinted, .sortedKeys]
+        guard let d = try? enc.encode(c) else { return }
+        FileManager.default.createFile(atPath: fileURL.path, contents: d, attributes: [.posixPermissions: 0o600])
+        try? FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: fileURL.path)
+    }
+
+    static func get(_ ref: String) -> String? {
         guard !ref.isEmpty else { return nil }
-        let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: service,
-                                kSecAttrAccount as String: ref, kSecReturnData as String: true,
-                                kSecMatchLimit as String: kSecMatchLimitOne]
-        var out: AnyObject?
-        guard SecItemCopyMatching(q as CFDictionary, &out) == errSecSuccess, let d = out as? Data else { return nil }
-        return String(data: d, encoding: .utf8)
+        lock.lock(); defer { lock.unlock() }
+        if let v = load()[ref], !v.isEmpty { return v }
+        // Not in the file yet: look in the Keychain once per launch (new service, then the WhaleBalance one).
+        guard !keychainTried.contains(ref) else { return nil }
+        keychainTried.insert(ref)
+        guard let v = keychainRead(ref, service: keychainService) ?? keychainRead(ref, service: legacyService) else { return nil }
+        var c = load(); c[ref] = v; write(c)
+        return v
     }
 
     @discardableResult
     static func set(_ ref: String, _ value: String) -> Bool {
         guard !ref.isEmpty else { return false }
-        let base: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: service,
-                                   kSecAttrAccount as String: ref]
-        SecItemDelete(base as CFDictionary)
+        lock.lock(); defer { lock.unlock() }
+        var c = load()
         let v = value.trimmingCharacters(in: .whitespacesAndNewlines)
-        if v.isEmpty { return true }
-        var add = base
-        add[kSecValueData as String] = Data(v.utf8)
-        add[kSecAttrLabel as String] = "WhaleSeek · \(ref)"
-        return SecItemAdd(add as CFDictionary, nil) == errSecSuccess
+        c[ref] = v.isEmpty ? nil : v
+        keychainTried.insert(ref)          // a key set here wins over anything left in the Keychain
+        write(c)
+        return true
     }
 
     static func has(_ ref: String) -> Bool { !(get(ref) ?? "").isEmpty }
 
     static func isValidRef(_ ref: String) -> Bool {
         ref.range(of: #"^[A-Za-z0-9_]{1,64}$"#, options: .regularExpression) != nil
+    }
+
+    static func keychainRead(_ ref: String, service: String) -> String? {
+        let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: service,
+                                kSecAttrAccount as String: ref, kSecReturnData as String: true,
+                                kSecMatchLimit as String: kSecMatchLimitOne]
+        var out: AnyObject?
+        guard SecItemCopyMatching(q as CFDictionary, &out) == errSecSuccess, let d = out as? Data else { return nil }
+        return String(data: d, encoding: .utf8)
     }
 }
 

@@ -22,11 +22,11 @@ Uma garota-baleia do DeepSeek que mora num canto da tela do seu Mac. O balão de
 - **Alertas**: alertas de saldo baixo e de orçamento diário, com conteúdo editável.
 - **Outros fornecedores**: 34 modelos, com saldos de OpenRouter, Kimi, StepFun e Novita, cotas de assinatura de Zhipu, Kimi Coding, MiniMax e OpenCode Go, e gateways compatíveis com OpenAI. As chaves só vão para o endpoint oficial de cada modelo, a menos que você libere um personalizado.
 - **Estatísticas do Codex**: lê os logs locais de sessões do Codex para contar tokens e janelas de assinatura, sem acesso à rede.
-- **App nativo para Mac**: arraste-a para onde quiser; ela gruda nas bordas da tela e vira de lado quando presa à esquerda. Saldo na barra de menus, abertura automática ao iniciar sessão e chaves de API guardadas no Chaveiro.
+- **App nativo para Mac**: arraste-a para onde quiser; ela gruda nas bordas da tela e vira de lado quando presa à esquerda. Saldo na barra de menus, abertura automática ao iniciar sessão e chaves de API guardadas só no seu Mac.
 - **Assinaturas e custos de API**: detecta automaticamente o cswap (uso de 5 horas, 7 dias, gasto extra e por modelo de cada conta do Claude), o plano e os tokens do Claude Code e o plano do ChatGPT por trás do Codex. Com uma chave Admin da organização, também mostra os custos das APIs da OpenAI e do Claude.
 - **Reprodução automática**: a cada 1–3 minutos ela faz algo sozinha: um pequeno movimento, um balão aleatório ou um relatório de uso. Cada movimento tem 5 falas combinando, sem repetição. Ela também avisa na troca entre horário de pico e fora de pico, ou quando uma assinatura passa do limite ou é renovada. Fica quieta em tela cheia, em reuniões, quando você está ausente e à noite, e a reprodução automática nunca toca som.
 - **Movimentos gerados por IA**: 10 animações quadro a quadro feitas pelo pipeline de arte (espreguiçar, comer, cochilar, digitar, dançar, contar dinheiro e mais), misturadas aos movimentos originais.
-- **Converse com ela**: passe o mouse sobre ela e clique no botão de chat. Ela responde pela API da DeepSeek: atrevida, mas informa com precisão seu saldo, o gasto de hoje e o uso das assinaturas. Com a "voz interior" ligada, mostra também uma linha do que ela realmente está pensando. Ela também pode puxar conversa sozinha durante a reprodução automática (desligado por padrão). O chat envia para api.deepseek.com a persona, seu saldo, o gasto de hoje, as porcentagens das assinaturas e as mensagens recentes, cobrados do seu saldo DeepSeek; o histórico fica no seu Mac.
+- **Converse com ela**: uma assistente DeepSeek completa com a personalidade da garota baleia. Código, depuração, pesquisa, tradução: as respostas chegam em streaming com Markdown, blocos de código copiáveis e tabelas. Ligue ou desligue o raciocínio profundo (com o raciocínio expansível), alterne entre Flash e V4 Pro, edite e reenvie, gere de novo, pare no meio e anexe arquivos de texto, código ou PDF. As conversas são agrupadas por data e podem ser pesquisadas, renomeadas e apagadas. **Memória de longo prazo automática**: depois de cada conversa ela anota fatos duradouros sobre você (quem você é, seus projetos, suas preferências) e os usa nas próximas; você pode ver, editar ou apagar cada memória. Ela também pode puxar conversa sozinha durante a reprodução automática (desligado por padrão). O chat envia para api.deepseek.com a persona, as memórias, seu saldo, o gasto de hoje, as porcentagens das assinaturas e a conversa, cobrados do seu saldo DeepSeek; conversas e memórias ficam no seu Mac.
 
 Não foram portados o custo por turno, o som de fim de tarefa, os avisos de pergunta e aprovação e o módulo de nome da conversa. Eles dependem de eventos internos do DeepSeek Harness, que um app independente não consegue ver.
 
@@ -66,7 +66,7 @@ cd whaleseek
 open WhaleSeek.app
 ```
 
-Na primeira abertura, a janela de ajustes aparece. Cole sua chave de API do DeepSeek e salve. A chave fica guardada só no Chaveiro do macOS.
+Na primeira abertura, a janela de ajustes aparece. Cole sua chave de API do DeepSeek e salve. A chave fica guardada só no seu Mac, num arquivo que apenas a sua conta pode ler (keys.json), então o macOS nunca pede sua senha.
 
 ## Como usar
 

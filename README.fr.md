@@ -22,11 +22,11 @@ Une fille-baleine DeepSeek qui vit dans un coin de l'écran de votre Mac. Sa bul
 - **Alertes** : alertes de solde bas et de budget quotidien, au contenu modifiable.
 - **Autres fournisseurs** : 34 modèles, dont les soldes OpenRouter, Kimi, StepFun et Novita, les quotas d'abonnement Zhipu, Kimi Coding, MiniMax et OpenCode Go, et les passerelles compatibles OpenAI. Les clés ne partent que vers le point d'accès officiel de chaque modèle, sauf si vous en autorisez un autre.
 - **Statistiques Codex** : lit les journaux de session Codex locaux pour compter les tokens et les fenêtres d'abonnement, sans accès réseau.
-- **App Mac native** : déplacez-la où vous voulez ; elle s'aimante aux bords de l'écran et se retourne quand elle est collée à gauche. Solde dans la barre des menus, lancement à l'ouverture de session et clés d'API dans le trousseau.
+- **App Mac native** : déplacez-la où vous voulez ; elle s'aimante aux bords de l'écran et se retourne quand elle est collée à gauche. Solde dans la barre des menus, lancement à l'ouverture de session et clés d'API stockées uniquement sur votre Mac.
 - **Abonnements et coûts d'API** : détecte automatiquement cswap (usage sur 5 heures, 7 jours, dépenses supplémentaires et par modèle pour chaque compte Claude), l'abonnement et les tokens de Claude Code, et l'abonnement ChatGPT derrière Codex. Avec une clé Admin d'organisation, affiche aussi les coûts des API OpenAI et Claude.
 - **Lecture automatique** : toutes les 1 à 3 minutes, elle fait quelque chose d'elle-même : un petit geste, une bulle aléatoire ou un point sur l'utilisation. Chaque geste a 5 répliques assorties qui ne se répètent pas. Elle prévient aussi au passage heures pleines/creuses, ou quand un abonnement dépasse son seuil ou se réinitialise. Elle reste discrète en plein écran, en réunion, quand vous êtes absent et la nuit, et la lecture automatique n'émet jamais de son.
 - **Gestes générés par IA** : 10 animations image par image créées par le pipeline graphique (s'étirer, manger, somnoler, taper au clavier, danser, compter de l'argent, etc.), jouées avec les gestes d'origine.
-- **Discuter avec elle** : survolez-la et cliquez sur le bouton de discussion. Elle répond via l’API DeepSeek : espiègle, mais elle cite avec précision votre solde, les dépenses du jour et l’utilisation de vos abonnements. Avec la « voix intérieure », elle affiche aussi une ligne de ce qu’elle pense vraiment. Elle peut aussi prendre la parole d’elle-même pendant la lecture automatique (désactivé par défaut). La discussion envoie à api.deepseek.com le personnage, votre solde, les dépenses du jour, les pourcentages d’abonnement et les messages récents, facturés sur votre solde DeepSeek ; l’historique reste sur votre Mac.
+- **Discuter avec elle** : une véritable assistante DeepSeek avec la personnalité de la fille baleine. Code, débogage, recherche, traduction : les réponses s’affichent en streaming avec Markdown, blocs de code copiables et tableaux. Activez ou non la réflexion approfondie (raisonnement dépliable), passez de Flash à V4 Pro, modifiez et renvoyez, régénérez, arrêtez en cours de route et joignez des fichiers texte, code ou PDF. Les conversations sont regroupées par date et peuvent être recherchées, renommées et supprimées. **Mémoire à long terme automatique** : après chaque discussion, elle retient des faits durables sur vous (qui vous êtes, vos projets, vos préférences) et s’en sert ensuite ; chaque souvenir peut être consulté, modifié ou supprimé. Elle peut aussi prendre la parole d’elle-même pendant la lecture automatique (désactivé par défaut). La discussion envoie à api.deepseek.com le personnage, les souvenirs, votre solde, les dépenses du jour, les pourcentages d’abonnement et la conversation, facturés sur votre solde DeepSeek ; conversations et souvenirs restent sur votre Mac.
 
 Le coût par tour, le son de fin de tâche, les invites de question et d'approbation et le module de nom de conversation ne sont pas portés. Ils dépendent d'événements internes à DeepSeek Harness, inaccessibles à une app autonome.
 
@@ -66,7 +66,7 @@ cd whaleseek
 open WhaleSeek.app
 ```
 
-Au premier lancement, la fenêtre de réglages s'ouvre. Collez votre clé d'API DeepSeek et enregistrez-la. La clé est stockée uniquement dans le trousseau macOS.
+Au premier lancement, la fenêtre de réglages s'ouvre. Collez votre clé d'API DeepSeek et enregistrez-la. La clé est stockée uniquement sur votre Mac, dans un fichier lisible par votre seul compte (keys.json) : macOS ne vous demande jamais votre mot de passe.
 
 ## Utilisation
 
