@@ -1,4 +1,4 @@
-# 🐋 WhaleBalance · DeepSeek 余额小鲸鱼（Mac 原生版）
+# 🐋 WhaleSeek · 住在屏幕角落的 AI 用量鲸鱼娘（Mac 原生版）
 
 **简体中文** · [English](README.en.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português](README.pt-BR.md) · [Русский](README.ru.md)
 
@@ -9,6 +9,8 @@
 ![AI 生成的 10 个动作](docs/animations.gif)
 
 > 这是社区制作的非官方同人项目，与 DeepSeek（深度求索）没有隶属或背书关系。
+>
+> 原名 WhaleBalance，v0.0.6 起改名为 WhaleSeek。从旧版升级时，设置、账本和 API 密钥会自动迁移。
 
 ## 功能
 
@@ -36,20 +38,20 @@
 打开「终端」，粘贴这一行，回车：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jianzhou0420/deepseek-whale-girl-mac/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jianzhou0420/whaleseek/main/install.sh | bash
 ```
 
 它会把应用装到 `~/Applications` 并直接启动。
 
 ### 方法二：手动下载
 
-1. 到 [Releases](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/latest) 下载 `WhaleBalance-macOS.zip`，双击解压。
-2. 把 `WhaleBalance.app` 拖进「应用程序」。
+1. 到 [Releases](https://github.com/jianzhou0420/whaleseek/releases/latest) 下载 `WhaleSeek-macOS.zip`，双击解压。
+2. 把 `WhaleSeek.app` 拖进「应用程序」。
 3. 第一次打开时，macOS 会提示「无法验证开发者」，因为这个应用没有经过苹果公证。处理办法：
-   - **右键**点 `WhaleBalance.app` → 选「打开」→ 再点「打开」；
+   - **右键**点 `WhaleSeek.app` → 选「打开」→ 再点「打开」；
    - 如果还是打不开，在终端运行：
      ```bash
-     xattr -dr com.apple.quarantine /Applications/WhaleBalance.app
+     xattr -dr com.apple.quarantine /Applications/WhaleSeek.app
      ```
 
 ### 方法三：自己编译
@@ -57,10 +59,10 @@ curl -fsSL https://raw.githubusercontent.com/jianzhou0420/deepseek-whale-girl-ma
 需要 Xcode 或 Xcode 命令行工具（没有的话运行 `xcode-select --install`）。
 
 ```bash
-git clone https://github.com/jianzhou0420/deepseek-whale-girl-mac.git
-cd deepseek-whale-girl-mac
+git clone https://github.com/jianzhou0420/whaleseek.git
+cd whaleseek
 ./build.sh
-open WhaleBalance.app
+open WhaleSeek.app
 ```
 
 第一次启动会打开设置窗口，粘贴 DeepSeek API 密钥后点「保存密钥」即可。密钥只保存在 macOS 钥匙串里。
@@ -89,7 +91,7 @@ codex login
 
 ![流水线生成的图片](docs/generated-art.png)
 
-想找第一版那只会到处走的桌宠？它还在 [v0.0.1 Release](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/tag/v0.0.1) 里。
+想找第一版那只会到处走的桌宠？它还在 [v0.0.1 Release](https://github.com/jianzhou0420/whaleseek/releases/tag/v0.0.1) 里。
 
 ## 致谢与许可
 

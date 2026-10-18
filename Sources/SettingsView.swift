@@ -726,7 +726,7 @@ struct AboutTab: View {
                 HStack(spacing: 12) {
                     if let img = Atlas.shared.image(3, 1) { Image(decorative: img, scale: 1).resizable().frame(width: 64, height: 69) }
                     VStack(alignment: .leading) {
-                        Text("WhaleBalance").font(.title2.bold())
+                        Text("WhaleSeek").font(.title2.bold())
                         Text("v\(appVersion) · DeepSeek 余额小鲸鱼的 macOS 原生版").foregroundStyle(.secondary)
                     }
                 }

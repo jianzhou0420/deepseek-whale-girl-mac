@@ -1,4 +1,4 @@
-// Development aid: WhaleBalance --snapshot <dir> renders widget states and windows to PNG files
+// Development aid: WhaleSeek --snapshot <dir> renders widget states and windows to PNG files
 // through real (offscreen) windows, so layout passes and AppKit controls render as in the app.
 import AppKit
 import SwiftUI

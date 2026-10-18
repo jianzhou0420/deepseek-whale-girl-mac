@@ -1,13 +1,20 @@
-// Persistence: JSON files in ~/Library/Application Support/WhaleBalance, API keys in the Keychain.
+// Persistence: JSON files in ~/Library/Application Support/WhaleSeek, API keys in the Keychain.
+// The app was called WhaleBalance before v0.0.6; data from that name is migrated on first launch.
 import Foundation
 import Security
 
-let appVersion = "0.0.5"
+let appVersion = "0.0.6"
 
 enum Store {
     static let dir: URL = {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        let d = base.appendingPathComponent("WhaleBalance", isDirectory: true)
+        let d = base.appendingPathComponent("WhaleSeek", isDirectory: true)
+        // First launch after the rename: copy the WhaleBalance folder (the old one stays as a backup).
+        let legacy = base.appendingPathComponent("WhaleBalance", isDirectory: true)
+        if !FileManager.default.fileExists(atPath: d.path), FileManager.default.fileExists(atPath: legacy.path) {
+            do { try FileManager.default.copyItem(at: legacy, to: d) }
+            catch { NSLog("WhaleSeek: migrating \(legacy.path) failed: \(error)") }
+        }
         try? FileManager.default.createDirectory(at: d, withIntermediateDirectories: true)
         return d
     }()
@@ -46,14 +53,23 @@ enum Store {
         enc.outputFormatting = [.prettyPrinted, .sortedKeys]
         guard let data = try? enc.encode(value) else { return false }
         do { try data.write(to: dir.appendingPathComponent(name), options: .atomic); return true }
-        catch { NSLog("WhaleBalance: save \(name) failed: \(error)"); return false }
+        catch { NSLog("WhaleSeek: save \(name) failed: \(error)"); return false }
     }
 }
 
 enum Keychain {
-    static let service = "io.github.jianzhou0420.whalebalance"
+    static let service = "io.github.jianzhou0420.whaleseek"
+    static let legacyService = "io.github.jianzhou0420.whalebalance"
 
+    /// Reads a key; a key saved by WhaleBalance is copied to the new service the first time it is read.
     static func get(_ ref: String) -> String? {
+        if let v = read(ref, service: service) { return v }
+        guard let old = read(ref, service: legacyService) else { return nil }
+        set(ref, old)
+        return old
+    }
+
+    private static func read(_ ref: String, service: String) -> String? {
         guard !ref.isEmpty else { return nil }
         let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: service,
                                 kSecAttrAccount as String: ref, kSecReturnData as String: true,
@@ -73,7 +89,7 @@ enum Keychain {
         if v.isEmpty { return true }
         var add = base
         add[kSecValueData as String] = Data(v.utf8)
-        add[kSecAttrLabel as String] = "WhaleBalance · \(ref)"
+        add[kSecAttrLabel as String] = "WhaleSeek · \(ref)"
         return SecItemAdd(add as CFDictionary, nil) == errSecSuccess
     }
 
@@ -81,6 +97,23 @@ enum Keychain {
 
     static func isValidRef(_ ref: String) -> Bool {
         ref.range(of: #"^[A-Za-z0-9_]{1,64}$"#, options: .regularExpression) != nil
+    }
+}
+
+// MARK: - Migration from WhaleBalance
+
+enum Migration {
+    static let legacyBundleId = "io.github.jianzhou0420.whalebalance"
+    static let defaultsKeys = ["budgetAlertedDay", "lowAlerted", "vendorToday", "vendorLast", "vendorDay"]
+
+    /// Copy the few UserDefaults values the app keeps from the old bundle id's domain, once.
+    static func run() {
+        let d = UserDefaults.standard
+        guard !d.bool(forKey: "migratedFromWhaleBalance") else { return }
+        if let old = d.persistentDomain(forName: legacyBundleId) {
+            for k in defaultsKeys where d.object(forKey: k) == nil { if let v = old[k] { d.set(v, forKey: k) } }
+        }
+        d.set(true, forKey: "migratedFromWhaleBalance")
     }
 }
 

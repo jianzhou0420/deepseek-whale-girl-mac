@@ -1,4 +1,4 @@
-# 🐋 WhaleBalance · кит баланса DeepSeek для macOS
+# 🐋 WhaleSeek · девочка-кит, которая следит за вашим использованием ИИ на Mac
 
 [简体中文](README.md) · [English](README.en.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português](README.pt-BR.md) · **Русский**
 
@@ -9,6 +9,8 @@
 ![10 движений, созданных ИИ](docs/animations.gif)
 
 > Это неофициальный фанатский проект. Он не связан с DeepSeek и не одобрен компанией.
+>
+> Раньше называлось WhaleBalance; с v0.0.6 называется WhaleSeek. При обновлении настройки, журнал и API-ключи переносятся автоматически.
 
 ## Возможности
 
@@ -36,20 +38,20 @@
 Откройте «Терминал», вставьте эту строку и нажмите Return:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jianzhou0420/deepseek-whale-girl-mac/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jianzhou0420/whaleseek/main/install.sh | bash
 ```
 
 Приложение установится в `~/Applications` и сразу запустится.
 
 ### Способ 2: скачать вручную
 
-1. Скачайте `WhaleBalance-macOS.zip` со страницы [Releases](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/latest) и распакуйте двойным щелчком.
-2. Перетащите `WhaleBalance.app` в папку «Программы».
+1. Скачайте `WhaleSeek-macOS.zip` со страницы [Releases](https://github.com/jianzhou0420/whaleseek/releases/latest) и распакуйте двойным щелчком.
+2. Перетащите `WhaleSeek.app` в папку «Программы».
 3. При первом запуске macOS сообщит, что не может проверить разработчика, потому что приложение не нотаризовано. Чтобы всё равно открыть его:
-   - Нажмите на `WhaleBalance.app` **правой кнопкой**, выберите **Открыть** и ещё раз нажмите **Открыть**.
+   - Нажмите на `WhaleSeek.app` **правой кнопкой**, выберите **Открыть** и ещё раз нажмите **Открыть**.
    - Если оно всё равно не открывается, выполните в Терминале:
      ```bash
-     xattr -dr com.apple.quarantine /Applications/WhaleBalance.app
+     xattr -dr com.apple.quarantine /Applications/WhaleSeek.app
      ```
 
 ### Способ 3: собрать из исходников
@@ -57,10 +59,10 @@ curl -fsSL https://raw.githubusercontent.com/jianzhou0420/deepseek-whale-girl-ma
 Понадобится Xcode или инструменты командной строки Xcode (если их нет, выполните `xcode-select --install`).
 
 ```bash
-git clone https://github.com/jianzhou0420/deepseek-whale-girl-mac.git
-cd deepseek-whale-girl-mac
+git clone https://github.com/jianzhou0420/whaleseek.git
+cd whaleseek
 ./build.sh
-open WhaleBalance.app
+open WhaleSeek.app
 ```
 
 При первом запуске откроется окно настроек. Вставьте API-ключ DeepSeek и сохраните его. Ключ хранится только в Связке ключей macOS.
@@ -89,7 +91,7 @@ codex login
 
 ![Изображения, созданные конвейером](docs/generated-art.png)
 
-Ищете гуляющего по рабочему столу питомца из первой версии? Он по-прежнему доступен в [релизе v0.0.1](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/tag/v0.0.1).
+Ищете гуляющего по рабочему столу питомца из первой версии? Он по-прежнему доступен в [релизе v0.0.1](https://github.com/jianzhou0420/whaleseek/releases/tag/v0.0.1).
 
 ## Благодарности и лицензия
 

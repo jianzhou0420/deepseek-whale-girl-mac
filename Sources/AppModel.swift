@@ -548,7 +548,7 @@ final class AppModel: ObservableObject {
         get { SMAppService.mainApp.status == .enabled }
         set {
             do { if newValue { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() } }
-            catch { NSLog("WhaleBalance: launch at login: \(error)") }
+            catch { NSLog("WhaleSeek: launch at login: \(error)") }
             objectWillChange.send()
         }
     }

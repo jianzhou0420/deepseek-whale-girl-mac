@@ -1,4 +1,4 @@
-# 🐋 WhaleBalance · la baleine du solde DeepSeek pour macOS
+# 🐋 WhaleSeek · une fille baleine qui suit votre usage de l'IA sur Mac
 
 [简体中文](README.md) · [English](README.en.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · **Français** · [Deutsch](README.de.md) · [Português](README.pt-BR.md) · [Русский](README.ru.md)
 
@@ -9,6 +9,8 @@ Une fille-baleine DeepSeek qui vit dans un coin de l'écran de votre Mac. Sa bul
 ![10 gestes générés par IA](docs/animations.gif)
 
 > Ceci est un projet de fans non officiel. Il n'est ni affilié à DeepSeek ni approuvé par DeepSeek.
+>
+> Anciennement WhaleBalance ; renommée WhaleSeek à partir de la v0.3.0. Lors de la mise à jour, les réglages, le registre et les clés d'API sont migrés automatiquement.
 
 ## Fonctionnalités
 
@@ -36,20 +38,20 @@ Nécessite macOS 13 ou une version ultérieure. Fonctionne sur les Mac Apple Sil
 Ouvrez Terminal, collez cette ligne et appuyez sur Retour :
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jianzhou0420/deepseek-whale-girl-mac/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jianzhou0420/whaleseek/main/install.sh | bash
 ```
 
 L'app est installée dans `~/Applications`, puis lancée.
 
 ### Option 2 : téléchargement manuel
 
-1. Téléchargez `WhaleBalance-macOS.zip` depuis les [Releases](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/latest) et double-cliquez dessus pour le décompresser.
-2. Glissez `WhaleBalance.app` dans le dossier Applications.
+1. Téléchargez `WhaleSeek-macOS.zip` depuis les [Releases](https://github.com/jianzhou0420/whaleseek/releases/latest) et double-cliquez dessus pour le décompresser.
+2. Glissez `WhaleSeek.app` dans le dossier Applications.
 3. À la première ouverture, macOS indique qu'il ne peut pas vérifier le développeur, car l'app n'est pas notarisée. Pour l'ouvrir quand même :
-   - Faites un **clic droit** sur `WhaleBalance.app`, choisissez **Ouvrir**, puis cliquez à nouveau sur **Ouvrir**.
+   - Faites un **clic droit** sur `WhaleSeek.app`, choisissez **Ouvrir**, puis cliquez à nouveau sur **Ouvrir**.
    - Si elle ne s'ouvre toujours pas, exécutez ceci dans Terminal :
      ```bash
-     xattr -dr com.apple.quarantine /Applications/WhaleBalance.app
+     xattr -dr com.apple.quarantine /Applications/WhaleSeek.app
      ```
 
 ### Option 3 : compiler depuis les sources
@@ -57,10 +59,10 @@ L'app est installée dans `~/Applications`, puis lancée.
 Il vous faut Xcode ou les outils en ligne de commande Xcode (sinon, lancez `xcode-select --install`).
 
 ```bash
-git clone https://github.com/jianzhou0420/deepseek-whale-girl-mac.git
-cd deepseek-whale-girl-mac
+git clone https://github.com/jianzhou0420/whaleseek.git
+cd whaleseek
 ./build.sh
-open WhaleBalance.app
+open WhaleSeek.app
 ```
 
 Au premier lancement, la fenêtre de réglages s'ouvre. Collez votre clé d'API DeepSeek et enregistrez-la. La clé est stockée uniquement dans le trousseau macOS.
@@ -89,7 +91,7 @@ Chaque image prend environ 40 secondes. La génération d'images consomme les li
 
 ![Images produites par la chaîne](docs/generated-art.png)
 
-Vous cherchez la mascotte qui se promène sur le bureau de la première version ? Elle est toujours disponible dans la [version v0.0.1](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/tag/v0.0.1).
+Vous cherchez la mascotte qui se promène sur le bureau de la première version ? Elle est toujours disponible dans la [version v0.0.1](https://github.com/jianzhou0420/whaleseek/releases/tag/v0.0.1).
 
 ## Crédits et licence
 

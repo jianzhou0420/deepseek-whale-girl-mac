@@ -77,7 +77,7 @@ final class Atlas {
         guard let url = candidates.first(where: { FileManager.default.fileExists(atPath: $0.path) }),
               let src = CGImageSourceCreateWithURL(url as CFURL, nil),
               let sheet = CGImageSourceCreateImageAtIndex(src, 0, nil) else {
-            NSLog("WhaleBalance: spritesheet.webp not found")
+            NSLog("WhaleSeek: spritesheet.webp not found")
             return
         }
         for r in 0..<11 {

@@ -348,7 +348,7 @@ enum CostAPI {
                 req = URLRequest(url: comps.url!)
                 req.setValue(key, forHTTPHeaderField: "x-api-key")
                 req.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
-                req.setValue("WhaleBalance/\(appVersion) (https://github.com/jianzhou0420/deepseek-whale-girl-mac)", forHTTPHeaderField: "User-Agent")
+                req.setValue("WhaleSeek/\(appVersion) (https://github.com/jianzhou0420/whaleseek)", forHTTPHeaderField: "User-Agent")
             }
             let json = try await VendorClient.getJSON(req)
             let r = provider == "openai_costs" ? parseOpenAI(json, todayStart: todayStart) : parseAnthropic(json, todayStart: todayStart)

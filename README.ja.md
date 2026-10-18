@@ -1,4 +1,4 @@
-# 🐋 WhaleBalance · DeepSeek 残高クジラ（Mac ネイティブ版）
+# 🐋 WhaleSeek · 画面の隅に住む AI 使用量クジラ娘（Mac ネイティブ版）
 
 [简体中文](README.md) · [English](README.en.md) · [繁體中文](README.zh-TW.md) · **日本語** · [한국어](README.ko.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português](README.pt-BR.md) · [Русский](README.ru.md)
 
@@ -9,6 +9,8 @@ Mac の画面の隅に住む DeepSeek のクジラ娘です。吹き出しに De
 ![AI で生成した 10 種類の動き](docs/animations.gif)
 
 > これはファンによる非公式プロジェクトです。DeepSeek とは関係がなく、公認も受けていません。
+>
+> 旧名は WhaleBalance で、v0.0.6 から WhaleSeek に改名しました。旧版からアップグレードすると、設定・帳簿・API キーは自動で移行されます。
 
 ## 機能
 
@@ -36,20 +38,20 @@ macOS 13 以降が必要です。Apple シリコンと Intel のどちらの Mac
 「ターミナル」を開いて、次の 1 行を貼り付け、Return キーを押します。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jianzhou0420/deepseek-whale-girl-mac/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jianzhou0420/whaleseek/main/install.sh | bash
 ```
 
 アプリが `~/Applications` にインストールされ、そのまま起動します。
 
 ### 方法 2：手動でダウンロード
 
-1. [Releases](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/latest) から `WhaleBalance-macOS.zip` をダウンロードし、ダブルクリックで展開します。
-2. `WhaleBalance.app` を「アプリケーション」フォルダにドラッグします。
+1. [Releases](https://github.com/jianzhou0420/whaleseek/releases/latest) から `WhaleSeek-macOS.zip` をダウンロードし、ダブルクリックで展開します。
+2. `WhaleSeek.app` を「アプリケーション」フォルダにドラッグします。
 3. 初めて開くとき、アプリが公証されていないため、macOS が「開発元を確認できません」と表示します。次の方法で開けます。
-   - `WhaleBalance.app` を**右クリック**して「開く」を選び、もう一度「開く」をクリックします。
+   - `WhaleSeek.app` を**右クリック**して「開く」を選び、もう一度「開く」をクリックします。
    - それでも開けない場合は、ターミナルで次を実行します。
      ```bash
-     xattr -dr com.apple.quarantine /Applications/WhaleBalance.app
+     xattr -dr com.apple.quarantine /Applications/WhaleSeek.app
      ```
 
 ### 方法 3：ソースからビルド
@@ -57,10 +59,10 @@ curl -fsSL https://raw.githubusercontent.com/jianzhou0420/deepseek-whale-girl-ma
 Xcode または Xcode コマンドラインツールが必要です（ない場合は `xcode-select --install` を実行してください）。
 
 ```bash
-git clone https://github.com/jianzhou0420/deepseek-whale-girl-mac.git
-cd deepseek-whale-girl-mac
+git clone https://github.com/jianzhou0420/whaleseek.git
+cd whaleseek
 ./build.sh
-open WhaleBalance.app
+open WhaleSeek.app
 ```
 
 初回起動時に設定ウィンドウが開きます。DeepSeek の API キーを貼り付けて保存してください。キーは macOS のキーチェーンにだけ保存されます。
@@ -89,7 +91,7 @@ codex login
 
 ![パイプラインで生成した画像](docs/generated-art.png)
 
-最初のバージョンの歩き回るデスクトップマスコットをお探しですか？ [v0.0.1 リリース](https://github.com/jianzhou0420/deepseek-whale-girl-mac/releases/tag/v0.0.1) から入手できます。
+最初のバージョンの歩き回るデスクトップマスコットをお探しですか？ [v0.0.1 リリース](https://github.com/jianzhou0420/whaleseek/releases/tag/v0.0.1) から入手できます。
 
 ## クレジットとライセンス
 

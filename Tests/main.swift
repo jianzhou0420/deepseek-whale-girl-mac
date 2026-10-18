@@ -178,5 +178,18 @@ check(stride(from: 0, to: 50, by: 5).allSatisfy { Set(dealt[$0..<$0 + 5]) == Set
 check(zip(dealt, dealt.dropFirst()).allSatisfy { $0 != $1 }, "shuffle bag: never the same line twice in a row")
 check(bag.next(count: 1) == 0 && bag.next(count: 1) == 0 && bag.next(count: 0) == nil, "shuffle bag: single line and empty")
 
+// Keychain migration: a key saved under the WhaleBalance service is found and copied to the new service.
+let mref = "WS_MIGRATION_TEST_\(Int.random(in: 1000...9999))"
+func kcDelete(_ service: String) {
+    SecItemDelete([kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: service, kSecAttrAccount as String: mref] as CFDictionary)
+}
+SecItemAdd([kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: Keychain.legacyService,
+            kSecAttrAccount as String: mref, kSecValueData as String: Data("legacy-value".utf8)] as CFDictionary, nil)
+let migrated = Keychain.get(mref)
+kcDelete(Keychain.legacyService)
+check(migrated == "legacy-value" && Keychain.get(mref) == "legacy-value", "keychain: legacy key migrated to the new service")
+kcDelete(Keychain.service)
+check(Keychain.get(mref) == nil, "keychain: test entries cleaned up")
+
 print(failures == 0 ? "\nALL PASSED" : "\n\(failures) FAILED")
 exit(failures == 0 ? 0 : 1)

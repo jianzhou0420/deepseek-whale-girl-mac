@@ -191,7 +191,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             self.model.launchAtLogin = !self.model.launchAtLogin
         }, checked: model.launchAtLogin))
         m.addItem(.separator())
-        let ver = NSMenuItem(title: "WhaleBalance v\(appVersion)", action: nil, keyEquivalent: "")
+        let ver = NSMenuItem(title: "WhaleSeek v\(appVersion)", action: nil, keyEquivalent: "")
         ver.isEnabled = false
         m.addItem(ver)
         m.addItem(item("退出") { NSApp.terminate(nil) })
@@ -213,7 +213,7 @@ final class ClosureMenuItem: NSMenuItem {
 enum Windows {
     static func settings(tab: SettingsTab) {
         SettingsState.shared.tab = tab
-        WindowManager.shared.show("settings", title: "WhaleBalance 设置", size: NSSize(width: 720, height: 560)) {
+        WindowManager.shared.show("settings", title: "WhaleSeek 设置", size: NSSize(width: 720, height: 560)) {
             SettingsView(model: AppModel.shared, ui: SettingsState.shared)
         }
     }
@@ -232,6 +232,7 @@ enum Windows {
 @main
 struct Main {
     static func main() {
+        Migration.run()
         let args = CommandLine.arguments
         if let i = args.firstIndex(of: "--snapshot"), i + 1 < args.count {
             MainActor.assumeIsolated { Snapshots.render(to: args[i + 1]) }
